@@ -23,6 +23,8 @@
 package ch.qos.cal10n.verifier;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -41,7 +43,7 @@ public class MessageCodeVerifier implements IMessageCodeVerifier {
 
   Class<? extends Enum<?>> enumType;
   String enumTypeAsStr;
-  
+
   public MessageCodeVerifier(Class<? extends Enum<?>> enumClass) {
     this.enumType = enumClass;
     this.enumTypeAsStr = enumClass.getName();
@@ -60,22 +62,27 @@ public class MessageCodeVerifier implements IMessageCodeVerifier {
     }
   }
 
-  
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see ch.qos.cai10n.verifier.IIMessageCodeVerifier#getEnumType()
    */
   public Class<? extends Enum<?>> getEnumType() {
     return enumType;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see ch.qos.cal10n.verifier.IIMessageCodeVerifier#getEnumTypeAsStr()
    */
   public String getEnumTypeAsStr() {
     return enumTypeAsStr;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see ch.qos.cal10n.verifier.IIMessageCodeVerifier#verify(java.util.Locale)
    */
   public List<Cal10nError> verify(Locale locale) {
@@ -100,7 +107,8 @@ public class MessageCodeVerifier implements IMessageCodeVerifier {
       errorList.add(errorFactory.buildError(ErrorType.FAILED_TO_FIND_RB, ""));
     }
 
-    Set<String> rbKeySet = rb.keySet();
+    Set<String> rbKeySet = buildKeySetFromEnumeration(rb.getKeys());
+    
     if (rbKeySet.size() == 0) {
       errorList.add(errorFactory.buildError(ErrorType.EMPTY_RB, ""));
     }
@@ -129,8 +137,20 @@ public class MessageCodeVerifier implements IMessageCodeVerifier {
     return errorList;
   }
 
-  /* (non-Javadoc)
-   * @see ch.qos.cal10n.verifier.IIMessageCodeVerifier#typeIsolatedVerify(java.util.Locale)
+  private Set<String> buildKeySetFromEnumeration(Enumeration<String> e) {
+    Set<String> set = new HashSet<String>(); 
+    while(e.hasMoreElements()) {
+      String s = e.nextElement();
+      set.add(s);
+    }
+    return set;
+  }
+  
+  /*
+   * (non-Javadoc)
+   * 
+   * @see ch.qos.cal10n.verifier.IIMessageCodeVerifier#typeIsolatedVerify(java.
+   * util.Locale)
    */
   public List<String> typeIsolatedVerify(Locale locale) {
     List<Cal10nError> errorList = verify(locale);
@@ -146,9 +166,9 @@ public class MessageCodeVerifier implements IMessageCodeVerifier {
    */
   public List<Cal10nError> verifyAllLocales() {
     List<Cal10nError> errorList = new ArrayList<Cal10nError>();
-    
+
     String[] localeNameArray = getLocaleNames();
-    
+
     if (localeNameArray == null || localeNameArray.length == 0) {
       String errMsg = "Missing @LocaleNames annotation in enum type ["
           + enumTypeAsStr + "]";
@@ -159,24 +179,23 @@ public class MessageCodeVerifier implements IMessageCodeVerifier {
       List<Cal10nError> tmpList = verify(locale);
       errorList.addAll(tmpList);
     }
-    
+
     return errorList;
   }
 
-  
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see ch.qos.cal10n.verifier.IIMessageCodeVerifier#getLocaleNames()
    */
   public String[] getLocaleNames() {
     String[] localeNameArray = AnnotationExtractor.getLocaleNames(enumType);
     return localeNameArray;
   }
-  
+
   public String getResourceBundleName() {
     String rbName = AnnotationExtractor.getResourceBundleName(enumType);
     return rbName;
   }
-
-  
 
 }
