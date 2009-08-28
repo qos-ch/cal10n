@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>ch.qos.cal10n</groupId>
 		<artifactId>cal10n-parent</artifactId>
-		<version>0.3</version>
+		<version>0.5</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>

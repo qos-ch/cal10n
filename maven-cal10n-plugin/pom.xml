@@ -8,7 +8,7 @@
   <parent>
     <artifactId>cal10n-parent</artifactId>
     <groupId>ch.qos.cal10n</groupId>
-    <version>0.3</version>
+    <version>0.5</version>
   </parent>
 
   <groupId>ch.qos.cal10n.plugins</groupId>
