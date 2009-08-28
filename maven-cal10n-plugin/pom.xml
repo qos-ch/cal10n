@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" 
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>cal10n-parent</artifactId>
+    <groupId>ch.qos.cal10n</groupId>
+    <version>0.3</version>
+  </parent>
+
+  <groupId>ch.qos.cal10n.plugins</groupId>
+  <artifactId>maven-cal10n-plugin</artifactId>
+  
+  <packaging>maven-plugin</packaging>
+
+  <name> Compiler assisted localization library (CAL10N) -  Maven</name>
+  <url>http://cal10n.qos.ch</url>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>2.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-artifact-manager</artifactId>
+      <version>2.0.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>ch.qos.cal10n</groupId>
+      <artifactId>cal10n-api</artifactId>      
+    </dependency>
+
+   <dependency>
+     <groupId>org.apache.maven</groupId>
+     <version>2.0.9</version>
+     <artifactId>maven-project</artifactId>
+   </dependency>
+
+
+   <dependency>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>exec-maven-plugin</artifactId>
+      <version>1.1</version>
+    </dependency>
+
+    <dependency>     
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-descriptor</artifactId>
+      <version>2.0.4</version>
+    </dependency>
+
+    <dependency>     
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-classworlds</artifactId>
+      <version>1.2-alpha-6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>

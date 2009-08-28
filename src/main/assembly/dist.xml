@@ -1,0 +1,130 @@
+<assembly>
+	<id>dist</id>
+	<formats>
+		<format>zip</format>
+		<format>tar.gz</format>
+	</formats>
+	<fileSets>
+		<!-- Module POMs -->
+		<fileSet>
+			<directory>cal10n-api/</directory>
+			<outputDirectory>cal10n-api/</outputDirectory>
+			<includes>
+				<include>
+					pom.xml
+				</include>
+			</includes>
+			<excludes>
+				<exclude>*.bak</exclude>
+			</excludes>
+		</fileSet>
+ 
+		<fileSet>
+			<directory>cal10n-site/</directory>
+			<outputDirectory>cal10n-site/</outputDirectory>
+			<includes>
+				<include>
+					pom.xml
+				</include>
+			</includes>
+			<excludes>
+				<exclude>*.bak</exclude>
+			</excludes>
+		</fileSet>
+	
+    <fileSet>
+      <directory>maven-cal10n-plugin/</directory>
+      <outputDirectory>maven-cal10n-plugin</outputDirectory>
+			<includes>
+				<include>
+					pom.xml
+				</include>
+			</includes>
+			<excludes>
+				<exclude>*.bak</exclude>
+			</excludes>
+		</fileSet>
+ 
+   <fileSet>
+      <directory>maven-cal10n-plugin-smoke</directory>
+      <outputDirectory>maven-cal10n-plugin-smoke</outputDirectory>
+			<includes>
+				<include>
+					pom.xml
+				</include>
+			</includes>
+			<excludes>
+				<exclude>*.bak</exclude>
+			</excludes>
+		</fileSet>
+ 
+	<!-- Module Source directories -->
+		<fileSet>
+			<directory>cal10n-api/src/</directory>
+			<outputDirectory>cal10n-api/src/</outputDirectory>
+			<excludes>
+				<exclude>
+					test/output/
+				</exclude>
+			</excludes>
+		</fileSet>
+
+		<fileSet>
+			<directory>cal10n-site/src/</directory>
+			<outputDirectory>cal10n-site/src/</outputDirectory>
+		</fileSet>
+	
+		<fileSet>
+			<directory>maven-cal10n-plugin/src/</directory>
+			<outputDirectory>maven-cal10n-plugin/src/</outputDirectory>
+		</fileSet>
+
+		<fileSet>
+			<directory>maven-cal10n-plugin-smoke/src/</directory>
+			<outputDirectory>maven-cal10n-plugin-smoke/src/</outputDirectory>
+		</fileSet>
+		
+		<!-- Module JARs -->
+		<fileSet>
+			<directory>cal10n-api/target/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>cal10n-api-${project.version}.jar</include>
+			</includes>
+		</fileSet>
+		<!-- Module Source JARs -->
+		<fileSet>
+			<directory>cal10n-api/target/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>cal10n-api-${project.version}-sources.jar</include>
+			</includes>
+		</fileSet>
+				 
+
+		<!-- Website -->
+		<fileSet>
+			<directory>target/site</directory>
+			<outputDirectory>docs/</outputDirectory>
+      <excludes>
+        <exclude>dist/*</exclude>
+      </excludes>
+		</fileSet>
+		
+		<!-- Parent files -->
+		<fileSet>
+			<includes>
+				<include>src/</include>
+				<include>README*</include>
+				<include>LICENSE*</include>
+				<include>pom.xml</include>
+			</includes>
+			<excludes>
+				<exclude>*.bak</exclude>
+			</excludes>
+		</fileSet>
+
+	</fileSets>
+	
+
+</assembly>

@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<groupId>ch.qos.cal10n</groupId>
+		<artifactId>cal10n-parent</artifactId>
+		<version>0.3</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>ch.qos.cal10n</groupId>
+	<artifactId>maven-cal10n-plugin-smoke</artifactId>
+	<packaging>jar</packaging>
+	<name>Compiler assisted localization library (CAL10N) - Maven Testing</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>ch.qos.cal10n</groupId>
+			<artifactId>cal10n-api</artifactId>
+		</dependency>  
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>ch.qos.cal10n.plugins</groupId>
+				<artifactId>maven-cal10n-plugin</artifactId>
+				<version>${project.version}</version>
+				<executions>
+					<execution>
+						<id>countries</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>verify</goal>
+						</goals>
+            <configuration>
+              <enumTypes>
+                <enumType>ch.qos.cal10n.smoke.Countries</enumType>
+              </enumTypes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

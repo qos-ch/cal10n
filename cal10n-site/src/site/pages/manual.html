@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+    <title>Manual</title>
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="stylesheet" type="text/css" href="css/screen.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/_print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="css/prettify.css" />
+
+  </head>
+  <body onload="prettyPrint()">
+    <script type="text/javascript">prefix='';</script>
+    <script type="text/javascript" src="js/prettify.js"></script>
+    <script src="templates/header.js" type="text/javascript"></script>
+    <div id="left">
+      <noscript>Please turn on Javascript to view this menu</noscript>
+      <script src="templates/left.js" type="text/javascript"></script>
+    </div>
+    <div id="content">
+  
+  
+      <table style="margin-left: 0em; padding-top:0ex" cellpadding="0" 
+           cellspacing="0" width="70%">
+      <tr>
+        <td>        
+          <p class="author">
+            Author: Ceki G&#252;lc&#252;
+          <br/>
+          Copyright &#169; 2009, QOS.ch</p>
+        </td>
+        <td>
+          <a rel="license"
+             href="http://creativecommons.org/licenses/by-nc-sa/2.5/">
+            <img alt="Creative Commons License"
+                 style="border-width: 0; margin-left: 1em"
+                 src="http://creativecommons.org/images/public/somerights20.png" />
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            This document is licensed under a
+            <a rel="license"
+               href="http://creativecommons.org/licenses/by-nc-sa/2.5/">
+              Creative Commons
+              Attribution-NonCommercial-ShareAlike 2.5
+              License
+            </a>
+          </p>
+        </td>
+        <td></td>
+			</tr>
+	 </table>
+
+   <h1>CAL10N Manual</h1>
+
+   <p>The goal of CAL10N project is to enhance the existing
+   internationalization functionality offered by the Java platform
+   with consistency and verification primitives. It is assumed that
+   you are already somewhat familiar with <a
+   href="http://java.sun.com/developer/technicalArticles/Intl/ResourceBundles/">using
+   ResourceBundles</a>.
+   </p>
+
+   <h3>Acknowledgment</h3>
+
+   <p>The original idea behind CAL10N is attributed to Takeshi Kondo. It
+   consolidated into what it is today subsequent to a <a
+   href="http://markmail.org/thread/drcabfc6z42sijdo">discussion</a>
+   involving Ralph Goers, Ceki G&uuml;lc&uuml;, Takeshi Kondo and Pete
+   Muir on the slf4j-dev mailing list.
+   </p>
+
+
+   <h3>Core idea</h3>
+
+   <p>Instead of using values of type String as the key for each
+   message, CAL10N uses <code>enums</code>.</p>
+
+   <p>For example, let us assume that you wanted to internationalize
+   color names. In CAL10N you could start by writing an enum type,
+   named Colors. You can choose any name for the enum type. Colors is
+   just the name this particular author picked.</p>
+
+   <pre class="prettyprint source">package com.foo.somePackage;
+
+import ch.qos.cal10n.LocaleNames;
+import ch.qos.cal10n.ResourceBundleName;
+
+@ResourceBundleName("colors") // mandatory annotation
+@LocaleNames({"en_UK", "fr"}) // list of locale names used by
+                              // verification tools
+public enum Colors  {
+  BLUE,
+  RED,
+  YELLOW;
+}</pre>
+   
+
+  <p>Once you define a few color codes, you can create a regular
+  resource bundle named after the value of the @ResourceBundleName
+  annotation in Colors and the appropriate locale. For example, for
+  the UK locale, you would name your resource bundle as
+  <em>colors_en_UK.properties</em>. It should also be placed in the
+  appropriate folder on your class path or in the root folder of an
+  appropriate jar file.  (It is assumed that you know how to work with
+  resource bundles.) </p>
+
+  <p>Here is a sample a <em>colors_en_UK.properties</em> file:</p>
+
+  <pre class="source">
+BLUE=violets are blue
+RED=roses are red
+GREEN={0} are green  </pre>
+
+  <p>For the french locale, the resource bundle would be named
+  <em>colors_fr.properties</em>. Here are sample contents.</p>
+
+  <pre class="source">
+BLUE=les violettes sont bleues
+RED=les roses sont rouges
+GREEN=les {0} sont verts</pre>
+
+  
+  <h2>Retrieving internationalized messages</h2>
+
+  <p>In your application, you would retrieve the localized message via
+  an <a
+  href="apidocs/ch/qos/cal10n/IMessageConveyor.html">IMessageConveyor</a>
+  instance. </p>
+
+  <pre  class="prettyprint source">// obtain a message conveyor for France
+IMessageConveyor mc = new MessageConveyor(Locale.FRANCE);
+
+// use it to retrieve internationalized messages
+String red = mc.getMessage(Colors.RED);
+String blue = mc.getMessage(Colors.BLUE);  </pre>
+
+  <p>CAL10N leverages the existing resource bundle infrastructure you
+  have been accustomed to, but adds compiler verification on top.</p>
+
+
+  <p>An astute reader will comment that even if the messages codes are now
+  verified by the compiler, it is still possible to have mismatching
+  message codes in the resources bundles. For this reason, CAL10N
+  comes with additional tooling support.
+  </p>
+
+  <h2>Verification as a test case</h2>
+
+  <p>A convenient and low hassle method for checking for mismatches
+  between a given enum type and the corresponding resource bundles is
+  through Junit test cases.</p>
+
+  <p>Here is a sample Junit test for the Colors enum discussed
+  above.</p>
+
+  <pre class="prettyprint source">
+package foo.aPackage;
+
+import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+import java.util.Locale;
+
+import org.junit.Test;
+
+import ch.qos.cal10n.verifier.Cal10nError;
+import ch.qos.cal10n.verifier.IMessageCodeVerifier;
+import ch.qos.cal10n.verifier.MessageCodeVerifier;
+
+public class MyColorVerificationTest {
+
+  @Test
+  public void en_UK() {
+    IMessageCodeVerifier mcv = new MessageCodeVerifier(Colors.class);
+    List&lt;Cal10nError> errorList = mcv.verify(Locale.UK);
+    for(Cal10nError error: errorList) {
+      System.out.println(error);
+    }
+    assertEquals(0, errorList.size());
+  }
+
+  @Test
+  public void fr() {
+    IMessageCodeVerifier mcv = new MessageCodeVerifier(Colors.class);
+    List&lt;Cal10nError> errorList = mcv.verify(Locale.FRANCE);
+    for(Cal10nError error: errorList) {
+      System.out.println(error);
+    }
+    assertEquals(0, errorList.size());
+  }
+} </pre>
+
+  <p>The above unit tests start by creating a
+  <code>MessageCodeVerifier</code> instance associated with an enum
+  type, <code>Colors</code> in this case. The test proceeds to invoke
+  the <code>verify()</code> method passing a locale as an
+  argument. The <code>verify()</code> method returns the list of
+  errors, that is the list of discrepancies between the codes listed
+  in the enum type and the correspondign resource bundle. An empty
+  list will be returned if there are no errors.
+  </p>
+
+  <p>The unit test verifies that no errors have occured by asserting
+  that the size of the error list is zero.</p>
+
+  <p>Suppose the code "BLUE" was misspelled as "BLEU" in the
+  <em>colors_fr.properties</em> resource bundle. The unit test would
+  print the following list of errors and throw an
+  <code>AssertionError</code>.
+
+  </p>
+  <pre class="source">Code [BLUE] present in enum type [ch.qos.cal10n.sample.Colors] but absent in resource bundle \
+   named [colors] for locale [fr_FR]
+Code [BLEU] present in resource bundle named [colors] for locale [fr_FR] but absent \ 
+   in enum type [ch.qos.cal10n.sample.Colors]</pre>
+
+  <h3>One test to rule them all</h3>
+
+  <p>Instead of a separate unit test case for each locale, assuming
+  you declared the locales in the enum type via the @LocaleNames
+  annotation, you can verify all locales in one fell swoop.</p>
+
+    <pre class="prettyprint source">
+package foo.aPackage;
+
+import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+import java.util.Locale;
+
+import org.junit.Test;
+
+import ch.qos.cal10n.verifier.Cal10nError;
+import ch.qos.cal10n.verifier.IMessageCodeVerifier;
+import ch.qos.cal10n.verifier.MessageCodeVerifier;
+
+public class MyAllInOneColorVerificationTest {
+
+  // verify all locales in one step
+  @Test
+  public void all() {
+    IMessageCodeVerifier mcv = new MessageCodeVerifier(Colors.class);
+    List&lt;Cal10nError> errorList = mcv.verifyAllLocales();
+    for(Cal10nError error: errorList) {
+      System.out.println(error);
+    }
+    assertEquals(0, errorList.size());
+  }
+} </pre>
+
+
+  <h2>Maven Plugin</h2>
+
+  <p>The CAL10N project ships with a maven plugin designed to verify
+  that the keys specified in a given enum type match those found in
+  the corresponding resource bundles and for each locale. Our plugin
+  is unsurprisingly called <em>mvn-cal10n-plugin</em>.
+  </p>
+
+  <p><b>Until the relevant artifacts are uploaded to the central maven
+  repository, you unfortunately need to install the
+  <em>maven-cal10n-plugin</em> manually by running "mvn install" from
+  the folder where you unpacked the CAL10N distribution.</b>
+  </p>
+
+  <p>Using <em>maven-cal10n-plugin</em> is pretty easy. To verify
+  enums in a given project, just declare the
+  <em>maven-cal10n-plugin</em> in the <code>&lt;build></code> section,
+  enumerating all the enum types you would like to see checked.</p>
+
+  <p>Here is a sample <em>pom.xml</em> snippet.</p>
+
+  <pre class="prettyprint source">&lt;build>
+  &lt;plugins>
+   ... other plugins
+    &lt;plugin>
+      &lt;groupId>ch.qos.cal10n.plugins&lt;/groupId>
+      &lt;artifactId>maven-cal10n-plugin&lt;/artifactId>
+      &lt;version>${project.version}&lt;/version>
+      &lt;executions>
+        &lt;execution>
+          &lt;id>aNameOfYourChoice&lt;/id>
+          &lt;phase>verify&lt;/phase>
+          &lt;goals>
+            &lt;goal>verify&lt;/goal>
+          &lt;/goals>
+          &lt;configuration>            
+            <b>&lt;enumTypes></b>
+               <b>&lt;!-- list every enum type you would like to see checked --></b>
+               <b>&lt;enumType>some.enumTpe.Colors&lt;/enumType></b>
+               <b>&lt;enumType>another.enumTpe.Countries&lt;/enumType></b>
+            <b>&lt;/enumTypes></b>
+          &lt;/configuration>
+        &lt;/execution>
+      &lt;/executions>
+    &lt;/plugin>
+  &lt;/plugins>
+&lt;/build> </pre>
+
+  <p>After you add the above snippet to the pom.xml file of your
+  project, <em>maven-cal10n-plugin</em> will make sure that
+  your resource bundles and your enum type are in synchronized.
+  </p>
+
+  <p>The plugin will iterate through every resource bundle for every
+  locale listed in the enum type via the <code>@LocaleNames</code>
+  annotation.
+  </p>
+
+  <h2>Eclipse plug-in</h2>
+  
+  <p>We are looking for volunteers willing to implement IDE support
+  for CAL10N.  Below is a litst of possible features of this IDE which
+  we think could have added value.
+  </p>
+
+  <ul>
+    <li><b>mismatch highlighting</b> 
+    <p>While editing a property file,
+    highlight any keys, a.k.a. message codes, that do not match the
+    keys defined in the corresponding enum type.</p>
+    </li>
+
+    
+    <li><b>auto-correction</b>
+      <p>The mismatch highlighting feature could be enhanced by making
+      correction suggestions. For example, if in the property file the
+      user misspells the key "red_elephant" as "red_elefant", by
+      measuring the <a
+      href="http://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein
+      distance</a> the plug-in could propose the nearest neighhbor of
+      "red_elefant" in the enum type, which should be "red_elephant"
+      with high probability.
+      </p>
+    </li>
+
+    <li>
+      <b>Skeleton generation</b>
+      <p>Given an enum type, generate the skeleton of the
+      corresponding resource bundle</p>
+    </li>
+  </ul>
+
+  
+  <p>If interested please contact the cal10n-dev mailing list.</p>
+
+  <h2>Ant task</h2>
+
+  <p>We are looking for volunteers to implement an Ant task to verify
+  resource bundles. The Ant task could be modeled after the
+  <em>maven-cal10n-plugin</em> altough the Ant plugin is likely to be
+  simpler. If interested please contact the cal10n-dev mailing
+  list.</p>
+
+  <script src="templates/footer.js" type="text/javascript"></script>
+</div>
+</body>
+</html>
