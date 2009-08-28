@@ -19,6 +19,7 @@
   <name> Compiler assisted localization library (CAL10N) -  Maven</name>
   <url>http://cal10n.qos.ch</url>
 
+
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
