@@ -27,6 +27,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -147,6 +148,7 @@ public class VerifyMojo extends AbstractMojo {
       URLClassLoader cl = (URLClassLoader) buildClassLoader();
       Class<?> cla = Class.forName(Cal10nConstants.MessageCodeVerifier_FQCN, true, cl);
 
+      cla.newInstance();
       
       Constructor<?> cons = cla.getConstructor(String.class);
       IMessageCodeVerifier imcv = (IMessageCodeVerifier) cons
@@ -162,11 +164,14 @@ public class VerifyMojo extends AbstractMojo {
   }
 
   ClassLoader buildClassLoader() {
-    ArrayList<URL> classpathURLArray = new ArrayList<URL>();
-    classpathURLArray.add(toURL(outputDirectory));
-    classpathURLArray.addAll(getDirectDependencies());
+    ArrayList<URL> classpathURLList = new ArrayList<URL>();
+    classpathURLList.add(toURL(outputDirectory));
+    classpathURLList.addAll(getDirectDependencies());
     ClassLoader parentCL = this.getClass().getClassLoader();
-    return new ThisFirstClassLoader(classpathURLArray.toArray(new URL[] {}), parentCL);
+    
+    URL[] classpathURLArray = classpathURLList.toArray(new URL[] {});
+    System.out.println("classpathURLArray="+Arrays.toString(classpathURLArray));
+    return new ThisFirstClassLoader(classpathURLArray, parentCL);
   }
 
   List<URL> getDirectDependencies() {
@@ -179,7 +184,7 @@ public class VerifyMojo extends AbstractMojo {
         URL url = new URL("file:/" + pathOfArtifact);
         urlList.add(url);
       } catch (MalformedURLException e) {
-        e.printStackTrace();
+        getLog().info("Failed to build URL", e);
       }
     }
     return urlList;

@@ -49,10 +49,14 @@ public class MessageCodeVerifier implements IMessageCodeVerifier {
     this.enumTypeAsStr = enumClass.getName();
   }
 
+  public MessageCodeVerifier() {
+    System.out.println("lkkkkkkkkkkkkkk="+this.getClass().getClassLoader());
+  }
   @SuppressWarnings("unchecked")
   public MessageCodeVerifier(String enumTypeAsStr) {
     this.enumTypeAsStr = enumTypeAsStr;
     String errMsg = "Failed to find enum class [" + enumTypeAsStr + "]";
+    System.out.println("lkkkkkkkkkkkkkk="+this.getClass().getClassLoader());
     try {
       this.enumType = (Class<? extends Enum<?>>) Class.forName(enumTypeAsStr);
     } catch (ClassNotFoundException e) {
