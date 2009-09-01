@@ -49,16 +49,25 @@ public interface IMessageConveyor {
    * 
    * @param <E>
    *          an enum type
-   * @param e
+   * @param key
    *          an enum instance
    * @param args
    *          optional arguments
-   * @return
-   * 
-   * @param <E>
-   * @param e
-   * @param args
-   * @return
+   * @return The translated/localized message
    */
-  <E extends Enum<?>> String getMessage(E e, Object... args);
+  <E extends Enum<?>> String getMessage(E key, Object... args);
+
+  /**
+   * Syntactic sugar for the case where the massage is contained in a
+   * {@link MessageParameterObj}. 
+   * 
+   * <p>Equivalent to calling
+   * <pre>getMessage(mpo.getKey(), mpo.getArgs());</pre>
+   * 
+   * @see #getMessage(Enum, Object...)
+   * @param mpo
+   *          The MessageParameterObj to translate
+   * @return translated message
+   */
+  String getMessage(MessageParameterObj mpo);
 }

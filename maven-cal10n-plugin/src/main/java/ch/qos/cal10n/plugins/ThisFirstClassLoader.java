@@ -57,9 +57,9 @@ public class ThisFirstClassLoader extends URLClassLoader {
   protected Class<?> loadClass(String name, boolean resolve)
       throws ClassNotFoundException {
 
-    // Treating IMessageCodeVerifier as a special case is the whole point of the
+    // Treating IMessageKeyVerifier as a special case is the whole point of the
     // exercise.
-    if (name.equals("ch.qos.cal10n.verifier.IMessageCodeVerifier")) {
+    if (name.equals("ch.qos.cal10n.verifier.IMessageKeyVerifier")) {
       return super.loadClass(name, resolve);
     }
 

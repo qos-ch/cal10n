@@ -29,19 +29,18 @@ import java.util.Locale;
 import org.junit.Test;
 
 import ch.qos.cal10n.MessageConveyor;
+import ch.qos.cal10n.MessageParameterObj;
 
 public class MessageConveyorTest {
 
   @Test
   public void smoke_EN() {
-    MessageConveyor rbbmc = new MessageConveyor(
-        Locale.UK);
+    MessageConveyor rbbmc = new MessageConveyor(Locale.UK);
 
     {
       String val = rbbmc.getMessage(Colors.BLUE);
       assertEquals("violets are blue", val);
     }
-
 
     {
       String val = rbbmc.getMessage(Colors.GREEN, "apples");
@@ -49,17 +48,15 @@ public class MessageConveyorTest {
     }
 
   }
-  
+
   @Test
   public void smoke_FR() {
-    MessageConveyor rbbmc = new MessageConveyor(
-        Locale.FRANCE);
+    MessageConveyor rbbmc = new MessageConveyor(Locale.FRANCE);
 
     {
       String val = rbbmc.getMessage(Colors.BLUE);
       assertEquals("les violettes sont bleues", val);
     }
-
 
     {
       // lemon=citron in french. This illustrates the problem of
@@ -67,6 +64,21 @@ public class MessageConveyorTest {
       String val = rbbmc.getMessage(Colors.GREEN, "pommes");
       assertEquals("les pommes sont verts", val);
     }
+  }
 
+  @Test
+  public void mpo() {
+    MessageConveyor rbbmc = new MessageConveyor(Locale.UK);
+    {
+      MessageParameterObj mpo = new MessageParameterObj(Colors.BLUE);
+      String val = rbbmc.getMessage(mpo);
+      assertEquals("violets are blue", val);
+    }
+
+    {
+      MessageParameterObj mpo = new MessageParameterObj(Colors.GREEN, "apples");
+      String val = rbbmc.getMessage(mpo);
+      assertEquals("apples are green", val);
+    }
   }
 }

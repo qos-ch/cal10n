@@ -26,7 +26,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import ch.qos.cal10n.verifier.MessageCodeVerifier;
+import ch.qos.cal10n.verifier.MessageKeyVerifier;
 
 /**
  * This annotation serves to designate a list of locale names for which resource
@@ -49,7 +49,7 @@ import ch.qos.cal10n.verifier.MessageCodeVerifier;
  * The name of the corresponding resource bundle named "colors".
  * 
  * <p>
- * Verification tools such {@link MessageCodeVerifier} can thus conclude that
+ * Verification tools such {@link MessageKeyVerifier} can thus conclude that
  * the resource bundle files <em>colors_en.properties</em> and
  * <em>colors_jp.properties</em> exist and should be checked against the codes
  * defined in the Colors enum.

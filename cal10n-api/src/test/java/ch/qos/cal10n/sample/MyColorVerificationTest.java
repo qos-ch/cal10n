@@ -30,14 +30,14 @@ import java.util.Locale;
 import org.junit.Test;
 
 import ch.qos.cal10n.verifier.Cal10nError;
-import ch.qos.cal10n.verifier.IMessageCodeVerifier;
-import ch.qos.cal10n.verifier.MessageCodeVerifier;
+import ch.qos.cal10n.verifier.IMessageKeyVerifier;
+import ch.qos.cal10n.verifier.MessageKeyVerifier;
 
 public class MyColorVerificationTest {
 
   @Test
   public void en_UK() {
-    IMessageCodeVerifier mcv = new MessageCodeVerifier(Colors.class);
+    IMessageKeyVerifier mcv = new MessageKeyVerifier(Colors.class);
     List<Cal10nError> errorList = mcv.verify(Locale.UK);
     for(Cal10nError error: errorList) {
       System.out.println(error);
@@ -47,7 +47,7 @@ public class MyColorVerificationTest {
 
   @Test
   public void fr() {
-    IMessageCodeVerifier mcv = new MessageCodeVerifier(Colors.class);
+    IMessageKeyVerifier mcv = new MessageKeyVerifier(Colors.class);
     List<Cal10nError> errorList = mcv.verify(Locale.FRANCE);
     for(Cal10nError error: errorList) {
       System.out.println(error);

@@ -35,22 +35,22 @@ import ch.qos.cal10n.verifier.Cal10nError.ErrorType;
 
 /**
  * Given an enum class, verify that the resource bundles corresponding to a
- * given locale contains the correct codes.
+ * given locale contains the correct keys.
  * 
  * @author Ceki Gulcu
  */
-public class MessageCodeVerifier implements IMessageCodeVerifier {
+public class MessageKeyVerifier implements IMessageKeyVerifier {
 
   Class<? extends Enum<?>> enumType;
   String enumTypeAsStr;
 
-  public MessageCodeVerifier(Class<? extends Enum<?>> enumClass) {
+  public MessageKeyVerifier(Class<? extends Enum<?>> enumClass) {
     this.enumType = enumClass;
     this.enumTypeAsStr = enumClass.getName();
   }
 
   @SuppressWarnings("unchecked")
-  public MessageCodeVerifier(String enumTypeAsStr) {
+  public MessageKeyVerifier(String enumTypeAsStr) {
     this.enumTypeAsStr = enumTypeAsStr;
     String errMsg = "Failed to find enum class [" + enumTypeAsStr + "]";
     try {
@@ -62,29 +62,14 @@ public class MessageCodeVerifier implements IMessageCodeVerifier {
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see ch.qos.cai10n.verifier.IIMessageCodeVerifier#getEnumType()
-   */
   public Class<? extends Enum<?>> getEnumType() {
     return enumType;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see ch.qos.cal10n.verifier.IIMessageCodeVerifier#getEnumTypeAsStr()
-   */
   public String getEnumTypeAsStr() {
     return enumTypeAsStr;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see ch.qos.cal10n.verifier.IIMessageCodeVerifier#verify(java.util.Locale)
-   */
   public List<Cal10nError> verify(Locale locale) {
     List<Cal10nError> errorList = new ArrayList<Cal10nError>();
 

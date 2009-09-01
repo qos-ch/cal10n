@@ -101,7 +101,7 @@ public enum Colors  {
 }</pre>
    
 
-  <p>Once you define a few color codes, you can create a regular
+  <p>Once you define a few color keys, you can create a regular
   resource bundle named after the value of the @ResourceBundleName
   annotation in Colors and the appropriate locale. For example, for
   the UK locale, you would name your resource bundle as
@@ -144,9 +144,9 @@ String blue = mc.getMessage(Colors.BLUE);  </pre>
   have been accustomed to, but adds compiler verification on top.</p>
 
 
-  <p>An astute reader will comment that even if the messages codes are now
+  <p>An astute reader will comment that even if the messages keys are now
   verified by the compiler, it is still possible to have mismatching
-  message codes in the resources bundles. For this reason, CAL10N
+  message keys in the resources bundles. For this reason, CAL10N
   comes with additional tooling support.
   </p>
 
@@ -170,15 +170,15 @@ import java.util.Locale;
 import org.junit.Test;
 
 import ch.qos.cal10n.verifier.Cal10nError;
-import ch.qos.cal10n.verifier.IMessageCodeVerifier;
-import ch.qos.cal10n.verifier.MessageCodeVerifier;
+import ch.qos.cal10n.verifier.IMessageKeyVerifier;
+import ch.qos.cal10n.verifier.MessageKeyVerifier;
 
 public class MyColorVerificationTest {
 
   @Test
   public void en_UK() {
-    IMessageCodeVerifier mcv = new MessageCodeVerifier(Colors.class);
-    List&lt;Cal10nError> errorList = mcv.verify(Locale.UK);
+    IMessageKeyVerifier mkv = new MessageKeyVerifier(Colors.class);
+    List&lt;Cal10nError> errorList = mkv.verify(Locale.UK);
     for(Cal10nError error: errorList) {
       System.out.println(error);
     }
@@ -187,8 +187,8 @@ public class MyColorVerificationTest {
 
   @Test
   public void fr() {
-    IMessageCodeVerifier mcv = new MessageCodeVerifier(Colors.class);
-    List&lt;Cal10nError> errorList = mcv.verify(Locale.FRANCE);
+    IMessageKeyVerifier mkv = new MessageKeyVerifier(Colors.class);
+    List&lt;Cal10nError> errorList = mkv.verify(Locale.FRANCE);
     for(Cal10nError error: errorList) {
       System.out.println(error);
     }
@@ -197,11 +197,11 @@ public class MyColorVerificationTest {
 } </pre>
 
   <p>The above unit tests start by creating a
-  <code>MessageCodeVerifier</code> instance associated with an enum
+  <code>MessageKeyVerifier</code> instance associated with an enum
   type, <code>Colors</code> in this case. The test proceeds to invoke
   the <code>verify()</code> method passing a locale as an
   argument. The <code>verify()</code> method returns the list of
-  errors, that is the list of discrepancies between the codes listed
+  errors, that is the list of discrepancies between the keys listed
   in the enum type and the correspondign resource bundle. An empty
   list will be returned if there are no errors.
   </p>
@@ -209,15 +209,15 @@ public class MyColorVerificationTest {
   <p>The unit test verifies that no errors have occured by asserting
   that the size of the error list is zero.</p>
 
-  <p>Suppose the code "BLUE" was misspelled as "BLEU" in the
+  <p>Suppose the key "BLUE" was misspelled as "BLEU" in the
   <em>colors_fr.properties</em> resource bundle. The unit test would
   print the following list of errors and throw an
   <code>AssertionError</code>.
 
   </p>
-  <pre class="source">Code [BLUE] present in enum type [ch.qos.cal10n.sample.Colors] but absent in resource bundle \
+  <pre class="source">Key [BLUE] present in enum type [ch.qos.cal10n.sample.Colors] but absent in resource bundle \
    named [colors] for locale [fr_FR]
-Code [BLEU] present in resource bundle named [colors] for locale [fr_FR] but absent \ 
+Key [BLEU] present in resource bundle named [colors] for locale [fr_FR] but absent \ 
    in enum type [ch.qos.cal10n.sample.Colors]</pre>
 
   <h3>One test to rule them all</h3>
@@ -237,16 +237,16 @@ import java.util.Locale;
 import org.junit.Test;
 
 import ch.qos.cal10n.verifier.Cal10nError;
-import ch.qos.cal10n.verifier.IMessageCodeVerifier;
-import ch.qos.cal10n.verifier.MessageCodeVerifier;
+import ch.qos.cal10n.verifier.IMessageKeyVerifier;
+import ch.qos.cal10n.verifier.MessageKeyVerifier;
 
 public class MyAllInOneColorVerificationTest {
 
   // verify all locales in one step
   @Test
   public void all() {
-    IMessageCodeVerifier mcv = new MessageCodeVerifier(Colors.class);
-    List&lt;Cal10nError> errorList = mcv.verifyAllLocales();
+    IMessageKeyVerifier mkv = new MessageKeyVerifier(Colors.class);
+    List&lt;Cal10nError> errorList = mkv.verifyAllLocales();
     for(Cal10nError error: errorList) {
       System.out.println(error);
     }
@@ -322,9 +322,8 @@ public class MyAllInOneColorVerificationTest {
 
   <ul>
     <li><b>mismatch highlighting</b> 
-    <p>While editing a property file,
-    highlight any keys, a.k.a. message codes, that do not match the
-    keys defined in the corresponding enum type.</p>
+    <p>While editing a property file, highlight any keys that do not
+    match any keys defined in the corresponding enum type.</p>
     </li>
 
     

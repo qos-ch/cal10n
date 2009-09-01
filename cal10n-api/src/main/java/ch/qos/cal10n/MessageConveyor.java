@@ -51,32 +51,33 @@ public class MessageConveyor implements IMessageConveyor {
   }
 
   /**
-   * Given an enum e, find the corresponding resource bundle and return the
-   * internationalized message defined by the message code 'e'.
+   * Given an enum as key, find the corresponding resource bundle and return the
+   * corresponding internationalized.
    * 
    * <p>
    * The name of the resource bundle is defined via the
-   * {@link ResourceBundleName} annotation whereas the locale was specified in
+   * {@link ResourceBundleName} annotation whereas the locale is specified in
    * this MessageConveyor instance's constructor.
    * 
-   * @param e an enum instance used as message code
+   * @param key
+   *          an enum instance used as message key
    * 
    */
-  public <E extends Enum<?>> String getMessage(E e, Object... args) {
-    String code = e.toString();
+  public <E extends Enum<?>> String getMessage(E key, Object... args) {
+    String keyAsStr = key.toString();
 
-    String resouceBundleName = AnnotationExtractor.getResourceBundleName(e
+    String resouceBundleName = AnnotationExtractor.getResourceBundleName(key
         .getClass());
     if (resouceBundleName == null) {
       throw new IllegalArgumentException(
-          "Missing ResourceBundleAnnotation in [" + e.getClass().getName()
+          "Missing ResourceBundleAnnotation in [" + key.getClass().getName()
               + "]. See also " + Cal10nConstants.MISSING_RB_ANNOTATION_URL);
     }
     ResourceBundle rb = ResourceBundle.getBundle(resouceBundleName, locale);
 
-    String value = rb.getString(code);
+    String value = rb.getString(keyAsStr);
     if (value == null) {
-      return "No key found for " + code;
+      return "No key found for " + keyAsStr;
     } else {
       if (args == null || args.length == 0) {
         return value;
@@ -84,6 +85,14 @@ public class MessageConveyor implements IMessageConveyor {
         return MessageFormat.format(value, args);
       }
     }
+  }
+
+  public String getMessage(MessageParameterObj mpo) {
+    if (mpo == null) {
+      throw new IllegalArgumentException(
+          "MessageParameterObj argumument cannot be null");
+    }
+    return getMessage(mpo.getKey(), mpo.getArgs());
   }
 
 }

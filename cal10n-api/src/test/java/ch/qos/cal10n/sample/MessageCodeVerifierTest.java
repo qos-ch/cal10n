@@ -30,8 +30,8 @@ import java.util.Locale;
 import org.junit.Test;
 
 import ch.qos.cal10n.verifier.Cal10nError;
-import ch.qos.cal10n.verifier.IMessageCodeVerifier;
-import ch.qos.cal10n.verifier.MessageCodeVerifier;
+import ch.qos.cal10n.verifier.IMessageKeyVerifier;
+import ch.qos.cal10n.verifier.MessageKeyVerifier;
 
 /**
  * 
@@ -42,14 +42,14 @@ public class MessageCodeVerifierTest {
   
   @Test
   public void smoke() {
-    IMessageCodeVerifier miv = new MessageCodeVerifier(Colors.class);
+    IMessageKeyVerifier miv = new MessageKeyVerifier(Colors.class);
     List<Cal10nError> errorList = miv.verify(Locale.UK);
     assertEquals(0, errorList.size());
   }
   
   @Test
   public void withErrors_UK() {
-    IMessageCodeVerifier miv = new MessageCodeVerifier(Countries.class);
+    IMessageKeyVerifier miv = new MessageKeyVerifier(Countries.class);
     List<Cal10nError> errorList = miv.verify(Locale.UK);
     assertEquals(2, errorList.size());
     assertEquals("CH", errorList.get(0).getCode());
@@ -59,7 +59,7 @@ public class MessageCodeVerifierTest {
   
   @Test
   public void withErrors_FR() {
-    IMessageCodeVerifier miv = new MessageCodeVerifier(Countries.class);
+    IMessageKeyVerifier miv = new MessageKeyVerifier(Countries.class);
     List<Cal10nError> errorList = miv.verify(Locale.FRANCE);
     assertEquals(3, errorList.size());
     assertEquals("CH", errorList.get(0).getCode());

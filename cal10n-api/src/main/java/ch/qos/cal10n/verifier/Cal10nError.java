@@ -39,16 +39,16 @@ public class Cal10nError {
   }
 
   final ErrorType errorType;
-  final String code;
+  final String key;
   final Locale locale;
   final Class<?> enumClass;
   final String enumClassName;
   final String resouceBundleName;
 
-  Cal10nError(ErrorType errorType, String code, Class<?> enumClass,
+  Cal10nError(ErrorType errorType, String key, Class<?> enumClass,
       Locale locale, String resourceBundleName) {
     this.errorType = errorType;
-    this.code = code;
+    this.key = key;
     this.enumClass = enumClass;
     this.enumClassName = enumClass.getName();
     this.locale = locale;
@@ -60,7 +60,7 @@ public class Cal10nError {
   }
 
   public String getCode() {
-    return code;
+    return key;
   }
 
   public Locale getLocale() {
@@ -91,11 +91,11 @@ public class Cal10nError {
     case EMPTY_ENUM:
       return "Empty enum type [" + enumClassName + "]";
     case ABSENT_IN_ENUM:
-      return "Code [" + code + "] present in resource bundle named ["
+      return "Key [" + key + "] present in resource bundle named ["
           + resouceBundleName + "] for locale [" + locale
           + "] but absent in enum type [" + enumClassName + "]";
     case ABSENT_IN_RB:
-      return "Code [" + code + "] present in enum type [" + enumClassName
+      return "Key [" + key + "] present in enum type [" + enumClassName
           + "] but absent in resource bundle named [" + resouceBundleName
           + "] for locale [" + locale + "]";
     default:

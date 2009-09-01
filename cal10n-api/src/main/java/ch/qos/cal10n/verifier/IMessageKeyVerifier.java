@@ -8,12 +8,12 @@ import java.util.Locale;
  * found in the corresponding resource bundles.
  * 
  * <p>
- * See also {@link MessageCodeVerifier} for a concrete implementation.
+ * See also {@link MessageKeyVerifier} for a concrete implementation.
  * 
  * @author Ceki G&uuml;lc&uuml;
  * 
  */
-public interface IMessageCodeVerifier {
+public interface IMessageKeyVerifier {
 
   // WARNING: The name of this class is referenced in String form
   // to do class loader tricks. Do not change the name of this class

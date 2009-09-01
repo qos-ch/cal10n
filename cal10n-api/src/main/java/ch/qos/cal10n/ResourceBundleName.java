@@ -27,7 +27,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import ch.qos.cal10n.verifier.MessageCodeVerifier;
+import ch.qos.cal10n.verifier.MessageKeyVerifier;
 
 /**
  * This annotation serves to designate the name of the resource bundle
@@ -51,7 +51,7 @@ import ch.qos.cal10n.verifier.MessageCodeVerifier;
  * files <em>colors_en.properties</em> and <em>colors_jp.properties</em> exist.
  * 
  * <p>
- * Verification tools such as {@link MessageCodeVerifier} can then proceed to
+ * Verification tools such as {@link MessageKeyVerifier} can then proceed to
  * check that the codes defined in the enum type match those in the resource bundles.
  * 
  * @author Ceki G&uuml;lc&uuml;

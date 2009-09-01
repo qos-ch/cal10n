@@ -37,7 +37,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
 import ch.qos.cal10n.Cal10nConstants;
-import ch.qos.cal10n.verifier.IMessageCodeVerifier;
+import ch.qos.cal10n.verifier.IMessageKeyVerifier;
 
 /**
  * Verifies resources bundles in various locales against an enumType
@@ -92,7 +92,7 @@ public class VerifyMojo extends AbstractMojo {
           + MISSING_ENUM_TYPES);
     }
     for (String enumTypeAsStr : enumTypes) {
-      IMessageCodeVerifier imcv = getMessageCodeVerifierInstance(enumTypeAsStr);
+      IMessageKeyVerifier imcv = getMessageCodeVerifierInstance(enumTypeAsStr);
       getLog()
           .info(
               "Checking all resource bundles for enum type [" + enumTypeAsStr
@@ -101,7 +101,7 @@ public class VerifyMojo extends AbstractMojo {
     }
   }
 
-  public void checkAllLocales(IMessageCodeVerifier mcv)
+  public void checkAllLocales(IMessageKeyVerifier mcv)
       throws MojoFailureException, MojoExecutionException {
 
     String enumClassAsStr = mcv.getEnumTypeAsStr();
@@ -140,15 +140,15 @@ public class VerifyMojo extends AbstractMojo {
     }
   }
 
-  IMessageCodeVerifier getMessageCodeVerifierInstance(String enumClassAsStr)
+  IMessageKeyVerifier getMessageCodeVerifierInstance(String enumClassAsStr)
       throws MojoExecutionException {
     String errMsg = "Failed to instantiate MessageCodeVerifier class";
     try {
       ThisFirstClassLoader thisFirstClassLoader = (ThisFirstClassLoader) buildClassLoader();
-      Class<?> cla = Class.forName(Cal10nConstants.MessageCodeVerifier_FQCN,
+      Class<?> mkvClass = Class.forName(Cal10nConstants.MessageKeyVerifier_FQCN,
           true, thisFirstClassLoader);
-      Constructor<?> cons = cla.getConstructor(String.class);
-      IMessageCodeVerifier imcv = (IMessageCodeVerifier) cons
+      Constructor<?> mkvCons = mkvClass.getConstructor(String.class);
+      IMessageKeyVerifier imcv = (IMessageKeyVerifier) mkvCons
           .newInstance(enumClassAsStr);
       return imcv;
     } catch (ClassNotFoundException e) {
