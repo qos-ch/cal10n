@@ -70,7 +70,7 @@ public class MessageConveyor implements IMessageConveyor {
         .getClass());
     if (resouceBundleName == null) {
       throw new IllegalArgumentException(
-          "Missing ResourceBundleAnnotation in [" + key.getClass().getName()
+          "Missing @ResourceBundleName annotation in enum type [" + key.getClass().getName()
               + "]. See also " + Cal10nConstants.MISSING_RB_ANNOTATION_URL);
     }
     ResourceBundle rb = ResourceBundle.getBundle(resouceBundleName, locale);

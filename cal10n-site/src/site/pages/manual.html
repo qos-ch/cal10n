@@ -76,7 +76,7 @@
    </p>
 
 
-   <h3>Core idea</h3>
+   <h2><a name="code" href="#core">Core idea</a></h2>
 
    <p>Instead of using values of type String as the key for each
    message, CAL10N uses <code>enums</code>.</p>
@@ -126,12 +126,14 @@ RED=les roses sont rouges
 GREEN=les {0} sont verts</pre>
 
   
-  <h2>Retrieving internationalized messages</h2>
+  <h2><a name="retrieving" href="#retrieving">Retrieving
+  internationalized messages</a></h2>
 
   <p>In your application, you would retrieve the localized message via
   an <a
   href="apidocs/ch/qos/cal10n/IMessageConveyor.html">IMessageConveyor</a>
-  instance. </p>
+  instance.
+  </p>
 
   <pre  class="prettyprint source">// obtain a message conveyor for France
 IMessageConveyor mc = new MessageConveyor(Locale.FRANCE);
@@ -150,7 +152,33 @@ String blue = mc.getMessage(Colors.BLUE);  </pre>
   comes with additional tooling support.
   </p>
 
-  <h2>Verification as a test case</h2>
+
+  <h2><a name="deferred" href="#deferred">Deferred localization</a></h2>
+
+  <p>Under certain circumstances, the appropriate locale is
+  <em>unknown</em> at the time or place where the message key and
+  message args are emitted. For example, a low level library might
+  wish to emit a localized message but it is only at the UI (user
+  interface) layer that the locale is known. As another example,
+  imagine that the host where the localized messages are presented to
+  the user is in a different locale, e.g.  Japan, than the locale of
+  the source host. e.g. US.
+  </p>
+
+  <p>The <a
+  href="xref/ch/qos/cal10n/MessageParameterObj.html">MessageParameterObj</a>
+  class is intended to support this particular use case. It allows you
+  to bundle the message key (an enum) plus any message
+  arguments. At a later time, when the locale is known, you would
+  invoke the <a
+  href="apidocs/ch/qos/cal10n/IMessageConveyor.html#getMessage(ch.qos.cal10n.MessageParameterObj)">getMessage(MessageParameterObj)</a>
+  method in <code>IMessageConveyor</code> to obtain the localized
+  message.
+  </p>
+ 
+
+  <h2><a name="verification" href="#verification">Verification as a
+  test case</a></h2>
 
   <p>A convenient and low hassle method for checking for mismatches
   between a given enum type and the corresponding resource bundles is
@@ -255,7 +283,7 @@ public class MyAllInOneColorVerificationTest {
 } </pre>
 
 
-  <h2>Maven Plugin</h2>
+  <h2><a name="mavenPlugin" href="#mavenPlugin">Maven Plugin</a></h2>
 
   <p>The CAL10N project ships with a maven plugin designed to verify
   that the keys specified in a given enum type match those found in
@@ -313,7 +341,7 @@ public class MyAllInOneColorVerificationTest {
   annotation.
   </p>
 
-  <h2>Eclipse plug-in</h2>
+  <h2><a name="eclipsePlugin" href="#eclipsePlugin">Eclipse plug-in</a></h2>
   
   <p>We are looking for volunteers willing to implement IDE support
   for CAL10N.  Below is a litst of possible features of this IDE which
@@ -349,7 +377,7 @@ public class MyAllInOneColorVerificationTest {
   
   <p>If interested please contact the cal10n-dev mailing list.</p>
 
-  <h2>Ant task</h2>
+  <h2><a name="antTask" href="#antTask">Ant task</a></h2>
 
   <p>We are looking for volunteers to implement an Ant task to verify
   resource bundles. The Ant task could be modeled after the

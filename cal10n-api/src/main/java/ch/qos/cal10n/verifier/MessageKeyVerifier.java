@@ -131,12 +131,6 @@ public class MessageKeyVerifier implements IMessageKeyVerifier {
     return set;
   }
   
-  /*
-   * (non-Javadoc)
-   * 
-   * @see ch.qos.cal10n.verifier.IIMessageCodeVerifier#typeIsolatedVerify(java.
-   * util.Locale)
-   */
   public List<String> typeIsolatedVerify(Locale locale) {
     List<Cal10nError> errorList = verify(locale);
     List<String> strList = new ArrayList<String>();
@@ -168,11 +162,6 @@ public class MessageKeyVerifier implements IMessageKeyVerifier {
     return errorList;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see ch.qos.cal10n.verifier.IIMessageCodeVerifier#getLocaleNames()
-   */
   public String[] getLocaleNames() {
     String[] localeNameArray = AnnotationExtractor.getLocaleNames(enumType);
     return localeNameArray;

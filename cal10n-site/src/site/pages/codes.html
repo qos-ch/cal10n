@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+    <title>Error codes</title>
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="stylesheet" type="text/css" href="css/screen.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/_print.css" media="print" />
+
+  </head>
+  <body>
+    <script type="text/javascript">prefix='';</script>
+    <script src="templates/header.js" type="text/javascript"></script>
+    <div id="left">
+      <noscript>Please turn on Javascript to view this menu</noscript>
+      <script src="templates/left.js" type="text/javascript"></script>
+    </div>
+    <div id="content">
+  
+
+   <h1>CAL10N error codes and their meanings</h1>
+
+
+   <h3><a name="missingRBAnnotation"
+   href="#missingRBAnnotation">Missing
+   <code>@ResourceBundleName</code> annotation in enum type [...].
+    </a>
+   </h3>
+
+    <p>The @ResourceBundleName annotation is mandatory when an
+    enum type is used in conjuction with <a
+    href="apidocs/ch/qos/cal10n/MessageConveyor.html">MessageConveyor</a>
+    to retreive localized messages.  See the <a
+    href="manual.html#core">user manual</a> as well as the javadocs
+    for <a
+    href="apidocs/ch/qos/cal10n/ResourceBundleName.html">ResourceBundleName</a>
+    annotation for more details.
+    </p>
+
+    <hr/>
+
+    <h3><a name="missingEnumType" href="#missingEnumType">Missing
+    <code>&lt;enumTypes></code> element.</a> 
+    </h3>
+
+    <p>The <code>&lt;enumTypes></code> is a required parameter of the
+    <em>maven-cal10n-plugin</em>. Please refer to the section on <a
+    href="manual.html#mavenPlugin"><em>maven-cal10n-plugin</em></a> in
+    the user manual for more details.
+    </p>
+
+
+    <hr/>
+
+    <h3><a name="missingLocale" href="#missingLocale">Missing
+    @LocaleNames annotation in enum type [...].</a>
+    </h3>
+
+    <p>If an enum type and its associated bundles are to be verified
+    via the <em>maven-cal10n-plugin</em>, then the enum type needs to
+    be annotated with <a
+    href="apidocs/ch/qos/cal10n/LocaleNames.html">LocaleNames</a>.
+    </p>
+
+  <script src="templates/footer.js" type="text/javascript"></script>
+</div>
+</body>
+</html>

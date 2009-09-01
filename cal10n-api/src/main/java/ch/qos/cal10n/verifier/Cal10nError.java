@@ -59,7 +59,7 @@ public class Cal10nError {
     return errorType;
   }
 
-  public String getCode() {
+  public String getKey() {
     return key;
   }
 

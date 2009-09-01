@@ -45,13 +45,13 @@ import ch.qos.cal10n.verifier.MessageKeyVerifier;
  * 
  * <p>
  * In the above example, @LocaleNames({"en", "jp"}) means that there are English
- * (en) and Japanese translations for the message codes found the Colors enum.
- * The name of the corresponding resource bundle named "colors".
+ * (en) and Japanese translations for the message keys found in the Colors enum.
+ * The name of the corresponding resource bundle is named "colors".
  * 
  * <p>
- * Verification tools such {@link MessageKeyVerifier} can thus conclude that
- * the resource bundle files <em>colors_en.properties</em> and
- * <em>colors_jp.properties</em> exist and should be checked against the codes
+ * Verification tools such {@link MessageKeyVerifier} can thus conclude that the
+ * resource bundle files <em>colors_en.properties</em> and
+ * <em>colors_jp.properties</em> should exist and checked against the keys
  * defined in the Colors enum.
  * 
  * @author Ceki G&uuml;lc&uuml;

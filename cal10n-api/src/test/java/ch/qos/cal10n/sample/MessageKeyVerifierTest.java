@@ -37,7 +37,7 @@ import ch.qos.cal10n.verifier.MessageKeyVerifier;
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public class MessageCodeVerifierTest {
+public class MessageKeyVerifierTest {
 
   
   @Test
@@ -52,8 +52,8 @@ public class MessageCodeVerifierTest {
     IMessageKeyVerifier miv = new MessageKeyVerifier(Countries.class);
     List<Cal10nError> errorList = miv.verify(Locale.UK);
     assertEquals(2, errorList.size());
-    assertEquals("CH", errorList.get(0).getCode());
-    assertEquals("BR", errorList.get(1).getCode());
+    assertEquals("CH", errorList.get(0).getKey());
+    assertEquals("BR", errorList.get(1).getKey());
   }
 
   
@@ -62,8 +62,8 @@ public class MessageCodeVerifierTest {
     IMessageKeyVerifier miv = new MessageKeyVerifier(Countries.class);
     List<Cal10nError> errorList = miv.verify(Locale.FRANCE);
     assertEquals(3, errorList.size());
-    assertEquals("CH", errorList.get(0).getCode());
-    assertEquals("CN", errorList.get(1).getCode());
-    assertEquals("BR", errorList.get(2).getCode());
+    assertEquals("CH", errorList.get(0).getKey());
+    assertEquals("CN", errorList.get(1).getKey());
+    assertEquals("BR", errorList.get(2).getKey());
   }
 }

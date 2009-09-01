@@ -92,7 +92,7 @@ public class VerifyMojo extends AbstractMojo {
           + MISSING_ENUM_TYPES);
     }
     for (String enumTypeAsStr : enumTypes) {
-      IMessageKeyVerifier imcv = getMessageCodeVerifierInstance(enumTypeAsStr);
+      IMessageKeyVerifier imcv = getMessageKeyVerifierInstance(enumTypeAsStr);
       getLog()
           .info(
               "Checking all resource bundles for enum type [" + enumTypeAsStr
@@ -110,7 +110,7 @@ public class VerifyMojo extends AbstractMojo {
 
     if (localeNameArray == null || localeNameArray.length == 0) {
       String errMsg = "Missing @LocaleNames annotation in enum type ["
-          + enumClassAsStr + "]";
+          + enumClassAsStr + "]. Please see "+MISSING_LOCALE;
       getLog().error(errMsg);
       throw new MojoFailureException(errMsg);
     }
@@ -136,13 +136,13 @@ public class VerifyMojo extends AbstractMojo {
     }
     if (failure) {
       throw new MojoFailureException("FAIL Verification of [" + enumClassAsStr
-          + "] codes.");
+          + "] keys.");
     }
   }
 
-  IMessageKeyVerifier getMessageCodeVerifierInstance(String enumClassAsStr)
+  IMessageKeyVerifier getMessageKeyVerifierInstance(String enumClassAsStr)
       throws MojoExecutionException {
-    String errMsg = "Failed to instantiate MessageCodeVerifier class";
+    String errMsg = "Failed to instantiate MessageKeyVerifier class";
     try {
       ThisFirstClassLoader thisFirstClassLoader = (ThisFirstClassLoader) buildClassLoader();
       Class<?> mkvClass = Class.forName(Cal10nConstants.MessageKeyVerifier_FQCN,

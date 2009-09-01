@@ -27,6 +27,6 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses( { MessageCodeVerifierTest.class, MessageConveyorTest.class })
+@SuiteClasses( { MessageKeyVerifierTest.class, MessageConveyorTest.class })
 public class PackageTest {
 }

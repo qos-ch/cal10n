@@ -34,16 +34,21 @@ p.menu {
 #left {
   position: absolute;
   left: 0px;
-  width: 15em;
-  color: #564b47;
+  width: 15em; 
   margin: 4px 0px 0px 4px; 
   padding: 0px;
-  border: 1px solid #cccccc;
-  background-color: #ffffff;
   font-size: 80%;
+  background-color: #ffffff;
 }
 
-#left a, #right a {
+.menuGroup {
+  border: 1px solid #cccccc;
+  background-color: #ffffff;
+  color: #564b47;
+  border: 1px solid #cccccc;
+}
+
+.menuGroup a {
   display: block; 
   width: 95.5%; 
   margin: 0px; 
@@ -51,6 +56,16 @@ p.menu {
   border: solid 1px #FFFFFF; 
   color: #0066cc; 
   text-decoration: none;
+}
+
+.menuGroup a:hover {
+  border: solid 1px #FFFFFF; 
+  background-color: #3333CC; 
+  color: #ffffff;
+}
+
+.pub {
+  text-align: center;
 }
 
 p.menu_header {
@@ -62,21 +77,6 @@ p.menu_header {
   border-bottom: solid 1px #CCCCCC;
 }
 
-#left img {
-	display: block;
-	margin: 20px 0 20px 17px;
-	border: none;
-}
-
-#left a:hover, #right a:hover {
-  border: solid 1px #FFFFFF; 
-  background-color: #3333CC; 
-  color: #ffffff;
-}
-
-#left a:hover.x {
-  background-color: #fff; 
-}
 
 #right {
   position: absolute;

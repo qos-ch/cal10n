@@ -44,8 +44,8 @@ public class ErrorFactory {
     this.resourceBundleName = resourceBundleName;
   }
 
-  Cal10nError buildError(ErrorType errorType, String code) {
-    return new Cal10nError(errorType, code, enumClass, locale,
+  Cal10nError buildError(ErrorType errorType, String key) {
+    return new Cal10nError(errorType, key, enumClass, locale,
         resourceBundleName);
   }
 }

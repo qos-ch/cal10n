@@ -26,12 +26,12 @@ import java.util.Arrays;
 
 /**
  * Holds data relevant for a deferred message lookup. This is useful when the
- * appropriate locale is unknown at the time or place where the message key and
- * message args are emitted. For example, a low level library might emit a
- * localized message but it is only at the UI (user interface) layer that the
- * locale is known. As another example, imagine that the host where the
+ * appropriate locale is <em>unknown</em> at the time or place where the message
+ * key and message args are emitted. For example, a low level library might wish
+ * to emit a localized message but it is only at the UI (user interface) layer
+ * that the locale is known. As another example, imagine that the host where the
  * localized messages are presented to the user is in a different locale, e.g.
- * Japan, than the source host. e.g. US.
+ * Japan, than the locale of the source host. e.g. US.
  * 
  * <p>
  * Instances of this class are intended to be immutable, subject to the
@@ -49,8 +49,8 @@ public class MessageParameterObj {
   /**
    * Constructs an instance.
    * 
-   * @param code
-   *          the code for the corresponding resource.
+   * @param key
+   *          the key for the localized message.
    * @param args
    *          any message parameters, as required.
    */
@@ -72,7 +72,7 @@ public class MessageParameterObj {
 
   @Override
   public String toString() {
-    final StringBuilder b = new StringBuilder("Message(");
+    final StringBuilder b = new StringBuilder("MessageParameterObj(");
     b.append(key.name());
     b.append(", ");
     b.append(Arrays.toString(args));

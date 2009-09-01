@@ -29,7 +29,7 @@ import java.text.MessageFormat;
 // which locale to use.
 
 /**
- * Retrieve a message by its code as specified by an enum.
+ * Retrieve a localized message by its key as specified by an enum.
  * 
  * <p>
  * The strategy in retrieving messages may vary from implementation to
@@ -40,11 +40,11 @@ import java.text.MessageFormat;
 public interface IMessageConveyor {
 
   /**
-   * Retrieve a message by its code as specified by an enum.
+   * Retrieve a localized message by its key as specified by an enum.
    * 
    * <p>
    * Note that any further arguments passed in 'args' will be interpolated using
-   * the translated message. The interpolation will be done according to
+   * the translated message. The interpolation will be done by and according to
    * conventions of {@link MessageFormat}.
    * 
    * @param <E>
@@ -59,10 +59,14 @@ public interface IMessageConveyor {
 
   /**
    * Syntactic sugar for the case where the massage is contained in a
-   * {@link MessageParameterObj}. 
+   * {@link MessageParameterObj}.
    * 
-   * <p>Equivalent to calling
-   * <pre>getMessage(mpo.getKey(), mpo.getArgs());</pre>
+   * <p>
+   * Equivalent to calling
+   * 
+   * <pre>
+   * getMessage(mpo.getKey(), mpo.getArgs());
+   * </pre>
    * 
    * @see #getMessage(Enum, Object...)
    * @param mpo

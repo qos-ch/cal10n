@@ -52,7 +52,8 @@ import ch.qos.cal10n.verifier.MessageKeyVerifier;
  * 
  * <p>
  * Verification tools such as {@link MessageKeyVerifier} can then proceed to
- * check that the codes defined in the enum type match those in the resource bundles.
+ * check that the keys defined in the enum type match those in the corresponding
+ * resource bundles.
  * 
  * @author Ceki G&uuml;lc&uuml;
  * 
