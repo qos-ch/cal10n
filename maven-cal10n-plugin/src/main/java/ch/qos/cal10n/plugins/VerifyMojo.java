@@ -22,6 +22,7 @@
 package ch.qos.cal10n.plugins;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -173,13 +174,16 @@ public class VerifyMojo extends AbstractMojo {
   List<URL> getDirectDependencies() {
     ArrayList<URL> urlList = new ArrayList<URL>();
     for (Artifact a : projectArtifacts) {
-      String urlAsStr = localRepository.getUrl();  //returns a bogus URL
-      //String pathOfArtifact = localRepository.getBasedir() + "/"
-      //    + localRepository.pathOf(a);
-      urlAsStr += "/"+localRepository.pathOf(a);
+      String pathOfArtifact = localRepository.getBasedir() + "/"
+          + localRepository.pathOf(a);
+       File artifactAsFile = new File(pathOfArtifact);
+      if(!artifactAsFile.exists()) {
+        getLog().error("Artifact ["+artifactAsFile+"] could not be located");
+      }
       try {
         //URL url = new URL("file://" + pathOfArtifact);
-        URL url = new URL(urlAsStr);
+        //URL url = new URL(urlAsStr);
+        URL url = artifactAsFile.toURI().toURL();
         urlList.add(url);
       } catch (MalformedURLException e) {
         getLog().info("Failed to build URL", e);
