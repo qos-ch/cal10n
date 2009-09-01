@@ -25,7 +25,6 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -145,11 +144,9 @@ public class VerifyMojo extends AbstractMojo {
     String errMsg = "Failed to instantiate MessageCodeVerifier class";
     try {
 
-      URLClassLoader cl = (URLClassLoader) buildClassLoader();
-      Class<?> cla = Class.forName(Cal10nConstants.MessageCodeVerifier_FQCN, true, cl);
-
-      cla.newInstance();
-      
+      ThisFirstClassLoader thisFirstClassLoader = (ThisFirstClassLoader) buildClassLoader();
+      //Class<?> cla = thisFirstClassLoader.loadClass(Cal10nConstants.MessageCodeVerifier_FQCN, true);
+      Class<?> cla = Class.forName(Cal10nConstants.MessageCodeVerifier_FQCN, true, thisFirstClassLoader);
       Constructor<?> cons = cla.getConstructor(String.class);
       IMessageCodeVerifier imcv = (IMessageCodeVerifier) cons
           .newInstance(enumClassAsStr);
@@ -168,7 +165,6 @@ public class VerifyMojo extends AbstractMojo {
     classpathURLList.add(toURL(outputDirectory));
     classpathURLList.addAll(getDirectDependencies());
     ClassLoader parentCL = this.getClass().getClassLoader();
-    
     URL[] classpathURLArray = classpathURLList.toArray(new URL[] {});
     System.out.println("classpathURLArray="+Arrays.toString(classpathURLArray));
     return new ThisFirstClassLoader(classpathURLArray, parentCL);
@@ -177,11 +173,13 @@ public class VerifyMojo extends AbstractMojo {
   List<URL> getDirectDependencies() {
     ArrayList<URL> urlList = new ArrayList<URL>();
     for (Artifact a : projectArtifacts) {
-      // localRepository.getUrl() returns a bogus URL
-      String pathOfArtifact = localRepository.getBasedir() + "/"
-          + localRepository.pathOf(a);
+      String urlAsStr = localRepository.getUrl();  //returns a bogus URL
+      //String pathOfArtifact = localRepository.getBasedir() + "/"
+      //    + localRepository.pathOf(a);
+      urlAsStr += "/"+localRepository.pathOf(a);
       try {
-        URL url = new URL("file:/" + pathOfArtifact);
+        //URL url = new URL("file://" + pathOfArtifact);
+        URL url = new URL(urlAsStr);
         urlList.add(url);
       } catch (MalformedURLException e) {
         getLog().info("Failed to build URL", e);
