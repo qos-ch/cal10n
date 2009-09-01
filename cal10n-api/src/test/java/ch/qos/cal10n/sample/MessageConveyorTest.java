@@ -30,6 +30,7 @@ import org.junit.Test;
 
 import ch.qos.cal10n.MessageConveyor;
 import ch.qos.cal10n.MessageParameterObj;
+import ch.qos.cal10n.sample.Host.OtherColors;
 
 public class MessageConveyorTest {
 
@@ -47,6 +48,26 @@ public class MessageConveyorTest {
       assertEquals("apples are green", val);
     }
 
+  }
+
+  // see http://jira.qos.ch/browse/CAL-1
+  @Test
+  public void nestedEnum_EN() {
+    MessageConveyor rbbmc = new MessageConveyor(Locale.UK);
+    {
+      String val = rbbmc.getMessage(Colors.RED);
+      assertEquals("roses are red", val);
+    }
+
+    {
+      String val = rbbmc.getMessage(OtherColors.RED);
+      assertEquals("roses are red", val);
+    }
+
+    {
+      String val = rbbmc.getMessage(OtherColors.BLUE);
+      assertEquals("violets are blue", val);
+    }
   }
 
   @Test

@@ -28,5 +28,9 @@ import ch.qos.cal10n.ResourceBundleName;
 @ResourceBundleName("colors")
 @LocaleNames({"en_UK", "fr"})
 public enum Colors {
-  RED, BLUE, GREEN;
+  RED {
+     
+  },
+  BLUE, 
+  GREEN;
 }

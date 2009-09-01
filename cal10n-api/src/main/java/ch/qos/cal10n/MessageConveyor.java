@@ -67,7 +67,7 @@ public class MessageConveyor implements IMessageConveyor {
     String keyAsStr = key.toString();
 
     String resouceBundleName = AnnotationExtractor.getResourceBundleName(key
-        .getClass());
+        .getDeclaringClass());
     if (resouceBundleName == null) {
       throw new IllegalArgumentException(
           "Missing @ResourceBundleName annotation in enum type [" + key.getClass().getName()
