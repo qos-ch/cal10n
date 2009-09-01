@@ -22,12 +22,10 @@
 package ch.qos.cal10n.plugins;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -87,16 +85,18 @@ public class VerifyMojo extends AbstractMojo {
    */
   private ArtifactRepository localRepository;
 
-
   public void execute() throws MojoExecutionException, MojoFailureException {
 
     if (enumTypes == null) {
-      throw new MojoFailureException(
-          "Missing <enumTypes> element. Please see " + MISSING_ENUM_TYPES);
+      throw new MojoFailureException("Missing <enumTypes> element. Please see "
+          + MISSING_ENUM_TYPES);
     }
     for (String enumTypeAsStr : enumTypes) {
       IMessageCodeVerifier imcv = getMessageCodeVerifierInstance(enumTypeAsStr);
-      getLog().info("Checking all resource bundles for enum type [" + enumTypeAsStr + "]");
+      getLog()
+          .info(
+              "Checking all resource bundles for enum type [" + enumTypeAsStr
+                  + "]");
       checkAllLocales(imcv);
     }
   }
@@ -144,10 +144,9 @@ public class VerifyMojo extends AbstractMojo {
       throws MojoExecutionException {
     String errMsg = "Failed to instantiate MessageCodeVerifier class";
     try {
-
       ThisFirstClassLoader thisFirstClassLoader = (ThisFirstClassLoader) buildClassLoader();
-      //Class<?> cla = thisFirstClassLoader.loadClass(Cal10nConstants.MessageCodeVerifier_FQCN, true);
-      Class<?> cla = Class.forName(Cal10nConstants.MessageCodeVerifier_FQCN, true, thisFirstClassLoader);
+      Class<?> cla = Class.forName(Cal10nConstants.MessageCodeVerifier_FQCN,
+          true, thisFirstClassLoader);
       Constructor<?> cons = cla.getConstructor(String.class);
       IMessageCodeVerifier imcv = (IMessageCodeVerifier) cons
           .newInstance(enumClassAsStr);
@@ -167,7 +166,6 @@ public class VerifyMojo extends AbstractMojo {
     classpathURLList.addAll(getDirectDependencies());
     ClassLoader parentCL = this.getClass().getClassLoader();
     URL[] classpathURLArray = classpathURLList.toArray(new URL[] {});
-    System.out.println("classpathURLArray="+Arrays.toString(classpathURLArray));
     return new ThisFirstClassLoader(classpathURLArray, parentCL);
   }
 
@@ -176,13 +174,12 @@ public class VerifyMojo extends AbstractMojo {
     for (Artifact a : projectArtifacts) {
       String pathOfArtifact = localRepository.getBasedir() + "/"
           + localRepository.pathOf(a);
-       File artifactAsFile = new File(pathOfArtifact);
-      if(!artifactAsFile.exists()) {
-        getLog().error("Artifact ["+artifactAsFile+"] could not be located");
+      File artifactAsFile = new File(pathOfArtifact);
+      if (!artifactAsFile.exists()) {
+        getLog()
+            .error("Artifact [" + artifactAsFile + "] could not be located");
       }
       try {
-        //URL url = new URL("file://" + pathOfArtifact);
-        //URL url = new URL(urlAsStr);
         URL url = artifactAsFile.toURI().toURL();
         urlList.add(url);
       } catch (MalformedURLException e) {
