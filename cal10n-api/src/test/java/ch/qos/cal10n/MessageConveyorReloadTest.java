@@ -22,8 +22,8 @@
 
 package ch.qos.cal10n;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,8 +40,6 @@ import ch.qos.cal10n.util.MiscUtil;
 public class MessageConveyorReloadTest {
 
   
-  
-  
   @Test
   public void bundleReload() throws IOException, InterruptedException {
     ClassLoader classLoader = this.getClass().getClassLoader();
@@ -50,7 +48,6 @@ public class MessageConveyorReloadTest {
     assertNotNull("the problem is in this test, not the code tested", url);
 
     MessageConveyor mc = new MessageConveyor(new Locale("en"));
-    
     mc.getMessage(Colors.BLUE);
     
     CAL10NPropertyResourceBundle initalRB = mc.cache.get(Colors.BLUE.getDeclaringClass().getName());
