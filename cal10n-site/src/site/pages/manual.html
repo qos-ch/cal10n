@@ -146,11 +146,15 @@ String blue = mc.getMessage(Colors.BLUE);  </pre>
   have been accustomed to, but adds compiler verification on top.</p>
 
 
-  <p>An astute reader will comment that even if the messages keys are now
-  verified by the compiler, it is still possible to have mismatching
-  message keys in the resources bundles. For this reason, CAL10N
-  comes with additional tooling support.
+  <p>An astute reader will comment that even if the messages keys are
+  now verified by the compiler, it is still possible to have
+  mismatching message keys in the resources bundles. For this reason,
+  CAL10N comes with additional tools, including <a
+  href="#verification" class="big greenBold" >support for writing Junit test cases</a> and a
+  <a href="#mavenPlugin">maven plugin</a>.
   </p>
+
+
 
   <h2><a name="simplifiedLookup" href="#simplifiedLookup">Simplified
   bundle look-up procedure</a></h2>                             
@@ -199,6 +203,19 @@ colors_fr_FR.properties</pre>
    href="http://en.wikipedia.org/wiki/Principle_of_least_astonishment">
    less surprise</a>.</p>
 
+  <h2><a name="reload" href="#reload">Automatic reloading of resource
+  bundles upon change</a></h2>
+
+  <p>When a resource bundle for a given locale is changed on the file
+  system, <code>MessageConveyor</code> will automatically reload the
+  resource bundle. It may take at most 10 minutes for the change to be
+  detected.</p>
+
+  <p>Automatic reloading applies if the resource bundle is a regular
+  file but not if nested within a jar file.
+  </p>
+  
+
   <h2><a name="deferred" href="#deferred">Deferred
   localization</a></h2>
 
@@ -223,7 +240,6 @@ colors_fr_FR.properties</pre>
   message.
   </p>
  
-
   <h2><a name="verification" href="#verification">Verification as a
   test case</a></h2>
 
@@ -328,6 +344,7 @@ public class MyAllInOneColorVerificationTest {
     assertEquals(0, errorList.size());
   }
 } </pre>
+
 
 
   <h2><a name="mavenPlugin" href="#mavenPlugin">Maven Plugin</a></h2>
