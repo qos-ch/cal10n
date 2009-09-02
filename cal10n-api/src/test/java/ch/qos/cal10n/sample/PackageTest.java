@@ -27,6 +27,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses( { MessageKeyVerifierTest.class, MessageConveyorTest.class, WithDefaultTest.class })
+@SuiteClasses( { MessageKeyVerifierTest.class, MessageConveyorTest.class,
+    MyColorVerificationTest.class, MyAllInOneColorVerificationTest.class })
 public class PackageTest {
 }

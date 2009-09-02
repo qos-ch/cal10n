@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import ch.qos.cal10n.util.AnnotationExtractor;
+import ch.qos.cal10n.util.PropertyResourceBundleFinder;
 
 /**
  * The default implementation for {@link IMessageConveyor} based on resource
@@ -55,9 +56,9 @@ public class MessageConveyor implements IMessageConveyor {
    * corresponding internationalized.
    * 
    * <p>
-   * The name of the resource bundle is defined via the
-   * {@link BaseName} annotation whereas the locale is specified in
-   * this MessageConveyor instance's constructor.
+   * The name of the resource bundle is defined via the {@link BaseName}
+   * annotation whereas the locale is specified in this MessageConveyor
+   * instance's constructor.
    * 
    * @param key
    *          an enum instance used as message key
@@ -66,14 +67,16 @@ public class MessageConveyor implements IMessageConveyor {
   public <E extends Enum<?>> String getMessage(E key, Object... args) {
     String keyAsStr = key.toString();
 
-    String resouceBundleName = AnnotationExtractor.getBaseName(key
-        .getDeclaringClass());
-    if (resouceBundleName == null) {
+    String baseName = AnnotationExtractor.getBaseName(key.getDeclaringClass());
+    if (baseName == null) {
       throw new IllegalArgumentException(
-          "Missing @BaseName annotation in enum type [" + key.getClass().getName()
-              + "]. See also " + Cal10nConstants.MISSING_BN_ANNOTATION_URL);
+          "Missing @BaseName annotation in enum type ["
+              + key.getClass().getName() + "]. See also "
+              + Cal10nConstants.MISSING_BN_ANNOTATION_URL);
     }
-    ResourceBundle rb = ResourceBundle.getBundle(resouceBundleName, locale);
+
+    ResourceBundle rb = PropertyResourceBundleFinder.getBundle(this.getClass()
+        .getClassLoader(), baseName, locale);
 
     String value = rb.getString(keyAsStr);
     if (value == null) {

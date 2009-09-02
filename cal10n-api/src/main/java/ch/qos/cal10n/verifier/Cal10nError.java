@@ -43,16 +43,16 @@ public class Cal10nError {
   final Locale locale;
   final Class<?> enumClass;
   final String enumClassName;
-  final String resouceBundleName;
+  final String baseName;
 
   Cal10nError(ErrorType errorType, String key, Class<?> enumClass,
-      Locale locale, String resourceBundleName) {
+      Locale locale, String baseName) {
     this.errorType = errorType;
     this.key = key;
     this.enumClass = enumClass;
     this.enumClassName = enumClass.getName();
     this.locale = locale;
-    this.resouceBundleName = resourceBundleName;
+    this.baseName = baseName;
   }
 
   public ErrorType getErrorType() {
@@ -82,21 +82,21 @@ public class Cal10nError {
       // enumClassName
       // + "]";
     case FAILED_TO_FIND_RB:
-      return "Failed to locate resource bundle [" + resouceBundleName
-          + "]for locale [" + locale + "] for enum type [" + enumClassName
+      return "Failed to locate resource bundle [" + baseName
+          + "] for locale [" + locale + "] for enum type [" + enumClassName
           + "]";
     case EMPTY_RB:
-      return "Empty resource bundle named [" + resouceBundleName
+      return "Empty resource bundle named [" + baseName
           + "] for locale [" + locale + "]";
     case EMPTY_ENUM:
       return "Empty enum type [" + enumClassName + "]";
     case ABSENT_IN_ENUM:
       return "Key [" + key + "] present in resource bundle named ["
-          + resouceBundleName + "] for locale [" + locale
+          + baseName + "] for locale [" + locale
           + "] but absent in enum type [" + enumClassName + "]";
     case ABSENT_IN_RB:
       return "Key [" + key + "] present in enum type [" + enumClassName
-          + "] but absent in resource bundle named [" + resouceBundleName
+          + "] but absent in resource bundle named [" + baseName
           + "] for locale [" + locale + "]";
     default:
       throw new IllegalStateException("Impossible to reach here");

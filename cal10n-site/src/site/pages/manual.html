@@ -152,8 +152,55 @@ String blue = mc.getMessage(Colors.BLUE);  </pre>
   comes with additional tooling support.
   </p>
 
+  <h2><a name="simplifiedLookup" href="#simplifiedLookup">Simplified
+  bundle lookup procedure</a></h2>                             
 
-  <h2><a name="deferred" href="#deferred">Deferred localization</a></h2>
+  <p>The <code>ResourceBundle</code> class defines a rather involved
+  <a
+  href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/ResourceBundle.html#getBundle%28java.lang.String,%20java.util.Locale,%20java.lang.ClassLoader%29">lookup
+  procedure</a> for finding resource bundles. While formally this
+  procedure is deterministic, it is too error-prone for our taste. In
+  CAL10N, we thus took the bold initiative to define a simplified bundle look
+  up procedure.
+  </p>
+
+  <p>Given a locale, the simplified look up procedure only takes into
+  account that locale, ignoring the default locale and the resource
+  bundle corresponding to the naked base name, i.e. the default
+  resource bundle. However, if the locale has both a language
+  <b>and</b> a country, and corresponding bundle files exist, then
+  CAL10N will take into account both bundles, establishing the same
+  parent child relationship as the JDK <code>ResourceBundle</code>
+  class.
+  </p>
+
+  <p>For example, for base name "colors" if the following bundles
+  exist on the class path:
+  </p>
+
+  <pre class="source">colors.properties
+colors_en_US.properties
+colors_en.properties
+colors_fr_FR.properties</pre>
+
+
+   <p>and the system's default locale is "fr_FR", when CAL10N is asked
+   to find resource bundles corresponding to the "en_US" locale, it
+   will ignore the <em>colors.properties</em> (~ default bundle) and
+   <em>colors_fr_FR.properties</em> (~ default locale), while
+   combining the <em>colors_en_US.properties</em> and
+   <em>colors_en.properties</em> bundles in the usual parent-child
+   relationship.
+   </p>
+
+   <p>We hope that the simplified lookup procedeue, while deviating
+   from the conventions of the Java platform as defined in the
+   <code>ResourceBundle</code> class, will still cause <a
+   href="http://en.wikipedia.org/wiki/Principle_of_least_astonishment">
+   less suprises</a>.</p>
+
+  <h2><a name="deferred" href="#deferred">Deferred
+  localization</a></h2>
 
   <p>Under certain circumstances, the appropriate locale is
   <em>unknown</em> at the time or place where the message key and

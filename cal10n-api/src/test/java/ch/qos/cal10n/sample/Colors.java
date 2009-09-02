@@ -28,6 +28,7 @@ import ch.qos.cal10n.BaseName;
 @BaseName("colors")
 @LocaleNames({"en_UK", "fr"})
 public enum Colors {
+  // sub-class for testing purposes
   RED {
      
   },

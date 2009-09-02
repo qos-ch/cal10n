@@ -31,6 +31,8 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import ch.qos.cal10n.util.AnnotationExtractor;
+import ch.qos.cal10n.util.PropertyResourceBundleFinder;
+import ch.qos.cal10n.util.StringToLocale;
 import ch.qos.cal10n.verifier.Cal10nError.ErrorType;
 
 /**
@@ -73,27 +75,28 @@ public class MessageKeyVerifier implements IMessageKeyVerifier {
   public List<Cal10nError> verify(Locale locale) {
     List<Cal10nError> errorList = new ArrayList<Cal10nError>();
 
-    String resouceBundleName = AnnotationExtractor
-        .getBaseName(enumType);
+    String baseName = AnnotationExtractor.getBaseName(enumType);
 
-    if (resouceBundleName == null) {
+    if (baseName == null) {
       errorList.add(new Cal10nError(ErrorType.MISSING_BN_ANNOTATION, "",
           enumType, locale, ""));
       // no point in continuing
       return errorList;
     }
 
-    ResourceBundle rb = ResourceBundle.getBundle(resouceBundleName, locale);
+    ResourceBundle rb = PropertyResourceBundleFinder.getBundle(this.getClass()
+        .getClassLoader(), baseName, locale);
 
-    ErrorFactory errorFactory = new ErrorFactory(enumType, locale,
-        resouceBundleName);
+    ErrorFactory errorFactory = new ErrorFactory(enumType, locale, baseName);
 
     if (rb == null) {
       errorList.add(errorFactory.buildError(ErrorType.FAILED_TO_FIND_RB, ""));
+   // no point in continuing
+      return errorList;
     }
-
-    Set<String> rbKeySet = buildKeySetFromEnumeration(rb.getKeys());
     
+    Set<String> rbKeySet = buildKeySetFromEnumeration(rb.getKeys());
+
     if (rbKeySet.size() == 0) {
       errorList.add(errorFactory.buildError(ErrorType.EMPTY_RB, ""));
     }
@@ -123,14 +126,14 @@ public class MessageKeyVerifier implements IMessageKeyVerifier {
   }
 
   private Set<String> buildKeySetFromEnumeration(Enumeration<String> e) {
-    Set<String> set = new HashSet<String>(); 
-    while(e.hasMoreElements()) {
+    Set<String> set = new HashSet<String>();
+    while (e.hasMoreElements()) {
       String s = e.nextElement();
       set.add(s);
     }
     return set;
   }
-  
+
   public List<String> typeIsolatedVerify(Locale locale) {
     List<Cal10nError> errorList = verify(locale);
     List<String> strList = new ArrayList<String>();
@@ -154,7 +157,8 @@ public class MessageKeyVerifier implements IMessageKeyVerifier {
       throw new IllegalStateException(errMsg);
     }
     for (String localeName : localeNameArray) {
-      Locale locale = new Locale(localeName);
+      Locale locale = StringToLocale.toLocale(localeName);
+      System.out.println(locale);
       List<Cal10nError> tmpList = verify(locale);
       errorList.addAll(tmpList);
     }

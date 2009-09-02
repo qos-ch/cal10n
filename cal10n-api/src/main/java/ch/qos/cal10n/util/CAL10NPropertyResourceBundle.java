@@ -19,33 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package ch.qos.cal10n.sample;
+package ch.qos.cal10n.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 
-import static org.junit.Assert.assertEquals;
+public class CAL10NPropertyResourceBundle extends PropertyResourceBundle {
 
-import java.util.List;
+  public CAL10NPropertyResourceBundle(InputStream is) throws IOException {
+    super(is);
+  }
 
-import org.junit.Test;
-
-import ch.qos.cal10n.verifier.Cal10nError;
-import ch.qos.cal10n.verifier.IMessageKeyVerifier;
-import ch.qos.cal10n.verifier.MessageKeyVerifier;
-
-/**
- * 
- * @author Ceki G&uuml;lc&uuml;
- *
- */
-public class MyAllInOneColorVerificationTest {
-
-
-  @Test
-  public void all() {
-    IMessageKeyVerifier mcv = new MessageKeyVerifier(Colors.class);
-    List<Cal10nError> errorList = mcv.verifyAllLocales();
-    System.out.println(errorList);
-    assertEquals(0, errorList.size());
+  public void setParent(ResourceBundle parent) {
+    super.setParent(parent);
   }
 
 }

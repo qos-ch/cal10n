@@ -19,26 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package ch.qos.cal10n.sample;
-
-import static org.junit.Assert.assertEquals;
+package ch.qos.cal10n.util;
 
 import java.util.Locale;
 
-import org.junit.Test;
+public class StringToLocale {
 
-import ch.qos.cal10n.MessageConveyor;
+  public static Locale toLocale(String localeName) {
+    if (localeName == null) {
 
-
-public class WithDefaultTest {
-
-  @Test
-  public void smoke() {
-    MessageConveyor mc = new MessageConveyor(Locale.UK);
-    String val;
-
-    val = mc.getMessage(Furnitures.TABLE);
-    assertEquals("the table", val);
-
+    }
+    if (localeName.contains("_")) {
+      String[] array = localeName.split("_");
+      return new Locale(array[0], array[1]);
+    } else {
+      return new Locale(localeName);
+    }
   }
 }

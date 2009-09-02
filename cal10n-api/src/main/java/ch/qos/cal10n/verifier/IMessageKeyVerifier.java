@@ -15,9 +15,10 @@ import java.util.Locale;
  */
 public interface IMessageKeyVerifier {
 
+  // WARNING:
   // WARNING: The name of this class is referenced in String form
   // to do class loader tricks. Do not change the name of this class
-  // without looking at the maven-plugin.
+  // without looking at the maven-cal10n-plugin.
 
   /**
    * Get the of enum type that this verifier is related to to.
