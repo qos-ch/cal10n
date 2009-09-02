@@ -20,19 +20,23 @@
  * SOFTWARE.
  */
 
-package ch.qos.cal10n.sample;
+package ch.qos.cal10n;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Locale;
 
 import org.junit.Test;
 
-import ch.qos.cal10n.MessageConveyor;
-import ch.qos.cal10n.MessageConveyorException;
-import ch.qos.cal10n.MessageParameterObj;
+import ch.qos.cal10n.sample.Colors;
 import ch.qos.cal10n.sample.Host.OtherColors;
+import ch.qos.cal10n.util.MiscUtil;
 
 public class MessageConveyorTest {
 
@@ -105,5 +109,17 @@ public class MessageConveyorTest {
           "Failed to locate resource bundle [colors] for locale [zh_CN] for enum type [ch.qos.cal10n.sample.Colors]",
           e.getMessage());
     }
+  }
+  
+  @Test
+  public void bundleReload() throws IOException {
+    ClassLoader classLoader = this.getClass().getClassLoader();
+    String resourceCandidate =  "colors" + "_" + "en" + ".properties";
+    URL url = classLoader.getResource(resourceCandidate);
+    assertNotNull("the problem is in this test, not the code tested", url);
+
+    File file =  MiscUtil.urlToFile(url);
+    FileOutputStream fos = new FileOutputStream(file, true);
+    assertNotNull(file);
   }
 }

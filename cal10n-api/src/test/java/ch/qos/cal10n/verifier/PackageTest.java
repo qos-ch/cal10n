@@ -20,14 +20,14 @@
  * SOFTWARE.
  */
 
-package ch.qos.cal10n.util;
+package ch.qos.cal10n.verifier;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses( { AnnotationExtractorTest.class, MiscUtilTest.class,
- PropertyResourceBundleFinderTest.class })
+@SuiteClasses( { MessageKeyVerifierTest.class, MyColorVerificationTest.class,
+    MyAllInOneColorVerificationTest.class })
 public class PackageTest {
 }

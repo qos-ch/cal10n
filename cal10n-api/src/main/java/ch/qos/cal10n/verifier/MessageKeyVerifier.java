@@ -32,7 +32,7 @@ import java.util.Set;
 
 import ch.qos.cal10n.util.AnnotationExtractor;
 import ch.qos.cal10n.util.PropertyResourceBundleFinder;
-import ch.qos.cal10n.util.StringToLocale;
+import ch.qos.cal10n.util.MiscUtil;
 import ch.qos.cal10n.verifier.Cal10nError.ErrorType;
 
 /**
@@ -157,7 +157,7 @@ public class MessageKeyVerifier implements IMessageKeyVerifier {
       throw new IllegalStateException(errMsg);
     }
     for (String localeName : localeNameArray) {
-      Locale locale = StringToLocale.toLocale(localeName);
+      Locale locale = MiscUtil.toLocale(localeName);
       System.out.println(locale);
       List<Cal10nError> tmpList = verify(locale);
       errorList.addAll(tmpList);

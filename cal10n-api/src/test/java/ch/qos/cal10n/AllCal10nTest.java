@@ -25,10 +25,11 @@ package ch.qos.cal10n;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
- 
+
 @RunWith(Suite.class)
-@SuiteClasses({ch.qos.cal10n.util.PackageTest.class,
-  ch.qos.cal10n.sample.PackageTest.class})
+@SuiteClasses( { ch.qos.cal10n.PackageTest.class,
+    ch.qos.cal10n.util.PackageTest.class,
+    ch.qos.cal10n.verifier.PackageTest.class })
 public class AllCal10nTest {
 
 }

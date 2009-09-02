@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package ch.qos.cal10n.sample;
 
+package ch.qos.cal10n.verifier;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,29 +29,40 @@ import java.util.Locale;
 
 import org.junit.Test;
 
-import ch.qos.cal10n.verifier.Cal10nError;
-import ch.qos.cal10n.verifier.IMessageKeyVerifier;
-import ch.qos.cal10n.verifier.MessageKeyVerifier;
+import ch.qos.cal10n.sample.Colors;
+import ch.qos.cal10n.sample.Countries;
 
-public class MyColorVerificationTest {
+/**
+ * 
+ * @author Ceki G&uuml;lc&uuml;
+ */
+public class MessageKeyVerifierTest {
 
+  
   @Test
-  public void en_UK() {
-    IMessageKeyVerifier mcv = new MessageKeyVerifier(Colors.class);
-    List<Cal10nError> errorList = mcv.verify(Locale.UK);
-    for(Cal10nError error: errorList) {
-      System.out.println(error);
-    }
+  public void smoke() {
+    IMessageKeyVerifier miv = new MessageKeyVerifier(Colors.class);
+    List<Cal10nError> errorList = miv.verify(Locale.UK);
     assertEquals(0, errorList.size());
   }
-
+  
   @Test
-  public void fr() {
-    IMessageKeyVerifier mcv = new MessageKeyVerifier(Colors.class);
-    List<Cal10nError> errorList = mcv.verify(Locale.FRANCE);
-    for(Cal10nError error: errorList) {
-      System.out.println(error);
-    }
-    assertEquals(0, errorList.size());
+  public void withErrors_UK() {
+    IMessageKeyVerifier miv = new MessageKeyVerifier(Countries.class);
+    List<Cal10nError> errorList = miv.verify(Locale.UK);
+    assertEquals(2, errorList.size());
+    assertEquals("CH", errorList.get(0).getKey());
+    assertEquals("BR", errorList.get(1).getKey());
+  }
+
+  
+  @Test
+  public void withErrors_FR() {
+    IMessageKeyVerifier miv = new MessageKeyVerifier(Countries.class);
+    List<Cal10nError> errorList = miv.verify(Locale.FRANCE);
+    assertEquals(3, errorList.size());
+    assertEquals("CH", errorList.get(0).getKey());
+    assertEquals("CN", errorList.get(1).getKey());
+    assertEquals("BR", errorList.get(2).getKey());
   }
 }

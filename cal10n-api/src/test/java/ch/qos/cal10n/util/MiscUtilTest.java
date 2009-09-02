@@ -19,15 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package ch.qos.cal10n.util;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-@RunWith(Suite.class)
-@SuiteClasses( { AnnotationExtractorTest.class, MiscUtilTest.class,
- PropertyResourceBundleFinderTest.class })
-public class PackageTest {
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.junit.Test;
+
+
+public class MiscUtilTest {
+  
+  @Test
+  public void urlToFile() {
+    ClassLoader classLoader = this.getClass().getClassLoader();
+    String resourceCandidate =  "colors" + "_" + "en" + ".properties";
+    URL url = classLoader.getResource(resourceCandidate);
+    assertNotNull("the problem is in this test, not the code tested", url);
+
+    File file =  MiscUtil.urlToFile(url);
+    assertNotNull(file);
+  }
+  
+  @Test
+  public void httpUrlToFile() throws MalformedURLException {
+    URL url = new URL("http://www.xyz.com");
+    File file =  MiscUtil.urlToFile(url);
+    assertNull(file);
+  }
 }

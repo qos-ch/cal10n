@@ -22,13 +22,8 @@
 package ch.qos.cal10n.util;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -66,21 +61,5 @@ public class PropertyResourceBundleFinderTest {
     assertEquals("A is the first letter of the alphabet", rb.getString("A"));
   }
   
-  @Test
-  public void urlToFile() {
-    ClassLoader classLoader = this.getClass().getClassLoader();
-    String resourceCandidate =  "colors" + "_" + "en" + ".properties";
-    URL url = classLoader.getResource(resourceCandidate);
-    assertNotNull("the problem is in this test, not the code tested", url);
 
-    File file =  PropertyResourceBundleFinder.urlToFile(url);
-    assertNotNull(file);
-  }
-  
-  @Test
-  public void httpUrlToFile() throws MalformedURLException {
-    URL url = new URL("http://www.xyz.com");
-    File file =  PropertyResourceBundleFinder.urlToFile(url);
-    assertNull(file);
-  }
 }

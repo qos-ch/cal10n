@@ -20,14 +20,13 @@
  * SOFTWARE.
  */
 
-package ch.qos.cal10n.sample;
+package ch.qos.cal10n;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses( { MessageKeyVerifierTest.class, MessageConveyorTest.class,
-    MyColorVerificationTest.class, MyAllInOneColorVerificationTest.class })
+@SuiteClasses( { MessageConveyorTest.class })
 public class PackageTest {
 }

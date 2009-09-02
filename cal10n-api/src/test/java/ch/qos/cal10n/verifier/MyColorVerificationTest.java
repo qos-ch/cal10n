@@ -19,15 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package ch.qos.cal10n.verifier;
 
-package ch.qos.cal10n.util;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import static org.junit.Assert.assertEquals;
 
-@RunWith(Suite.class)
-@SuiteClasses( { AnnotationExtractorTest.class, MiscUtilTest.class,
- PropertyResourceBundleFinderTest.class })
-public class PackageTest {
+import java.util.List;
+import java.util.Locale;
+
+import org.junit.Test;
+
+import ch.qos.cal10n.sample.Colors;
+
+public class MyColorVerificationTest {
+
+  @Test
+  public void en_UK() {
+    IMessageKeyVerifier mcv = new MessageKeyVerifier(Colors.class);
+    List<Cal10nError> errorList = mcv.verify(Locale.UK);
+    for(Cal10nError error: errorList) {
+      System.out.println(error);
+    }
+    assertEquals(0, errorList.size());
+  }
+
+  @Test
+  public void fr() {
+    IMessageKeyVerifier mcv = new MessageKeyVerifier(Colors.class);
+    List<Cal10nError> errorList = mcv.verify(Locale.FRANCE);
+    for(Cal10nError error: errorList) {
+      System.out.println(error);
+    }
+    assertEquals(0, errorList.size());
+  }
 }

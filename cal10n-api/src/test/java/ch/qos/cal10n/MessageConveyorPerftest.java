@@ -19,21 +19,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package ch.qos.cal10n.util;
+package ch.qos.cal10n;
 
 import java.util.Locale;
 
-public class StringToLocale {
+import org.junit.Ignore;
+import org.junit.Test;
 
-  public static Locale toLocale(String localeName) {
-    if (localeName == null) {
+import ch.qos.cal10n.sample.Colors;
 
+// with caching ~300 nanos per translation
+// without caching 149'963 nanos or 149 micros per translation
+
+public class MessageConveyorPerftest {
+
+  static int RUN_LENGTH = 100 *1000;
+  public String s;
+  
+  double loop() {
+    long start = System.nanoTime();
+ 
+    IMessageConveyor mc = new MessageConveyor(Locale.ENGLISH);
+    for(int i = 0; i < RUN_LENGTH; i++) {
+      s = mc.getMessage(Colors.BLUE);
     }
-    if (localeName.contains("_")) {
-      String[] array = localeName.split("_");
-      return new Locale(array[0], array[1]);
-    } else {
-      return new Locale(localeName);
-    }
+    long end = System.nanoTime();
+    return (end - start) * 1.0 / RUN_LENGTH;
+  }
+  
+  @Ignore
+  @Test
+  public void perfTest() {
+    loop();
+    loop();
+    
+    System.out.println("avg = "+loop());
   }
 }

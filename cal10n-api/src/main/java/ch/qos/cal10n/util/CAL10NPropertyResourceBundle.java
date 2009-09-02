@@ -47,7 +47,7 @@ public class CAL10NPropertyResourceBundle extends PropertyResourceBundle {
   }
 
   public boolean hasChanged() {
-    //if the host file is unknown, no point in a check
+    // if the host file is unknown, no point in a check
     if (hostFile == null) {
       return false;
     }
@@ -64,5 +64,13 @@ public class CAL10NPropertyResourceBundle extends PropertyResourceBundle {
         return false;
       }
     }
+  }
+
+  /**
+   * WARNING: Used for testing purposes. Do not invoke directly in user code.
+   */
+  public void resetCheckTimes() {
+    nextCheck = 0;
+    lastModified = 0;
   }
 }

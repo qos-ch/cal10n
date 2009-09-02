@@ -21,7 +21,6 @@
  */
 package ch.qos.cal10n.util;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -70,7 +69,7 @@ public class PropertyResourceBundleFinder {
     if (url != null) {
       try {
         InputStream in = openConnectionForUrl(url);
-        prb = new CAL10NPropertyResourceBundle(in, urlToFile(url));
+        prb = new CAL10NPropertyResourceBundle(in, MiscUtil.urlToFile(url));
         in.close();
       } catch (IOException e) {
       }
@@ -78,21 +77,6 @@ public class PropertyResourceBundleFinder {
     return prb;
   }
 
-  static File urlToFile(URL url) {
-    if(url.getProtocol() != "file") {
-      return null;
-    }
-    String path = url.getPath();
-    if(path == null)
-      return null;
-    File candidate = new File(path);
-    if(candidate.exists()) {
-      return candidate;
-    } else {
-     return null;
-    }
-  }
-  
   private static String computeLanguageAndCountryCandidate(String baseName,
       Locale locale) {
     String language = locale.getLanguage();

@@ -20,50 +20,45 @@
  * SOFTWARE.
  */
 
-package ch.qos.cal10n.sample;
+package ch.qos.cal10n;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.junit.Test;
 
-import ch.qos.cal10n.verifier.Cal10nError;
-import ch.qos.cal10n.verifier.IMessageKeyVerifier;
-import ch.qos.cal10n.verifier.MessageKeyVerifier;
+import ch.qos.cal10n.sample.Colors;
+import ch.qos.cal10n.util.CAL10NPropertyResourceBundle;
+import ch.qos.cal10n.util.MiscUtil;
 
-/**
- * 
- * @author Ceki G&uuml;lc&uuml;
- */
-public class MessageKeyVerifierTest {
+public class MessageConveyorReloadTest {
 
   
-  @Test
-  public void smoke() {
-    IMessageKeyVerifier miv = new MessageKeyVerifier(Colors.class);
-    List<Cal10nError> errorList = miv.verify(Locale.UK);
-    assertEquals(0, errorList.size());
-  }
+  
   
   @Test
-  public void withErrors_UK() {
-    IMessageKeyVerifier miv = new MessageKeyVerifier(Countries.class);
-    List<Cal10nError> errorList = miv.verify(Locale.UK);
-    assertEquals(2, errorList.size());
-    assertEquals("CH", errorList.get(0).getKey());
-    assertEquals("BR", errorList.get(1).getKey());
-  }
+  public void bundleReload() throws IOException, InterruptedException {
+    ClassLoader classLoader = this.getClass().getClassLoader();
+    String resourceCandidate =  "colors" + "_" + "en" + ".properties";
+    URL url = classLoader.getResource(resourceCandidate);
+    assertNotNull("the problem is in this test, not the code tested", url);
 
-  
-  @Test
-  public void withErrors_FR() {
-    IMessageKeyVerifier miv = new MessageKeyVerifier(Countries.class);
-    List<Cal10nError> errorList = miv.verify(Locale.FRANCE);
-    assertEquals(3, errorList.size());
-    assertEquals("CH", errorList.get(0).getKey());
-    assertEquals("CN", errorList.get(1).getKey());
-    assertEquals("BR", errorList.get(2).getKey());
+    MessageConveyor mc = new MessageConveyor(new Locale("en"));
+    
+    mc.getMessage(Colors.BLUE);
+    
+    CAL10NPropertyResourceBundle initalRB = mc.cache.get(Colors.BLUE.getDeclaringClass().getName());
+    initalRB.resetCheckTimes();
+    File file =  MiscUtil.urlToFile(url);
+    file.setLastModified(System.currentTimeMillis()+60*60*1000);
+    mc.getMessage(Colors.BLUE);
+    ResourceBundle other = mc.cache.get(Colors.BLUE.getDeclaringClass().getName());
+    assertTrue(initalRB != other);
   }
 }
