@@ -19,50 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package ch.qos.cal10n.util;
+package ch.qos.cal10n;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
 
-public class CAL10NPropertyResourceBundle extends PropertyResourceBundle {
+public class MessageConveyorException extends RuntimeException {
 
-  static long CHECK_DELAY = 10 * 60 * 1000; // 10 minutes delay
+  private static final long serialVersionUID = 175752418665292427L;
 
-  File hostFile;
-  volatile long nextCheck;
-  long lastModified;
-
-  public CAL10NPropertyResourceBundle(InputStream is, File file)
-      throws IOException {
-    super(is);
-    this.hostFile = file;
-    nextCheck = System.currentTimeMillis() + CHECK_DELAY;
+  MessageConveyorException(String msg) {
+    super(msg);
   }
-
-  public void setParent(ResourceBundle parent) {
-    super.setParent(parent);
-  }
-
-  public boolean hasChanged() {
-    //if the host file is unknown, no point in a check
-    if (hostFile == null) {
-      return false;
-    }
-
-    long now = System.currentTimeMillis();
-    if (now < nextCheck) {
-      return false;
-    } else {
-      nextCheck = now + CHECK_DELAY;
-      if (lastModified != hostFile.lastModified()) {
-        lastModified = hostFile.lastModified();
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
+  
 }

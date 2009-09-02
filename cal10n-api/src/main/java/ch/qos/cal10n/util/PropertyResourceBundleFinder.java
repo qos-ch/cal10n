@@ -21,16 +21,16 @@
  */
 package ch.qos.cal10n.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class PropertyResourceBundleFinder {
 
-  public static ResourceBundle getBundle(ClassLoader classLoader, String baseName,
+  public static CAL10NPropertyResourceBundle getBundle(ClassLoader classLoader, String baseName,
       Locale locale)  {
 
     // same as the JDK convention
@@ -70,7 +70,7 @@ public class PropertyResourceBundleFinder {
     if (url != null) {
       try {
         InputStream in = openConnectionForUrl(url);
-        prb = new CAL10NPropertyResourceBundle(in);
+        prb = new CAL10NPropertyResourceBundle(in, urlToFile(url));
         in.close();
       } catch (IOException e) {
       }
@@ -78,6 +78,21 @@ public class PropertyResourceBundleFinder {
     return prb;
   }
 
+  static File urlToFile(URL url) {
+    if(url.getProtocol() != "file") {
+      return null;
+    }
+    String path = url.getPath();
+    if(path == null)
+      return null;
+    File candidate = new File(path);
+    if(candidate.exists()) {
+      return candidate;
+    } else {
+     return null;
+    }
+  }
+  
   private static String computeLanguageAndCountryCandidate(String baseName,
       Locale locale) {
     String language = locale.getLanguage();

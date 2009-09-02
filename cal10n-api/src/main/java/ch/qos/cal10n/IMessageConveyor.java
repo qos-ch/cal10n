@@ -55,7 +55,7 @@ public interface IMessageConveyor {
    *          optional arguments
    * @return The translated/localized message
    */
-  <E extends Enum<?>> String getMessage(E key, Object... args);
+  <E extends Enum<?>> String getMessage(E key, Object... args) throws MessageConveyorException;
 
   /**
    * Syntactic sugar for the case where the massage is contained in a
@@ -73,5 +73,5 @@ public interface IMessageConveyor {
    *          The MessageParameterObj to translate
    * @return translated message
    */
-  String getMessage(MessageParameterObj mpo);
+  String getMessage(MessageParameterObj mpo) throws MessageConveyorException;
 }

@@ -23,12 +23,14 @@
 package ch.qos.cal10n.sample;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.Locale;
 
 import org.junit.Test;
 
 import ch.qos.cal10n.MessageConveyor;
+import ch.qos.cal10n.MessageConveyorException;
 import ch.qos.cal10n.MessageParameterObj;
 import ch.qos.cal10n.sample.Host.OtherColors;
 
@@ -89,5 +91,19 @@ public class MessageConveyorTest {
     mpo = new MessageParameterObj(Colors.GREEN, "apples");
     val = rbbmc.getMessage(mpo);
     assertEquals("apples are green", val);
+  }
+
+  @Test
+  public void failedRBLookup() {
+
+    MessageConveyor mc = new MessageConveyor(Locale.CHINA);
+    try {
+      mc.getMessage(Colors.BLUE);
+      fail("missing exception");
+    } catch (MessageConveyorException e) {
+      assertEquals(
+          "Failed to locate resource bundle [colors] for locale [zh_CN] for enum type [ch.qos.cal10n.sample.Colors]",
+          e.getMessage());
+    }
   }
 }

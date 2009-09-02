@@ -6,7 +6,7 @@
   <groupId>ch.qos.cal10n</groupId>
   <artifactId>cal10n-parent</artifactId>
 	<packaging>pom</packaging>
-  <version>0.6</version>
+  <version>0.6.5</version>
   <name>Compiler assisted localization library (CAL10N) - Parent</name>
 
   <url>http://cal10n.qos.ch</url>

@@ -24,9 +24,11 @@ package ch.qos.cal10n;
 
 import java.text.MessageFormat;
 import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import ch.qos.cal10n.util.AnnotationExtractor;
+import ch.qos.cal10n.util.CAL10NPropertyResourceBundle;
 import ch.qos.cal10n.util.PropertyResourceBundleFinder;
 
 /**
@@ -40,7 +42,9 @@ import ch.qos.cal10n.util.PropertyResourceBundleFinder;
  */
 public class MessageConveyor implements IMessageConveyor {
 
-  Locale locale;
+  final Locale locale;
+
+  final Map<String, CAL10NPropertyResourceBundle> cache = new ConcurrentHashMap<String, CAL10NPropertyResourceBundle>();
 
   /**
    * The {@link Locale} associated with this instance.
@@ -64,20 +68,16 @@ public class MessageConveyor implements IMessageConveyor {
    *          an enum instance used as message key
    * 
    */
-  public <E extends Enum<?>> String getMessage(E key, Object... args) {
-    String keyAsStr = key.toString();
+  public <E extends Enum<?>> String getMessage(E key, Object... args) throws MessageConveyorException {
 
-    String baseName = AnnotationExtractor.getBaseName(key.getDeclaringClass());
-    if (baseName == null) {
-      throw new IllegalArgumentException(
-          "Missing @BaseName annotation in enum type ["
-              + key.getClass().getName() + "]. See also "
-              + Cal10nConstants.MISSING_BN_ANNOTATION_URL);
+    String declararingClassName = key.getDeclaringClass().getName();
+    CAL10NPropertyResourceBundle  rb = cache.get(declararingClassName);
+    if (rb == null || rb.hasChanged()) {
+      rb = lookup(key);
+      cache.put(declararingClassName, rb);
     }
 
-    ResourceBundle rb = PropertyResourceBundleFinder.getBundle(this.getClass()
-        .getClassLoader(), baseName, locale);
-
+    String keyAsStr = key.toString();
     String value = rb.getString(keyAsStr);
     if (value == null) {
       return "No key found for " + keyAsStr;
@@ -90,7 +90,26 @@ public class MessageConveyor implements IMessageConveyor {
     }
   }
 
-  public String getMessage(MessageParameterObj mpo) {
+  private <E extends Enum<?>> CAL10NPropertyResourceBundle lookup(E key) throws MessageConveyorException {
+    String baseName = AnnotationExtractor.getBaseName(key.getDeclaringClass());
+    if (baseName == null) {
+      throw new MessageConveyorException(
+          "Missing @BaseName annotation in enum type ["
+              + key.getClass().getName() + "]. See also "
+              + Cal10nConstants.MISSING_BN_ANNOTATION_URL);
+    }
+    CAL10NPropertyResourceBundle rb = PropertyResourceBundleFinder.getBundle(this.getClass()
+        .getClassLoader(), baseName, locale);
+
+    if(rb == null) {
+      throw new MessageConveyorException("Failed to locate resource bundle [" + baseName
+        + "] for locale [" + locale + "] for enum type [" + key.getDeclaringClass().getName()
+        + "]");
+    }
+    return rb;
+  }
+
+  public String getMessage(MessageParameterObj mpo) throws MessageConveyorException {
     if (mpo == null) {
       throw new IllegalArgumentException(
           "MessageParameterObj argumument cannot be null");
