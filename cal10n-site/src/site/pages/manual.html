@@ -153,11 +153,11 @@ String blue = mc.getMessage(Colors.BLUE);  </pre>
   </p>
 
   <h2><a name="simplifiedLookup" href="#simplifiedLookup">Simplified
-  bundle lookup procedure</a></h2>                             
+  bundle look-up procedure</a></h2>                             
 
   <p>The <code>ResourceBundle</code> class defines a rather involved
   <a
-  href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/ResourceBundle.html#getBundle%28java.lang.String,%20java.util.Locale,%20java.lang.ClassLoader%29">lookup
+  href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/ResourceBundle.html#getBundle%28java.lang.String,%20java.util.Locale,%20java.lang.ClassLoader%29">look-up
   procedure</a> for finding resource bundles. While formally this
   procedure is deterministic, it is too error-prone for our taste. In
   CAL10N, we thus took the bold initiative to define a simplified bundle look
@@ -193,11 +193,11 @@ colors_fr_FR.properties</pre>
    relationship.
    </p>
 
-   <p>We hope that the simplified lookup procedeue, while deviating
+   <p>We hope that the simplified look-up procedure, while deviating
    from the conventions of the Java platform as defined in the
    <code>ResourceBundle</code> class, will still cause <a
    href="http://en.wikipedia.org/wiki/Principle_of_least_astonishment">
-   less suprises</a>.</p>
+   less surprise</a>.</p>
 
   <h2><a name="deferred" href="#deferred">Deferred
   localization</a></h2>
@@ -277,11 +277,11 @@ public class MyColorVerificationTest {
   the <code>verify()</code> method passing a locale as an
   argument. The <code>verify()</code> method returns the list of
   errors, that is the list of discrepancies between the keys listed
-  in the enum type and the correspondign resource bundle. An empty
+  in the enum type and the corresponding resource bundle. An empty
   list will be returned if there are no errors.
   </p>
 
-  <p>The unit test verifies that no errors have occured by asserting
+  <p>The unit test verifies that no errors have occurred by asserting
   that the size of the error list is zero.</p>
 
   <p>Suppose the key "BLUE" was misspelled as "BLEU" in the
@@ -391,7 +391,7 @@ public class MyAllInOneColorVerificationTest {
   <h2><a name="eclipsePlugin" href="#eclipsePlugin">Eclipse plug-in</a></h2>
   
   <p>We are looking for volunteers willing to implement IDE support
-  for CAL10N.  Below is a litst of possible features of this IDE which
+  for CAL10N.  Below is a list of possible features of this IDE which
   we think could have added value.
   </p>
 
@@ -408,7 +408,7 @@ public class MyAllInOneColorVerificationTest {
       user misspells the key "red_elephant" as "red_elefant", by
       measuring the <a
       href="http://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein
-      distance</a> the plug-in could propose the nearest neighhbor of
+      distance</a> the plug-in could propose the nearest neighbor of
       "red_elefant" in the enum type, which should be "red_elephant"
       with high probability.
       </p>
@@ -428,7 +428,7 @@ public class MyAllInOneColorVerificationTest {
 
   <p>We are looking for volunteers to implement an Ant task to verify
   resource bundles. The Ant task could be modeled after the
-  <em>maven-cal10n-plugin</em> altough the Ant plugin is likely to be
+  <em>maven-cal10n-plugin</em> although the Ant plugin is likely to be
   simpler. If interested please contact the cal10n-dev mailing
   list.</p>
 
