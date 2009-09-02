@@ -23,9 +23,9 @@
 package ch.qos.cal10n.sample;
 
 import ch.qos.cal10n.LocaleNames;
-import ch.qos.cal10n.ResourceBundleName;
+import ch.qos.cal10n.BaseName;
 
-@ResourceBundleName("colors")
+@BaseName("colors")
 @LocaleNames({"en_UK", "fr"})
 public enum Colors {
   RED {

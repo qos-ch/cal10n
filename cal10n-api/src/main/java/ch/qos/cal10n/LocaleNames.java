@@ -37,7 +37,7 @@ import ch.qos.cal10n.verifier.MessageKeyVerifier;
  * 
  * <pre>
  * &#064;LocaleNames({&quot;en&quot;, &quot;jp&quot;})
- * &#064;ResourceBundleName(&quot;colors&quot;);
+ * &#064;BaseName(&quot;colors&quot;);
  * public class enum Colors {
  *   RED, WHITE, BLUE; 
  * }

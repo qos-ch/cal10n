@@ -89,9 +89,9 @@
    <pre class="prettyprint source">package com.foo.somePackage;
 
 import ch.qos.cal10n.LocaleNames;
-import ch.qos.cal10n.ResourceBundleName;
+import ch.qos.cal10n.BaseName;
 
-@ResourceBundleName("colors") // mandatory annotation
+@BaseName("colors") // mandatory annotation
 @LocaleNames({"en_UK", "fr"}) // list of locale names used by
                               // verification tools
 public enum Colors  {
@@ -102,7 +102,7 @@ public enum Colors  {
    
 
   <p>Once you define a few color keys, you can create a regular
-  resource bundle named after the value of the @ResourceBundleName
+  resource bundle named after the value of the @BaseName
   annotation in Colors and the appropriate locale. For example, for
   the UK locale, you would name your resource bundle as
   <em>colors_en_UK.properties</em>. It should also be placed in the

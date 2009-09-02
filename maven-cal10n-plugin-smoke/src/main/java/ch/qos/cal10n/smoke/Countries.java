@@ -1,9 +1,9 @@
 package ch.qos.cal10n.smoke;
 
 import ch.qos.cal10n.LocaleNames;
-import ch.qos.cal10n.ResourceBundleName;
+import ch.qos.cal10n.BaseName;
 
-@ResourceBundleName("countries")
+@BaseName("countries")
 @LocaleNames({"en", "fr"})
 public enum Countries {
    CH, 

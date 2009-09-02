@@ -22,7 +22,7 @@
 package ch.qos.cal10n.util;
 
 import ch.qos.cal10n.LocaleNames;
-import ch.qos.cal10n.ResourceBundleName;
+import ch.qos.cal10n.BaseName;
 
 /**
  * 
@@ -31,10 +31,10 @@ import ch.qos.cal10n.ResourceBundleName;
  */
 public class AnnotationExtractor {
 
-  static public <E extends Enum<?>> String getResourceBundleName(
+  static public <E extends Enum<?>> String getBaseName(
       Class<E> enumClass) {
-    ResourceBundleName rbnAnnotation = (ResourceBundleName) enumClass
-        .getAnnotation(ResourceBundleName.class);
+    BaseName rbnAnnotation = (BaseName) enumClass
+        .getAnnotation(BaseName.class);
     if (rbnAnnotation == null) {
       return null;
     }

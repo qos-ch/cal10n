@@ -35,7 +35,7 @@ public class Cal10nError {
   enum ErrorType {
     // MISSING_LOCALE_NAMES_ANNOTATION
 
-    MISSING_RBN_ANNOTATION, FAILED_TO_FIND_RB, EMPTY_RB, EMPTY_ENUM, ABSENT_IN_RB, ABSENT_IN_ENUM;
+    MISSING_BN_ANNOTATION, FAILED_TO_FIND_RB, EMPTY_RB, EMPTY_ENUM, ABSENT_IN_RB, ABSENT_IN_ENUM;
   }
 
   final ErrorType errorType;
@@ -74,8 +74,8 @@ public class Cal10nError {
   @Override
   public String toString() {
     switch (errorType) {
-    case MISSING_RBN_ANNOTATION:
-      return "Missing @ResourceBundleName annotation in enum type ["
+    case MISSING_BN_ANNOTATION:
+      return "Missing @BaseName annotation in enum type ["
           + enumClassName + "]";
       // case MISSING_LOCALE_NAMES_ANNOTATION:
       // return "Missing @LocaleNames annotation in enum class [" +

@@ -19,14 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package ch.qos.cal10n.util;
+package ch.qos.cal10n.sample;
 
-import ch.qos.cal10n.LocaleNames;
-import ch.qos.cal10n.BaseName;
+import static org.junit.Assert.assertEquals;
 
-@BaseName("fruits")
-@LocaleNames({"fr", "en"})
-public enum Fruit {
-  APPLE,
-  ORANGE;
+import java.util.Locale;
+
+import org.junit.Test;
+
+import ch.qos.cal10n.MessageConveyor;
+
+
+public class WithDefaultTest {
+
+  @Test
+  public void smoke() {
+    MessageConveyor mc = new MessageConveyor(Locale.UK);
+    String val;
+
+    val = mc.getMessage(Furnitures.TABLE);
+    assertEquals("the table", val);
+
+  }
 }

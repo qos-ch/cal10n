@@ -19,14 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package ch.qos.cal10n.util;
+package ch.qos.cal10n.sample;
 
 import ch.qos.cal10n.LocaleNames;
 import ch.qos.cal10n.BaseName;
 
-@BaseName("fruits")
-@LocaleNames({"fr", "en"})
-public enum Fruit {
-  APPLE,
-  ORANGE;
+@BaseName("furnitures")
+@LocaleNames({"en_UK", "fr"})
+public enum Furnitures {
+  TABLE,
+  CHAIR,
+  SOFA;
 }

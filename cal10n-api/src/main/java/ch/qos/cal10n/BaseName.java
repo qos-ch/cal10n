@@ -38,15 +38,15 @@ import ch.qos.cal10n.verifier.MessageKeyVerifier;
  * 
  * <pre>
  * &#064;LocaleNames({&quot;en&quot;, &quot;jp&quot;})
- * &#064;ResourceBundleName(&quot;colors&quot;);
+ * &#064;BaseName(&quot;colors&quot;);
  * public class enum Colors {
  *   RED, WHITE, BLUE; 
  * }
  * </pre>
  * 
  * <p>
- * In the above example, @ResourceBundleName("colors") means that there exists
- * resource files with the root name "colors". In conjunction with the
+ * In the above example, @BaseName("colors") means that there exists a family of
+ * resource bundle files with the base name "colors". In conjunction with the
  * information provided in the @LocaleNames annotation, we can assume that the
  * files <em>colors_en.properties</em> and <em>colors_jp.properties</em> exist.
  * 
@@ -60,6 +60,6 @@ import ch.qos.cal10n.verifier.MessageKeyVerifier;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface ResourceBundleName {
+public @interface BaseName {
   String value();
 }

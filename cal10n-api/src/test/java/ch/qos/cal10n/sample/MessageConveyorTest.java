@@ -37,69 +37,57 @@ public class MessageConveyorTest {
   @Test
   public void smoke_EN() {
     MessageConveyor rbbmc = new MessageConveyor(Locale.UK);
+    String val;
 
-    {
-      String val = rbbmc.getMessage(Colors.BLUE);
-      assertEquals("violets are blue", val);
-    }
+    val = rbbmc.getMessage(Colors.BLUE);
+    assertEquals("violets are blue", val);
 
-    {
-      String val = rbbmc.getMessage(Colors.GREEN, "apples");
-      assertEquals("apples are green", val);
-    }
-
+    val = rbbmc.getMessage(Colors.GREEN, "apples");
+    assertEquals("apples are green", val);
   }
 
   // see http://jira.qos.ch/browse/CAL-1
   @Test
   public void nestedEnum_EN() {
     MessageConveyor rbbmc = new MessageConveyor(Locale.UK);
-    {
-      String val = rbbmc.getMessage(Colors.RED);
-      assertEquals("roses are red", val);
-    }
+    String val;
 
-    {
-      String val = rbbmc.getMessage(OtherColors.RED);
-      assertEquals("roses are red", val);
-    }
+    val = rbbmc.getMessage(Colors.RED);
+    assertEquals("roses are red", val);
 
-    {
-      String val = rbbmc.getMessage(OtherColors.BLUE);
-      assertEquals("violets are blue", val);
-    }
+    val = rbbmc.getMessage(OtherColors.RED);
+    assertEquals("roses are red", val);
+
+    val = rbbmc.getMessage(OtherColors.BLUE);
+    assertEquals("violets are blue", val);
   }
 
   @Test
   public void smoke_FR() {
     MessageConveyor rbbmc = new MessageConveyor(Locale.FRANCE);
+    String val;
 
-    {
-      String val = rbbmc.getMessage(Colors.BLUE);
-      assertEquals("les violettes sont bleues", val);
-    }
+    val = rbbmc.getMessage(Colors.BLUE);
+    assertEquals("les violettes sont bleues", val);
 
-    {
-      // lemon=citron in french. This illustrates the problem of
-      // translating the parameters of a message
-      String val = rbbmc.getMessage(Colors.GREEN, "pommes");
-      assertEquals("les pommes sont verts", val);
-    }
+    // lemon=citron in french. This illustrates the problem of
+    // translating the parameters of a message
+    val = rbbmc.getMessage(Colors.GREEN, "pommes");
+    assertEquals("les pommes sont verts", val);
   }
 
   @Test
   public void mpo() {
     MessageConveyor rbbmc = new MessageConveyor(Locale.UK);
-    {
-      MessageParameterObj mpo = new MessageParameterObj(Colors.BLUE);
-      String val = rbbmc.getMessage(mpo);
-      assertEquals("violets are blue", val);
-    }
+    MessageParameterObj mpo;
+    String val;
 
-    {
-      MessageParameterObj mpo = new MessageParameterObj(Colors.GREEN, "apples");
-      String val = rbbmc.getMessage(mpo);
-      assertEquals("apples are green", val);
-    }
+    mpo = new MessageParameterObj(Colors.BLUE);
+    val = rbbmc.getMessage(mpo);
+    assertEquals("violets are blue", val);
+
+    mpo = new MessageParameterObj(Colors.GREEN, "apples");
+    val = rbbmc.getMessage(mpo);
+    assertEquals("apples are green", val);
   }
 }

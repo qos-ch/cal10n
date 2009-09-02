@@ -120,7 +120,7 @@ public class VerifyMojo extends AbstractMojo {
       Locale locale = new Locale(localeName);
       List<String> errorList = mcv.typeIsolatedVerify(locale);
       if (errorList.size() == 0) {
-        String resouceBundleName = mcv.getResourceBundleName();
+        String resouceBundleName = mcv.getBaseName();
         getLog().info(
             "SUCCESSFUL verification for resource bundle [" + resouceBundleName
                 + "] for locale [" + locale + "]");

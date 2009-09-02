@@ -35,7 +35,7 @@ public class AnnotationExtractorTest {
 
   @Test
   public void resourcceBundleName() {
-    String result = AnnotationExtractor.getResourceBundleName(Fruit.class);
+    String result = AnnotationExtractor.getBaseName(Fruit.class);
     assertEquals("fruits", result);
   }
   

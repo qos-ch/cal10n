@@ -74,10 +74,10 @@ public class MessageKeyVerifier implements IMessageKeyVerifier {
     List<Cal10nError> errorList = new ArrayList<Cal10nError>();
 
     String resouceBundleName = AnnotationExtractor
-        .getResourceBundleName(enumType);
+        .getBaseName(enumType);
 
     if (resouceBundleName == null) {
-      errorList.add(new Cal10nError(ErrorType.MISSING_RBN_ANNOTATION, "",
+      errorList.add(new Cal10nError(ErrorType.MISSING_BN_ANNOTATION, "",
           enumType, locale, ""));
       // no point in continuing
       return errorList;
@@ -167,8 +167,8 @@ public class MessageKeyVerifier implements IMessageKeyVerifier {
     return localeNameArray;
   }
 
-  public String getResourceBundleName() {
-    String rbName = AnnotationExtractor.getResourceBundleName(enumType);
+  public String getBaseName() {
+    String rbName = AnnotationExtractor.getBaseName(enumType);
     return rbName;
   }
 

@@ -56,7 +56,7 @@ public class MessageConveyor implements IMessageConveyor {
    * 
    * <p>
    * The name of the resource bundle is defined via the
-   * {@link ResourceBundleName} annotation whereas the locale is specified in
+   * {@link BaseName} annotation whereas the locale is specified in
    * this MessageConveyor instance's constructor.
    * 
    * @param key
@@ -66,12 +66,12 @@ public class MessageConveyor implements IMessageConveyor {
   public <E extends Enum<?>> String getMessage(E key, Object... args) {
     String keyAsStr = key.toString();
 
-    String resouceBundleName = AnnotationExtractor.getResourceBundleName(key
+    String resouceBundleName = AnnotationExtractor.getBaseName(key
         .getDeclaringClass());
     if (resouceBundleName == null) {
       throw new IllegalArgumentException(
-          "Missing @ResourceBundleName annotation in enum type [" + key.getClass().getName()
-              + "]. See also " + Cal10nConstants.MISSING_RB_ANNOTATION_URL);
+          "Missing @BaseName annotation in enum type [" + key.getClass().getName()
+              + "]. See also " + Cal10nConstants.MISSING_BN_ANNOTATION_URL);
     }
     ResourceBundle rb = ResourceBundle.getBundle(resouceBundleName, locale);
 

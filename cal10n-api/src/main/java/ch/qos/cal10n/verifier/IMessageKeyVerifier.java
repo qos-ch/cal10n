@@ -69,10 +69,10 @@ public interface IMessageKeyVerifier {
   public String[] getLocaleNames();
 
   /**
-   * Get the name of the resource bundle specified in the enumType (via
+   * Get the base name for the resource bundle family as specified in the enumType (via
    * annotations)
    * 
    * @return
    */
-  public String getResourceBundleName();
+  public String getBaseName();
 }
