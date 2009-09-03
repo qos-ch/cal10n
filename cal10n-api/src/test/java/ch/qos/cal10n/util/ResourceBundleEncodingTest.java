@@ -41,17 +41,16 @@ import ch.qos.cal10n.Cal10nTestConstants;
  */
 public class ResourceBundleEncodingTest {
 
-  
   // Useful links:
-  
+
   // http://www.terena.org/activities/multiling/ml-docs/iso-8859.html
-    
+
   Map<String, String> map = new HashMap<String, String>();
   Map<String, String> witness = new HashMap<String, String>();
 
   // encoding for Greek "ISO8859_7"
   @Test
-  public void greek() throws IOException {
+  public void greek_ISO8859_7() throws IOException {
     FileInputStream fis = new FileInputStream(Cal10nTestConstants.TEST_CLASSES
         + "/encodingsISO8859/a_el_GR.properties");
     Reader reader = new InputStreamReader(fis, "ISO8859_7");
@@ -69,25 +68,59 @@ public class ResourceBundleEncodingTest {
 
     assertEquals(witness, map);
   }
-  
-  
+
   // encoding for Turkish "ISO8859_3"
   @Test
-  public void turkish() throws IOException {
-    FileInputStream fis = new FileInputStream(Cal10nTestConstants.TEST_CLASSES+"/encodingsISO8859/a_tr_TR.properties");
+  public void turkishISO8859_3() throws IOException {
+    FileInputStream fis = new FileInputStream(Cal10nTestConstants.TEST_CLASSES
+        + "/encodingsISO8859/a_tr_TR.properties");
     Reader reader = new InputStreamReader(fis, "ISO8859_3");
-    Parser parser  = new Parser(reader, map);
+    Parser parser = new Parser(reader, map);
     parser.parseAndPopulate();
-  
-    // 0xBA   0x015F  # LATIN SMALL LETTER S WITH CEDILLA
+
+    // 0xBA 0x015F # LATIN SMALL LETTER S WITH CEDILLA
     char sCedilla = '\u015F';
-    
-    // 0xB9 0x0131  # LATIN SMALL LETTER DOTLESS I
+
+    // 0xB9 0x0131 # LATIN SMALL LETTER DOTLESS I
     char iDotless = '\u0131';
-    
-    // nisan  pronounced (nIshan)
-    String witnessValue = "n"+iDotless+sCedilla+"an";
+
+    // nisan pronounced (nIshan)
+    String witnessValue = "n" + iDotless + sCedilla + "an";
     witness.put("A", witnessValue);
     assertEquals(witness, map);
-    }
+  }
+  
+  @Test
+  public void greek_UTF8() throws IOException {
+    FileInputStream fis = new FileInputStream(Cal10nTestConstants.TEST_CLASSES
+        + "/encodingsUTF8/a_el_GR.properties");
+    Reader reader = new InputStreamReader(fis, "UTF8");
+    Parser parser = new Parser(reader, map);
+    parser.parseAndPopulate();
+
+    String alpha = "\u03b1";
+    witness.put("A", alpha);
+
+    assertEquals(witness, map);
+  }
+  
+  @Test
+  public void turkishUTF8() throws IOException {
+    FileInputStream fis = new FileInputStream(Cal10nTestConstants.TEST_CLASSES
+        + "/encodingsUTF8/a_tr_TR.properties");
+    Reader reader = new InputStreamReader(fis, "UTF8");
+    Parser parser = new Parser(reader, map);
+    parser.parseAndPopulate();
+
+    // 0xBA 0x015F # LATIN SMALL LETTER S WITH CEDILLA
+    char sCedilla = '\u015F';
+
+    // 0xB9 0x0131 # LATIN SMALL LETTER DOTLESS I
+    char iDotless = '\u0131';
+
+    // nisan pronounced (nIshan)
+    String witnessValue = "n" + iDotless + sCedilla + "an";
+    witness.put("A", witnessValue);
+    assertEquals(witness, map);
+  }
 }
