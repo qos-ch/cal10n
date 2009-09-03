@@ -53,7 +53,7 @@ public class ResourceBundleEncodingTest {
   @Test
   public void greek() throws IOException {
     FileInputStream fis = new FileInputStream(Cal10nTestConstants.TEST_CLASSES
-        + "/encodings/a_el_GR.properties");
+        + "/encodingsISO8859/a_el_GR.properties");
     Reader reader = new InputStreamReader(fis, "ISO8859_7");
     Parser parser = new Parser(reader, map);
     parser.parseAndPopulate();
@@ -74,7 +74,7 @@ public class ResourceBundleEncodingTest {
   // encoding for Turkish "ISO8859_3"
   @Test
   public void turkish() throws IOException {
-    FileInputStream fis = new FileInputStream(Cal10nTestConstants.TEST_CLASSES+"/encodings/a_tr_TR.properties");
+    FileInputStream fis = new FileInputStream(Cal10nTestConstants.TEST_CLASSES+"/encodingsISO8859/a_tr_TR.properties");
     Reader reader = new InputStreamReader(fis, "ISO8859_3");
     Parser parser  = new Parser(reader, map);
     parser.parseAndPopulate();
