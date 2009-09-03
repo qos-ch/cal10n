@@ -28,6 +28,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses( { AnnotationExtractorTest.class, MiscUtilTest.class,
- PropertyResourceBundleFinderTest.class })
+    TokenStreamTest.class, ParserTest.class,
+    PropertyResourceBundleFinderTest.class })
 public class PackageTest {
 }

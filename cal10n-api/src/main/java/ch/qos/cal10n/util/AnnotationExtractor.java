@@ -21,8 +21,9 @@
  */
 package ch.qos.cal10n.util;
 
-import ch.qos.cal10n.LocaleNames;
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 /**
  * 
@@ -42,12 +43,27 @@ public class AnnotationExtractor {
   }
 
   static public <E extends Enum<?>> String[] getLocaleNames(Class<E> enumClass) {
-    LocaleNames localeNamesAnnotation = (LocaleNames) enumClass
-        .getAnnotation(LocaleNames.class);
-    if (localeNamesAnnotation == null) {
+    Locale[] localeDataArray =  getLocaleData(enumClass);
+    
+    if(localeDataArray == null) {
       return null;
     }
-    return localeNamesAnnotation.value();
+    
+    String[] names = new String[localeDataArray.length];
+    for(int i = 0; i < localeDataArray.length; i++) { 
+      names[i] = localeDataArray[i].value();
+    }
+    return names;
+  }
+
+  
+  static public <E extends Enum<?>> Locale[] getLocaleData(Class<E> enumClass) {
+    LocaleData localeDataArrayAnnotation = (LocaleData) enumClass
+        .getAnnotation(LocaleData.class);
+    if (localeDataArrayAnnotation == null) {
+      return null;
+    }
+    return localeDataArrayAnnotation.value();
   }
 
 }

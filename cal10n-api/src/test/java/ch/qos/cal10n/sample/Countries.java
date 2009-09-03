@@ -21,16 +21,19 @@
  */
 package ch.qos.cal10n.sample;
 
-import ch.qos.cal10n.LocaleNames;
+import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.LocaleData;
 
 @BaseName("countries")
-@LocaleNames({"en", "fr"})
+@LocaleData({
+  @Locale("en"),
+  @Locale("fr")
+  })
 public enum Countries {
   CH,  // Switzerland (Confederation Helvetique)
   CN,  // China
   FR,  // France
   US,  // United States
   UK;  // United Kingdom
-
 }

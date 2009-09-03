@@ -21,11 +21,15 @@
  */
 package ch.qos.cal10n.sample;
 
-import ch.qos.cal10n.LocaleNames;
+import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.LocaleData;
 
 @BaseName("furnitures")
-@LocaleNames({"en_UK", "fr"})
+@LocaleData({
+  @Locale("en_UK"),
+  @Locale("fr")
+  })
 public enum Furnitures {
   TABLE,
   CHAIR,

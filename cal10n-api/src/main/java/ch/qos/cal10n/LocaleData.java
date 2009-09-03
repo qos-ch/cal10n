@@ -59,6 +59,6 @@ import ch.qos.cal10n.verifier.MessageKeyVerifier;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface LocaleNames {
-  String[] value();
+public @interface LocaleData {
+  Locale[] value();
 }

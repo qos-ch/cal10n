@@ -23,24 +23,39 @@ package ch.qos.cal10n.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.PropertyResourceBundle;
+import java.io.Reader;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class CAL10NPropertyResourceBundle extends PropertyResourceBundle {
+/**
+ * 
+ * @author Ceki G&uuml;lc&uuml;
+ *
+ */
+public class CAL10NResourceBundle extends ResourceBundle {
 
   static long CHECK_DELAY = 10 * 60 * 1000; // 10 minutes delay
 
+  Map<String, String> map = new ConcurrentHashMap<String, String>();
   File hostFile;
   volatile long nextCheck;
   long lastModified;
 
-  public CAL10NPropertyResourceBundle(InputStream is, File file)
+  public CAL10NResourceBundle(Reader r, File file)
       throws IOException {
-    super(is);
+    read(r);
     this.hostFile = file;
     nextCheck = System.currentTimeMillis() + CHECK_DELAY;
   }
+
+  void read(Reader r) throws IOException {
+    Parser p = new Parser(r, map);
+    p.parseAndPopulate();
+  }
+
 
   public void setParent(ResourceBundle parent) {
     super.setParent(parent);
@@ -72,5 +87,19 @@ public class CAL10NPropertyResourceBundle extends PropertyResourceBundle {
   public void resetCheckTimes() {
     nextCheck = 0;
     lastModified = 0;
+  }
+
+  @Override
+  public Enumeration<String> getKeys() {
+    Hashtable<String, String> ht = new Hashtable<String, String>(map);
+    return ht.keys();
+  }
+
+  @Override
+  protected Object handleGetObject(String key) {
+    if (key == null) {
+      throw new NullPointerException();
+    }
+    return map.get(key);
   }
 }

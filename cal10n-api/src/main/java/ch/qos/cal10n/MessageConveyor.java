@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ch.qos.cal10n.util.AnnotationExtractor;
-import ch.qos.cal10n.util.CAL10NPropertyResourceBundle;
+import ch.qos.cal10n.util.CAL10NResourceBundle;
 import ch.qos.cal10n.util.PropertyResourceBundleFinder;
 
 /**
@@ -44,7 +44,7 @@ public class MessageConveyor implements IMessageConveyor {
 
   final Locale locale;
 
-  final Map<String, CAL10NPropertyResourceBundle> cache = new ConcurrentHashMap<String, CAL10NPropertyResourceBundle>();
+  final Map<String, CAL10NResourceBundle> cache = new ConcurrentHashMap<String, CAL10NResourceBundle>();
 
   /**
    * The {@link Locale} associated with this instance.
@@ -71,7 +71,7 @@ public class MessageConveyor implements IMessageConveyor {
   public <E extends Enum<?>> String getMessage(E key, Object... args) throws MessageConveyorException {
 
     String declararingClassName = key.getDeclaringClass().getName();
-    CAL10NPropertyResourceBundle  rb = cache.get(declararingClassName);
+    CAL10NResourceBundle  rb = cache.get(declararingClassName);
     if (rb == null || rb.hasChanged()) {
       rb = lookup(key);
       cache.put(declararingClassName, rb);
@@ -90,7 +90,7 @@ public class MessageConveyor implements IMessageConveyor {
     }
   }
 
-  private <E extends Enum<?>> CAL10NPropertyResourceBundle lookup(E key) throws MessageConveyorException {
+  private <E extends Enum<?>> CAL10NResourceBundle lookup(E key) throws MessageConveyorException {
     String baseName = AnnotationExtractor.getBaseName(key.getDeclaringClass());
     if (baseName == null) {
       throw new MessageConveyorException(
@@ -98,7 +98,7 @@ public class MessageConveyor implements IMessageConveyor {
               + key.getClass().getName() + "]. See also "
               + Cal10nConstants.MISSING_BN_ANNOTATION_URL);
     }
-    CAL10NPropertyResourceBundle rb = PropertyResourceBundleFinder.getBundle(this.getClass()
+    CAL10NResourceBundle rb = PropertyResourceBundleFinder.getBundle(this.getClass()
         .getClassLoader(), baseName, locale);
 
     if(rb == null) {

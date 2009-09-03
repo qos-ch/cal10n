@@ -26,8 +26,11 @@ public class MessageConveyorException extends RuntimeException {
 
   private static final long serialVersionUID = 175752418665292427L;
 
-  MessageConveyorException(String msg) {
+  public MessageConveyorException(String msg) {
     super(msg);
   }
   
+  public MessageConveyorException(String msg, Throwable t) {
+    super(msg, t);
+  }
 }

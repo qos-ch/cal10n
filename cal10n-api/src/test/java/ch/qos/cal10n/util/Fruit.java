@@ -21,11 +21,15 @@
  */
 package ch.qos.cal10n.util;
 
-import ch.qos.cal10n.LocaleNames;
+import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.LocaleData;
 
 @BaseName("fruits")
-@LocaleNames({"fr", "en"})
+@LocaleData({
+  @Locale("fr"),
+  @Locale("en")
+  })
 public enum Fruit {
   APPLE,
   ORANGE;
