@@ -29,35 +29,43 @@ import java.util.ResourceBundle;
 
 import org.junit.Test;
 
+import ch.qos.cal10n.sample.Colors;
+
 public class PropertyResourceBundleFinderTest {
   ResourceBundle rb;
-
+  String encoding;
+  
+  Class<?> enumTyoe = Colors.BLUE.getDeclaringClass();
+  
   @Test
   public void smoke() throws IOException {
-    rb = PropertyResourceBundleFinder.getBundle(this.getClass().getClassLoader(),
-        "colors", Locale.FRENCH);
+    encoding = AnnotationExtractor.getCharset(enumTyoe, Locale.FRENCH);
+    rb = CAL10NResourceBundleFinder.getBundle(this.getClass().getClassLoader(),
+         "colors", Locale.FRENCH, encoding);
     assertEquals("les roses sont rouges", rb.getString("RED"));
   }
 
   @Test
   public void withCountry() throws IOException {
-    rb = PropertyResourceBundleFinder.getBundle(this.getClass().getClassLoader(),
-        "colors", Locale.FRENCH);
+    encoding = AnnotationExtractor.getCharset(enumTyoe, Locale.FRENCH);
+    rb = CAL10NResourceBundleFinder.getBundle(this.getClass().getClassLoader(),
+        "colors", Locale.FRENCH, encoding);
     assertEquals("les roses sont rouges", rb.getString("RED"));
 
-    rb = PropertyResourceBundleFinder.getBundle(this.getClass().getClassLoader(),
-        "colors", Locale.FRANCE);
+    rb = CAL10NResourceBundleFinder.getBundle(this.getClass().getClassLoader(),
+        "colors", Locale.FRANCE, encoding);
     assertEquals("les roses sont rouges, et alors?", rb.getString("RED"));
   }
 
   @Test
   public void inDirectory() throws IOException {
-    rb = PropertyResourceBundleFinder.getBundle(this.getClass().getClassLoader(),
-        "foobar/sample", Locale.ENGLISH);
+    encoding = AnnotationExtractor.getCharset(enumTyoe, Locale.ENGLISH);
+    rb = CAL10NResourceBundleFinder.getBundle(this.getClass().getClassLoader(),
+        "foobar/sample", Locale.ENGLISH, encoding);
     assertEquals("A is the first letter of the alphabet", rb.getString("A"));
 
-    rb = PropertyResourceBundleFinder.getBundle(this.getClass().getClassLoader(),
-        "foobar.sample", Locale.ENGLISH);
+    rb = CAL10NResourceBundleFinder.getBundle(this.getClass().getClassLoader(),
+        "foobar.sample", Locale.ENGLISH, encoding);
     assertEquals("A is the first letter of the alphabet", rb.getString("A"));
   }
   

@@ -28,14 +28,12 @@ import ch.qos.cal10n.LocaleData;
 /**
  * 
  * @author Ceki G&uuml;lc&uuml;
- *
+ * 
  */
 public class AnnotationExtractor {
 
-  static public <E extends Enum<?>> String getBaseName(
-      Class<E> enumClass) {
-    BaseName rbnAnnotation = (BaseName) enumClass
-        .getAnnotation(BaseName.class);
+  static public <E extends Enum<?>> String getBaseName(Class<E> enumClass) {
+    BaseName rbnAnnotation = (BaseName) enumClass.getAnnotation(BaseName.class);
     if (rbnAnnotation == null) {
       return null;
     }
@@ -43,20 +41,19 @@ public class AnnotationExtractor {
   }
 
   static public <E extends Enum<?>> String[] getLocaleNames(Class<E> enumClass) {
-    Locale[] localeDataArray =  getLocaleData(enumClass);
-    
-    if(localeDataArray == null) {
+    Locale[] localeDataArray = getLocaleData(enumClass);
+
+    if (localeDataArray == null) {
       return null;
     }
-    
+
     String[] names = new String[localeDataArray.length];
-    for(int i = 0; i < localeDataArray.length; i++) { 
+    for (int i = 0; i < localeDataArray.length; i++) {
       names[i] = localeDataArray[i].value();
     }
     return names;
   }
 
-  
   static public <E extends Enum<?>> Locale[] getLocaleData(Class<E> enumClass) {
     LocaleData localeDataArrayAnnotation = (LocaleData) enumClass
         .getAnnotation(LocaleData.class);
@@ -66,4 +63,43 @@ public class AnnotationExtractor {
     return localeDataArrayAnnotation.value();
   }
 
+  public static String getCharset(Class<?> enumClass,
+      java.util.Locale juLocale) {
+    LocaleData localeDataArrayAnnotation = (LocaleData) enumClass
+        .getAnnotation(LocaleData.class);
+    if (localeDataArrayAnnotation == null) {
+      return "";
+    }
+    
+    String defaultCharset = localeDataArrayAnnotation.defaultCharset();
+    
+    Locale  la = findLocaleAnnotation(juLocale, localeDataArrayAnnotation);
+    String localeCharset = null;
+    if(la != null) {
+      localeCharset = la.charset();
+    }
+    if(!isEmttyString(localeCharset)) {
+      return localeCharset;
+    }
+    
+    return defaultCharset;
+  }
+
+  static Locale findLocaleAnnotation(java.util.Locale julocale, LocaleData localeDataArrayAnnotation) {
+    Locale[] localeAnnotationArray = localeDataArrayAnnotation.value();
+    if(localeAnnotationArray == null) {
+      return null;
+    }
+    for(Locale la: localeAnnotationArray) {
+      if(la.value().equals(julocale.toString())) {
+        return la;
+      }
+    }
+    
+    return null;
+  }
+  
+  static boolean isEmttyString(String s) {
+    return s == null || s.length() == 0;
+  }
 }

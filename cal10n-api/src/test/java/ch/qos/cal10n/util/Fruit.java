@@ -26,11 +26,7 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("fruits")
-@LocaleData({
-  @Locale("fr"),
-  @Locale("en")
-  })
+@LocaleData(defaultCharset="", value = { @Locale("fr"), @Locale(value = "en", charset = "UTF8") })
 public enum Fruit {
-  APPLE,
-  ORANGE;
+  APPLE, ORANGE;
 }

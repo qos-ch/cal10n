@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import ch.qos.cal10n.util.AnnotationExtractor;
-import ch.qos.cal10n.util.PropertyResourceBundleFinder;
+import ch.qos.cal10n.util.CAL10NResourceBundleFinder;
 import ch.qos.cal10n.util.MiscUtil;
 import ch.qos.cal10n.verifier.Cal10nError.ErrorType;
 
@@ -84,8 +84,9 @@ public class MessageKeyVerifier implements IMessageKeyVerifier {
       return errorList;
     }
 
-    ResourceBundle rb = PropertyResourceBundleFinder.getBundle(this.getClass()
-        .getClassLoader(), baseName, locale);
+    String charset = AnnotationExtractor.getCharset(enumType, Locale.FRENCH);
+    ResourceBundle rb = CAL10NResourceBundleFinder.getBundle(this.getClass()
+        .getClassLoader(), baseName, locale, charset);
 
     ErrorFactory errorFactory = new ErrorFactory(enumType, locale, baseName);
 

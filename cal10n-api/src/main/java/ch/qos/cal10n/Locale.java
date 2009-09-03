@@ -61,5 +61,5 @@ import ch.qos.cal10n.verifier.MessageKeyVerifier;
 @Target(ElementType.TYPE)
 public @interface Locale {
   String value();
-  String encoding() default "UTF-8";
+  String charset() default "";
 }

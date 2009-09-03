@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import ch.qos.cal10n.util.AnnotationExtractor;
 import ch.qos.cal10n.util.CAL10NResourceBundle;
-import ch.qos.cal10n.util.PropertyResourceBundleFinder;
+import ch.qos.cal10n.util.CAL10NResourceBundleFinder;
 
 /**
  * The default implementation for {@link IMessageConveyor} based on resource
@@ -68,10 +68,11 @@ public class MessageConveyor implements IMessageConveyor {
    *          an enum instance used as message key
    * 
    */
-  public <E extends Enum<?>> String getMessage(E key, Object... args) throws MessageConveyorException {
+  public <E extends Enum<?>> String getMessage(E key, Object... args)
+      throws MessageConveyorException {
 
     String declararingClassName = key.getDeclaringClass().getName();
-    CAL10NResourceBundle  rb = cache.get(declararingClassName);
+    CAL10NResourceBundle rb = cache.get(declararingClassName);
     if (rb == null || rb.hasChanged()) {
       rb = lookup(key);
       cache.put(declararingClassName, rb);
@@ -90,7 +91,10 @@ public class MessageConveyor implements IMessageConveyor {
     }
   }
 
-  private <E extends Enum<?>> CAL10NResourceBundle lookup(E key) throws MessageConveyorException {
+  private <E extends Enum<?>> CAL10NResourceBundle lookup(E key)
+      throws MessageConveyorException {
+    Class<?> declaringClass = key.getDeclaringClass();
+
     String baseName = AnnotationExtractor.getBaseName(key.getDeclaringClass());
     if (baseName == null) {
       throw new MessageConveyorException(
@@ -98,18 +102,21 @@ public class MessageConveyor implements IMessageConveyor {
               + key.getClass().getName() + "]. See also "
               + Cal10nConstants.MISSING_BN_ANNOTATION_URL);
     }
-    CAL10NResourceBundle rb = PropertyResourceBundleFinder.getBundle(this.getClass()
-        .getClassLoader(), baseName, locale);
 
-    if(rb == null) {
-      throw new MessageConveyorException("Failed to locate resource bundle [" + baseName
-        + "] for locale [" + locale + "] for enum type [" + key.getDeclaringClass().getName()
-        + "]");
+    String charset = AnnotationExtractor.getCharset(declaringClass, locale);
+    CAL10NResourceBundle rb = CAL10NResourceBundleFinder.getBundle(this
+        .getClass().getClassLoader(), baseName, locale, charset);
+
+    if (rb == null) {
+      throw new MessageConveyorException("Failed to locate resource bundle ["
+          + baseName + "] for locale [" + locale + "] for enum type ["
+          + key.getDeclaringClass().getName() + "]");
     }
     return rb;
   }
 
-  public String getMessage(MessageParameterObj mpo) throws MessageConveyorException {
+  public String getMessage(MessageParameterObj mpo)
+      throws MessageConveyorException {
     if (mpo == null) {
       throw new IllegalArgumentException(
           "MessageParameterObj argumument cannot be null");

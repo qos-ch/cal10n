@@ -25,20 +25,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;
 
-public class PropertyResourceBundleFinder {
+public class CAL10NResourceBundleFinder {
 
-  public static CAL10NResourceBundle getBundle(ClassLoader classLoader, String baseName,
-      Locale locale)  {
+  public static CAL10NResourceBundle getBundle(ClassLoader classLoader,
+      String baseName, Locale locale, String charset) {
 
     // same as the JDK convention
     //
-    // It generates a path name from the candidate bundle name by replacing all "." 
+    // It generates a path name from the candidate bundle name by replacing all
+    // "."
     // characters with "/" and appending the string ".properties".
-    /// see also   http: // tinyurl.com/ldgej8
+    // / see also http: // tinyurl.com/ldgej8
     baseName = baseName.replace('.', '/');
 
     String languageAndCountryCandidate = computeLanguageAndCountryCandidate(
@@ -47,12 +49,12 @@ public class PropertyResourceBundleFinder {
         locale);
 
     CAL10NResourceBundle cprbLanguageOnly = makePropertyResourceBundle(
-        classLoader, languageOnlyCandidate);
+        classLoader, languageOnlyCandidate, charset);
     CAL10NResourceBundle cprbLanguageAndCountry = null;
 
     if (languageAndCountryCandidate != null) {
       cprbLanguageAndCountry = makePropertyResourceBundle(classLoader,
-          languageAndCountryCandidate);
+          languageAndCountryCandidate, charset);
     }
 
     if (cprbLanguageAndCountry != null) {
@@ -63,7 +65,7 @@ public class PropertyResourceBundleFinder {
   }
 
   private static CAL10NResourceBundle makePropertyResourceBundle(
-      ClassLoader classLoader, String resourceCandiate) {
+      ClassLoader classLoader, String resourceCandiate, String charset) {
 
     CAL10NResourceBundle prb = null;
 
@@ -71,13 +73,31 @@ public class PropertyResourceBundleFinder {
     if (url != null) {
       try {
         InputStream in = openConnectionForUrl(url);
-        Reader reader = new InputStreamReader(in);
+
+        Reader reader = toReader(in, charset);
+        if (charset == null || charset.length() == 0)
+          reader = new InputStreamReader(in);
+        else
+          reader = new InputStreamReader(in, charset);
+
         prb = new CAL10NResourceBundle(reader, MiscUtil.urlToFile(url));
         in.close();
       } catch (IOException e) {
       }
     }
     return prb;
+  }
+
+  static Reader toReader(InputStream in, String charset) {
+    if (charset == null || charset.length() == 0)
+      return new InputStreamReader(in);
+    else {
+      try {
+        return new InputStreamReader(in, charset);
+      } catch (UnsupportedEncodingException e) {
+        throw new IllegalArgumentException("Failed to open reader", e);
+      }
+    }
   }
 
   private static String computeLanguageAndCountryCandidate(String baseName,
@@ -91,7 +111,8 @@ public class PropertyResourceBundleFinder {
     }
   }
 
-  private static String computeLanguageOnlyCandidate(String baseName, Locale locale) {
+  private static String computeLanguageOnlyCandidate(String baseName,
+      Locale locale) {
     String language = locale.getLanguage();
     return baseName + "_" + language + ".properties";
   }

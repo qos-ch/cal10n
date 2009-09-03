@@ -61,4 +61,5 @@ import ch.qos.cal10n.verifier.MessageKeyVerifier;
 @Target(ElementType.TYPE)
 public @interface LocaleData {
   Locale[] value();
+  String defaultCharset() default "";
 }
