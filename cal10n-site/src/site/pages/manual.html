@@ -355,12 +355,6 @@ public class MyAllInOneColorVerificationTest {
   is unsurprisingly called <em>mvn-cal10n-plugin</em>.
   </p>
 
-  <p><b>Until the relevant artifacts are uploaded to the central maven
-  repository, you unfortunately need to install the
-  <em>maven-cal10n-plugin</em> manually by running "mvn install" from
-  the folder where you unpacked the CAL10N distribution.</b>
-  </p>
-
   <p>Using <em>maven-cal10n-plugin</em> is pretty easy. To verify
   enums in a given project, just declare the
   <em>maven-cal10n-plugin</em> in the <code>&lt;build></code> section,
@@ -374,7 +368,6 @@ public class MyAllInOneColorVerificationTest {
     &lt;plugin>
       &lt;groupId>ch.qos.cal10n.plugins&lt;/groupId>
       &lt;artifactId>maven-cal10n-plugin&lt;/artifactId>
-      &lt;version>${project.version}&lt;/version>
       &lt;executions>
         &lt;execution>
           &lt;id>aNameOfYourChoice&lt;/id>
