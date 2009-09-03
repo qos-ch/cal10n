@@ -43,7 +43,8 @@ public class CAL10NResourceBundle extends ResourceBundle {
   File hostFile;
   volatile long nextCheck;
   long lastModified;
-
+  CAL10NResourceBundle parent;
+  
   public CAL10NResourceBundle(Reader r, File file)
       throws IOException {
     read(r);
@@ -57,8 +58,9 @@ public class CAL10NResourceBundle extends ResourceBundle {
   }
 
 
-  public void setParent(ResourceBundle parent) {
-    super.setParent(parent);
+  public void setParent(CAL10NResourceBundle parent) {
+    this.parent = (parent);
+    //super.setParent(parent);
   }
 
   public boolean hasChanged() {
@@ -87,11 +89,14 @@ public class CAL10NResourceBundle extends ResourceBundle {
   public void resetCheckTimes() {
     nextCheck = 0;
     lastModified = 0;
-  }
+  } 
 
   @Override
   public Enumeration<String> getKeys() {
     Hashtable<String, String> ht = new Hashtable<String, String>(map);
+    if(parent != null) {
+      ht.putAll(parent.map);
+    }
     return ht.keys();
   }
 
@@ -100,6 +105,10 @@ public class CAL10NResourceBundle extends ResourceBundle {
     if (key == null) {
       throw new NullPointerException();
     }
-    return map.get(key);
+    Object o = map.get(key);
+    if(o == null && parent != null) {
+      o = parent.handleGetObject(key);
+    }
+    return o;
   }
 }
