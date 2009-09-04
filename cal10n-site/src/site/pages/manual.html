@@ -155,7 +155,25 @@ String blue = mc.getMessage(Colors.BLUE);  </pre>
   <a href="#mavenPlugin">maven plugin</a>.
   </p>
 
+  <h2><a name="requirements" href="#requirements">Requirements / Installation</a>
+  </h2>
+  
+  <p>CAL10N requires JDK version 1.5.</p>
 
+  <p>In order to use CAL10N in a project, all you need is to add
+  <em>cal10n-api-${project.version}.jar</em> onto your project's class
+  path.</p>
+  
+  <p>For Maven users, this is done by adding the following
+  dependency in a project's <em>pom.xml</em> file:</p>
+
+      <pre class="prettyprint source">&lt;dependency&gt;
+  &lt;groupId&gt;ch.qos.cal10n&lt;/groupId&gt;
+  &lt;artifactId&gt;cal10n-api&lt;/artifactId&gt;
+  &lt;version&gt;${project.version}&lt;/version&gt;
+&lt;/dependency&gt;</pre>
+ 
+ 
 
   <h2><a name="simplifiedLookup" href="#simplifiedLookup">Simplified
   bundle look-up procedure</a></h2>                             
@@ -164,9 +182,10 @@ String blue = mc.getMessage(Colors.BLUE);  </pre>
   <a
   href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/ResourceBundle.html#getBundle%28java.lang.String,%20java.util.Locale,%20java.lang.ClassLoader%29">look-up
   procedure</a> for finding resource bundles. While formally this
-  procedure is deterministic, it is too error-prone for our taste. In
-  CAL10N, we thus took the bold initiative to define a simplified bundle look
-  up procedure.
+  procedure is deterministic, it is too error-prone. Moreover, it
+  clashes with CAL10N's philosophy of verifiability.  We thus took the
+  bold initiative to define a simplified bundle look up procedure,
+  described below.
   </p>
 
   <p>Given a locale, the simplified look up procedure only takes into
@@ -205,8 +224,8 @@ colors_fr_FR.properties</pre>
    less surprise</a>.</p>
 
 
-  <h2><a name="charset" href="#charset">Pick your charset, per
-  locale</a></h2>
+  <h2><a name="charset" href="#charset">Pick your charset, per locale
+  (no <em>native2ascii</em>) </a></h2>
   
   <p>CAL10N allows you to encode the resource bundle for a given
   locale in the charset of your choice.  The set of supported charsets
