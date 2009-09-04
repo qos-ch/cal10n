@@ -22,6 +22,7 @@
 
 package ch.qos.cal10n.verifier;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -30,6 +31,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import ch.qos.cal10n.Cal10nConstants;
 import ch.qos.cal10n.util.AnnotationExtractor;
 import ch.qos.cal10n.util.CAL10NResourceBundleFinder;
 import ch.qos.cal10n.util.MiscUtil;
@@ -153,8 +155,7 @@ public class MessageKeyVerifier implements IMessageKeyVerifier {
     String[] localeNameArray = getLocaleNames();
 
     if (localeNameArray == null || localeNameArray.length == 0) {
-      String errMsg = "Missing @LocaleData annotation in enum type ["
-          + enumTypeAsStr + "]";
+      String errMsg = MessageFormat.format(Cal10nConstants.MISSING_LD_ANNOTATION_MESSAGE, enumTypeAsStr);
       throw new IllegalStateException(errMsg);
     }
     for (String localeName : localeNameArray) {

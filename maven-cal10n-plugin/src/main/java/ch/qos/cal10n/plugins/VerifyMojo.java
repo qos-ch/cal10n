@@ -25,6 +25,7 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -47,11 +48,6 @@ import ch.qos.cal10n.verifier.IMessageKeyVerifier;
  * @requiresProject true
  */
 public class VerifyMojo extends AbstractMojo {
-
-  final static String MISSING_LOCALE = Cal10nConstants.CODE_URL_PREFIX
-      + "#missingLocale";
-  final static String MISSING_ENUM_TYPES = Cal10nConstants.CODE_URL_PREFIX
-      + "#missingEnumType";
 
   /**
    * @parameter
@@ -88,8 +84,7 @@ public class VerifyMojo extends AbstractMojo {
   public void execute() throws MojoExecutionException, MojoFailureException {
 
     if (enumTypes == null) {
-      throw new MojoFailureException("Missing <enumTypes> element. Please see "
-          + MISSING_ENUM_TYPES);
+      throw new MojoFailureException(Cal10nConstants.MISSING_ENUM_TYPES_MSG);
     }
     for (String enumTypeAsStr : enumTypes) {
       IMessageKeyVerifier imcv = getMessageKeyVerifierInstance(enumTypeAsStr);
@@ -109,8 +104,8 @@ public class VerifyMojo extends AbstractMojo {
     String[] localeNameArray = mcv.getLocaleNames();
 
     if (localeNameArray == null || localeNameArray.length == 0) {
-      String errMsg = "Missing @LocaleData annotation in enum type ["
-          + enumClassAsStr + "]. Please see "+MISSING_LOCALE;
+      String errMsg = MessageFormat.format(
+          Cal10nConstants.MISSING_LD_ANNOTATION_MESSAGE, enumClassAsStr);
       getLog().error(errMsg);
       throw new MojoFailureException(errMsg);
     }
@@ -145,8 +140,8 @@ public class VerifyMojo extends AbstractMojo {
     String errMsg = "Failed to instantiate MessageKeyVerifier class";
     try {
       ThisFirstClassLoader thisFirstClassLoader = (ThisFirstClassLoader) buildClassLoader();
-      Class<?> mkvClass = Class.forName(Cal10nConstants.MessageKeyVerifier_FQCN,
-          true, thisFirstClassLoader);
+      Class<?> mkvClass = Class.forName(
+          Cal10nConstants.MessageKeyVerifier_FQCN, true, thisFirstClassLoader);
       Constructor<?> mkvCons = mkvClass.getConstructor(String.class);
       IMessageKeyVerifier imcv = (IMessageKeyVerifier) mkvCons
           .newInstance(enumClassAsStr);

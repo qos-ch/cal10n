@@ -215,11 +215,31 @@ colors_fr_FR.properties</pre>
   encoding and charset list</a> for more details.
   </p>
 
+
   <p>Assume you have four resource bundles, for the English, French,
   Turkish and Greek languages. You decide to encode all of them in
-  UTF-8 except for the Turkish bundle which is already encoded in
-  ISO8859_3.  To tell CAL10N that those are the encodings, you would
-  write:</p>
+  UTF-8. To tell CAL10N that UTF-8 is the default encoding for all
+  locales, one would write:</p>
+
+<pre class="prettyprint">
+@BaseName("colors")
+@LocaleData(
+  <b>defaultCharset="UTF8",</b>
+  value = { @Locale("en_UK"),
+            @Locale("fr_FR"),
+            @Locale("tr_TR"),
+            @Locale("el_GR")
+           }
+   )
+public enum Colors {
+ BLUE,
+ RED,
+ GREEN;
+} 
+</pre>
+
+  <p>If for some reason the Turkish bundle was encoded in ISO8859_3,
+  but the others locales in UTF8, you would write:</p>
   
 <pre class="prettyprint">
 @BaseName("colors")
@@ -227,7 +247,7 @@ colors_fr_FR.properties</pre>
   defaultCharset="UTF8",
   value = { @Locale("en_UK"),
             @Locale("fr_FR"),
-            @Locale(value="tr_TR", charset="ISO8859_3"),
+            <b>@Locale(value="tr_TR", charset="ISO8859_3"),</b>
             @Locale("el_GR")
            }
    )
@@ -251,7 +271,7 @@ public enum Colors {
   <p>If both <code>charset</code> and <code>defaultCharset</code> are
   empty, CAL10N will use the <a
   href="http://mindprod.com/jgloss/encoding.html">default encoding</a>
-  for your Java platform to read a resource bundle.</p>
+  for your Java platform to read resource bundles.</p>
 
 
 
@@ -364,7 +384,8 @@ public class MyColorVerificationTest {
 Key [BLEU] present in resource bundle named [colors] for locale [fr_FR] but absent \ 
    in enum type [ch.qos.cal10n.sample.Colors]</pre>
 
-  <h3>One test to rule them all</h3>
+  <h3><a name="singleTest" href="#ingleTest">One test to rule them
+  all</a></h3>
 
   <p>Instead of a separate unit test case for each locale, assuming
   you declared the locales in the enum type via the @LocaleData and

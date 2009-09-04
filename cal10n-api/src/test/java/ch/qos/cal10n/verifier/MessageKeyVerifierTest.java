@@ -23,6 +23,7 @@
 package ch.qos.cal10n.verifier;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 import java.util.Locale;
@@ -31,6 +32,7 @@ import org.junit.Test;
 
 import ch.qos.cal10n.sample.Colors;
 import ch.qos.cal10n.sample.Countries;
+import ch.qos.cal10n.sample.Minimal;
 
 /**
  * 
@@ -38,14 +40,13 @@ import ch.qos.cal10n.sample.Countries;
  */
 public class MessageKeyVerifierTest {
 
-  
   @Test
   public void smoke() {
     IMessageKeyVerifier miv = new MessageKeyVerifier(Colors.class);
     List<Cal10nError> errorList = miv.verify(Locale.UK);
     assertEquals(0, errorList.size());
   }
-  
+
   @Test
   public void withErrors_UK() {
     IMessageKeyVerifier miv = new MessageKeyVerifier(Countries.class);
@@ -55,7 +56,6 @@ public class MessageKeyVerifierTest {
     assertEquals("BR", errorList.get(1).getKey());
   }
 
-  
   @Test
   public void withErrors_FR() {
     IMessageKeyVerifier miv = new MessageKeyVerifier(Countries.class);
@@ -64,5 +64,15 @@ public class MessageKeyVerifierTest {
     assertEquals("CH", errorList.get(0).getKey());
     assertEquals("CN", errorList.get(1).getKey());
     assertEquals("BR", errorList.get(2).getKey());
+  }
+
+  @Test
+  public void all() {
+    IMessageKeyVerifier mcv = new MessageKeyVerifier(Minimal.class);
+    try {
+      mcv.verifyAllLocales();
+      fail("an emum without LocaleData cannot be verifiied in one step");
+    } catch (IllegalStateException e) {
+    }
   }
 }
