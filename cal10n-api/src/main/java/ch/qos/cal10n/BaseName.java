@@ -22,7 +22,6 @@
 package ch.qos.cal10n;
 
 import java.lang.annotation.ElementType;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -37,8 +36,8 @@ import ch.qos.cal10n.verifier.MessageKeyVerifier;
  * Typical usage is:
  * 
  * <pre>
- * &#064;LocaleNames({&quot;en&quot;, &quot;jp&quot;})
  * &#064;BaseName(&quot;colors&quot;);
+ * &#064;LocaleData( { @Locale(&quot;en&quot;), @Locale(&quot;jp&quot;) } )
  * public class enum Colors {
  *   RED, WHITE, BLUE; 
  * }
@@ -47,8 +46,9 @@ import ch.qos.cal10n.verifier.MessageKeyVerifier;
  * <p>
  * In the above example, @BaseName("colors") means that there exists a family of
  * resource bundle files with the base name "colors". In conjunction with the
- * information provided in the @LocaleNames annotation, we can assume that the
- * files <em>colors_en.properties</em> and <em>colors_jp.properties</em> exist.
+ * information provided in the &#64;{@link LocaleData} annotation, we can assume
+ * that the files <em>colors_en.properties</em> and
+ * <em>colors_jp.properties</em> exist.
  * 
  * <p>
  * Verification tools such as {@link MessageKeyVerifier} can then proceed to

@@ -27,15 +27,11 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("colors")
-@LocaleData({
-  @Locale("en_UK"),
-  @Locale("fr")
-  })
+@LocaleData( { @Locale("en_UK"), @Locale("fr") })
 public enum Colors {
   // sub-class for testing purposes
   RED {
-     
+
   },
-  BLUE, 
-  GREEN;
+  BLUE, GREEN;
 }

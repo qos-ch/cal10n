@@ -109,7 +109,7 @@ public class VerifyMojo extends AbstractMojo {
     String[] localeNameArray = mcv.getLocaleNames();
 
     if (localeNameArray == null || localeNameArray.length == 0) {
-      String errMsg = "Missing @LocaleNames annotation in enum type ["
+      String errMsg = "Missing @LocaleData annotation in enum type ["
           + enumClassAsStr + "]. Please see "+MISSING_LOCALE;
       getLog().error(errMsg);
       throw new MojoFailureException(errMsg);

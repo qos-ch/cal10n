@@ -77,10 +77,6 @@ public class Cal10nError {
     case MISSING_BN_ANNOTATION:
       return "Missing @BaseName annotation in enum type ["
           + enumClassName + "]";
-      // case MISSING_LOCALE_NAMES_ANNOTATION:
-      // return "Missing @LocaleNames annotation in enum class [" +
-      // enumClassName
-      // + "]";
     case FAILED_TO_FIND_RB:
       return "Failed to locate resource bundle [" + baseName
           + "] for locale [" + locale + "] for enum type [" + enumClassName

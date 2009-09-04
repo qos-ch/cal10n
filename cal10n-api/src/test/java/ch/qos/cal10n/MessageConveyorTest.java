@@ -30,6 +30,7 @@ import java.util.Locale;
 import org.junit.Test;
 
 import ch.qos.cal10n.sample.Colors;
+import ch.qos.cal10n.sample.Minimal;
 import ch.qos.cal10n.sample.Host.OtherColors;
 
 public class MessageConveyorTest {
@@ -103,6 +104,13 @@ public class MessageConveyorTest {
           "Failed to locate resource bundle [colors] for locale [zh_CN] for enum type [ch.qos.cal10n.sample.Colors]",
           e.getMessage());
     }
+  }
+  
+  
+  @Test
+  public void minimal() {
+    MessageConveyor mc = new MessageConveyor(Locale.ENGLISH);
+    assertEquals("A", mc.getMessage(Minimal.A));
   }
   
 }

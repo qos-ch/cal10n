@@ -153,7 +153,7 @@ public class MessageKeyVerifier implements IMessageKeyVerifier {
     String[] localeNameArray = getLocaleNames();
 
     if (localeNameArray == null || localeNameArray.length == 0) {
-      String errMsg = "Missing @LocaleNames annotation in enum type ["
+      String errMsg = "Missing @LocaleData annotation in enum type ["
           + enumTypeAsStr + "]";
       throw new IllegalStateException(errMsg);
     }

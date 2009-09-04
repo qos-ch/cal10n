@@ -46,7 +46,7 @@ public interface IMessageKeyVerifier {
   /**
    * Verify that the keys defined in the enumClass match those found in the
    * corresponding resource bundle for all locales declared in the enum type
-   * via the {@link @LocaleNames} annotation.
+   * via the &#64;{@link LocaleData} annotation.
    * 
    * @param locale
    * @return

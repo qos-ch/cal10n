@@ -88,12 +88,13 @@
 
    <pre class="prettyprint source">package com.foo.somePackage;
 
-import ch.qos.cal10n.LocaleNames;
+
+import ch.qos.cal10n.LocaleData;
+import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.BaseName;
 
-@BaseName("colors") // mandatory annotation
-@LocaleNames({"en_UK", "fr"}) // list of locale names used by
-                              // verification tools
+@BaseName("colors")
+@LocaleData( { @Locale("en_UK"), @Locale("fr") })
 public enum Colors  {
   BLUE,
   RED,
@@ -203,6 +204,58 @@ colors_fr_FR.properties</pre>
    href="http://en.wikipedia.org/wiki/Principle_of_least_astonishment">
    less surprise</a>.</p>
 
+
+  <h2><a name="charset" href="#charset">Pick your charset, per
+  locale</a></h2>
+  
+  <p>CAL10N allows you to encode the resource bundle for a given
+  locale in the charset of your choice.  The set of supported charsets
+  depends on your Java platform.  See this <a
+  href="http://www.websina.com/bugzero/kb/java-encoding-charset.html">java
+  encoding and charset list</a> for more details.
+  </p>
+
+  <p>Assume you have four resource bundles, for the English, French,
+  Turkish and Greek languages. You decide to encode all of them in
+  UTF-8 except for the Turkish bundle which is already encoded in
+  ISO8859_3.  To tell CAL10N that those are the encodings, you would
+  write:</p>
+  
+<pre class="prettyprint">
+@BaseName("colors")
+@LocaleData(
+  defaultCharset="UTF8",
+  value = { @Locale("en_UK"),
+            @Locale("fr_FR"),
+            @Locale(value="tr_TR", charset="ISO8859_3"),
+            @Locale("el_GR")
+           }
+   )
+public enum Colors {
+ BLUE,
+ RED,
+ GREEN;
+} 
+</pre>
+
+  <p>The <code>defaultCharset</code> directive specified in the
+  <code>@LocaleDat</code>a annotation applies to all nested @Locale
+  annotations, unless the value is overriden by a <code>charset</code>
+  directive (as in the "tr_TR" locale in the example above).  If not
+  specified, the default value for <code>defaultCharset</code> is the
+  empty string.  In the absence of a <code>defaultCharset</code>
+  directive, the default value for the <code>charset</code> directive
+  is also the empty String.
+  </p>
+  
+  <p>If both <code>charset</code> and <code>defaultCharset</code> are
+  empty, CAL10N will use the <a
+  href="http://mindprod.com/jgloss/encoding.html">default encoding</a>
+  for your Java platform to read a resource bundle.</p>
+
+
+
+
   <h2><a name="reload" href="#reload">Automatic reloading of resource
   bundles upon change</a></h2>
 
@@ -214,7 +267,7 @@ colors_fr_FR.properties</pre>
   <p>Automatic reloading applies if the resource bundle is a regular
   file but not if nested within a jar file.
   </p>
-  
+
 
   <h2><a name="deferred" href="#deferred">Deferred
   localization</a></h2>
@@ -314,8 +367,9 @@ Key [BLEU] present in resource bundle named [colors] for locale [fr_FR] but abse
   <h3>One test to rule them all</h3>
 
   <p>Instead of a separate unit test case for each locale, assuming
-  you declared the locales in the enum type via the @LocaleNames
-  annotation, you can verify all locales in one fell swoop.</p>
+  you declared the locales in the enum type via the @LocaleData and
+  nested @Locale annotations, you can verify all locales in one fell
+  swoop.</p>
 
     <pre class="prettyprint source">
 package foo.aPackage;
@@ -394,8 +448,8 @@ public class MyAllInOneColorVerificationTest {
   </p>
 
   <p>The plugin will iterate through every resource bundle for every
-  locale listed in the enum type via the <code>@LocaleNames</code>
-  annotation.
+  locale listed in the enum type via the <code>@LocaleData</code> and
+  <code>@Locale</code> annotations.
   </p>
 
   <h2><a name="eclipsePlugin" href="#eclipsePlugin">Eclipse plug-in</a></h2>

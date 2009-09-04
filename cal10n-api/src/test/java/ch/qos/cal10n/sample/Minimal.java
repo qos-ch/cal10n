@@ -19,27 +19,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package ch.qos.cal10n;
+package ch.qos.cal10n.sample;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import ch.qos.cal10n.BaseName;
 
 /**
- * In conjunction with the @Locale annotation, the @LocaleData annotation serves
- * to designate a list of locale names for which resource bundles exist. In
- * addition, you can specify a default charset for all locales. See the <a
- * href="http://cal10n.qos.ch/manual.html#charset">section on charsets<a> in the
- * manual for an explanation.
- * 
+ * The most minimal enum that CAL10N supports.  
+ 
  * @author Ceki G&uuml;lc&uuml;
- * 
+ *
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface LocaleData {
-  Locale[] value();
 
-  String defaultCharset() default "";
+@BaseName("minimal")
+public enum Minimal {
+  A;
 }

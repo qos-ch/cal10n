@@ -26,33 +26,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import ch.qos.cal10n.verifier.MessageKeyVerifier;
-
 /**
- * This annotation serves to designate a list of locale names for which resource
- * bundles exist.
  * 
- * <p>
- * Typical usage is:
+ * See {@link LocaleData} annotation.
  * 
- * <pre>
- * &#064;LocaleNames({&quot;en&quot;, &quot;jp&quot;})
- * &#064;BaseName(&quot;colors&quot;);
- * public class enum Colors {
- *   RED, WHITE, BLUE; 
- * }
- * </pre>
- * 
- * <p>
- * In the above example, @LocaleNames({"en", "jp"}) means that there are English
- * (en) and Japanese translations for the message keys found in the Colors enum.
- * The name of the corresponding resource bundle is named "colors".
- * 
- * <p>
- * Verification tools such {@link MessageKeyVerifier} can thus conclude that the
- * resource bundle files <em>colors_en.properties</em> and
- * <em>colors_jp.properties</em> should exist and checked against the keys
- * defined in the Colors enum.
+ * @see LocaleData
  * 
  * @author Ceki G&uuml;lc&uuml;
  * 
