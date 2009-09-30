@@ -144,11 +144,20 @@ IMessageConveyor mc = new MessageConveyor(Locale.FRANCE);
 
 // use it to retrieve internationalized messages
 String red = mc.getMessage(Colors.RED);
-String blue = mc.getMessage(Colors.BLUE);  </pre>
+String blue = mc.getMessage(Colors.BLUE);  
+String green = mc.getMessage(Colors.GREEN, <b>"pommes"</b>);  // note the second argument
+</pre>
 
   <p>CAL10N leverages the existing resource bundle infrastructure you
-  have been accustomed to, but adds compiler verification on top.</p>
-
+  have been accustomed to, but adds compiler verification on top. The
+  default <a
+  href="apidocs/ch/qos/cal10n/IMessageConveyor.html">IMessageConveyor</a>
+  implementation, namely <a
+  href="apidocs/ch/qos/cal10n/MessageConveyor.html">MessageConveyor</a>,
+  uses the standard Java convention for parameter substitution as
+  defined by the <a
+  href="http://java.sun.com/j2se/1.5.0/docs/api/java/text/MessageFormat.html">java.text.MessageFormat</a>
+  class.</p>
 
   <p>An astute reader will comment that even if the messages keys are
   now verified by the compiler, it is still possible to have
