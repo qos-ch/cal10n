@@ -42,86 +42,90 @@ import ch.qos.cal10n.util.CAL10NResourceBundleFinder;
  */
 public class MessageConveyor implements IMessageConveyor {
 
-  final Locale locale;
+	final Locale locale;
 
-  final Map<String, CAL10NResourceBundle> cache = new ConcurrentHashMap<String, CAL10NResourceBundle>();
+	final Map<String, CAL10NResourceBundle> cache = new ConcurrentHashMap<String, CAL10NResourceBundle>();
 
-  /**
-   * The {@link Locale} associated with this instance.
-   * 
-   * @param locale
-   */
-  public MessageConveyor(Locale locale) {
-    this.locale = locale;
-  }
+	/**
+	 * The {@link Locale} associated with this instance.
+	 * 
+	 * @param locale
+	 */
+	public MessageConveyor(Locale locale) {
+		this.locale = locale;
+	}
 
-  /**
-   * Given an enum as key, find the corresponding resource bundle and return the
-   * corresponding internationalized.
-   * 
-   * <p>
-   * The name of the resource bundle is defined via the {@link BaseName}
-   * annotation whereas the locale is specified in this MessageConveyor
-   * instance's constructor.
-   * 
-   * @param key
-   *          an enum instance used as message key
-   * 
-   */
-  public <E extends Enum<?>> String getMessage(E key, Object... args)
-      throws MessageConveyorException {
+	/**
+	 * Given an enum as key, find the corresponding resource bundle and return
+	 * the corresponding internationalized.
+	 * 
+	 * <p>
+	 * The name of the resource bundle is defined via the {@link BaseName}
+	 * annotation whereas the locale is specified in this MessageConveyor
+	 * instance's constructor.
+	 * 
+	 * @param key
+	 *            an enum instance used as message key
+	 * 
+	 */
+	public <E extends Enum<?>> String getMessage(E key, Object... args)
+			throws MessageConveyorException {
 
-    String declararingClassName = key.getDeclaringClass().getName();
-    CAL10NResourceBundle rb = cache.get(declararingClassName);
-    if (rb == null || rb.hasChanged()) {
-      rb = lookup(key);
-      cache.put(declararingClassName, rb);
-    }
+		String declararingClassName = key.getDeclaringClass().getName();
+		CAL10NResourceBundle rb = cache.get(declararingClassName);
+		if (rb == null || rb.hasChanged()) {
+			rb = lookup(key);
+			cache.put(declararingClassName, rb);
+		}
 
-    String keyAsStr = key.toString();
-    String value = rb.getString(keyAsStr);
-    if (value == null) {
-      return "No key found for " + keyAsStr;
-    } else {
-      if (args == null || args.length == 0) {
-        return value;
-      } else {
-        return MessageFormat.format(value, args);
-      }
-    }
-  }
+		String keyAsStr = key.toString();
+		String value = rb.getString(keyAsStr);
+		if (value == null) {
+			return "No key found for " + keyAsStr;
+		} else {
+			if (args == null || args.length == 0) {
+				return value;
+			} else {
+				return MessageFormat.format(value, args);
+			}
+		}
+	}
 
-  private <E extends Enum<?>> CAL10NResourceBundle lookup(E key)
-      throws MessageConveyorException {
-    Class<?> declaringClass = key.getDeclaringClass();
+	private <E extends Enum<?>> CAL10NResourceBundle lookup(E key)
+			throws MessageConveyorException {
+		Class<?> declaringClass = key.getDeclaringClass();
 
-    String baseName = AnnotationExtractor.getBaseName(key.getDeclaringClass());
-    if (baseName == null) {
-      throw new MessageConveyorException(
-          "Missing @BaseName annotation in enum type ["
-              + key.getClass().getName() + "]. See also "
-              + Cal10nConstants.MISSING_BN_ANNOTATION_URL);
-    }
+		String baseName = AnnotationExtractor.getBaseName(key
+				.getDeclaringClass());
+		if (baseName == null) {
+			throw new MessageConveyorException(
+					"Missing @BaseName annotation in enum type ["
+							+ key.getClass().getName() + "]. See also "
+							+ Cal10nConstants.MISSING_BN_ANNOTATION_URL);
+		}
 
-    String charset = AnnotationExtractor.getCharset(declaringClass, locale);
-    CAL10NResourceBundle rb = CAL10NResourceBundleFinder.getBundle(this
-        .getClass().getClassLoader(), baseName, locale, charset);
+		String charset = AnnotationExtractor.getCharset(declaringClass, locale);
+		// use the declaring class' loader instead of
+		// this.getClass().getClassLoader()
+		// see also http://jira.qos.ch/browse/CAL-8
+		CAL10NResourceBundle rb = CAL10NResourceBundleFinder.getBundle(
+				declaringClass.getClassLoader(), baseName, locale, charset);
 
-    if (rb == null) {
-      throw new MessageConveyorException("Failed to locate resource bundle ["
-          + baseName + "] for locale [" + locale + "] for enum type ["
-          + key.getDeclaringClass().getName() + "]");
-    }
-    return rb;
-  }
+		if (rb == null) {
+			throw new MessageConveyorException(
+					"Failed to locate resource bundle [" + baseName
+							+ "] for locale [" + locale + "] for enum type ["
+							+ key.getDeclaringClass().getName() + "]");
+		}
+		return rb;
+	}
 
-  public String getMessage(MessageParameterObj mpo)
-      throws MessageConveyorException {
-    if (mpo == null) {
-      throw new IllegalArgumentException(
-          "MessageParameterObj argumument cannot be null");
-    }
-    return getMessage(mpo.getKey(), mpo.getArgs());
-  }
-
+	public String getMessage(MessageParameterObj mpo)
+			throws MessageConveyorException {
+		if (mpo == null) {
+			throw new IllegalArgumentException(
+					"MessageParameterObj argumument cannot be null");
+		}
+		return getMessage(mpo.getKey(), mpo.getArgs());
+	}
 }
