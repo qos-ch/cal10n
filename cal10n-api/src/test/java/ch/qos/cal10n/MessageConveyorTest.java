@@ -106,7 +106,6 @@ public class MessageConveyorTest {
     }
   }
   
-  
   @Test
   public void minimal() {
     MessageConveyor mc = new MessageConveyor(Locale.ENGLISH);
