@@ -12,7 +12,7 @@ document.write('  <p class="menu"><a href="' + prefix + 'license.html">License</
 document.write('</div>');
 
 document.write('<p class="pub">');
-document.write('  <a href="https://www.qos.ch/shop/products/log4j/log4j-Manual.jsp">');
+document.write('  <a href="http://www.qos.ch/shop/products/log4jManual">');
 document.write('    <img src="images/buyDirect.jpg" border="0" title="" alt="buy direct from the developer"/>');
 document.write('  </a>');
 document.write('</p>');
