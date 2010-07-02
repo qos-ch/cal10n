@@ -6,7 +6,7 @@
   <groupId>ch.qos.cal10n</groupId>
   <artifactId>cal10n-parent</artifactId>
 	<packaging>pom</packaging>
-  <version>0.7.2</version>
+  <version>0.7.3-SNAPSHOT</version>
   <name>Compiler assisted localization library (CAL10N) - Parent</name>
 
   <url>http://cal10n.qos.ch</url>
@@ -32,10 +32,7 @@
     </license>
   </licenses>
 
- <properties>
-    <slf4j.version>1.5.8</slf4j.version>
-  </properties>
-  
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -47,13 +44,6 @@
 
   <dependencyManagement>
     <dependencies>
-
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-
       <dependency>
         <groupId>ch.qos.cal10n</groupId>
         <artifactId>cal10n-api</artifactId>
