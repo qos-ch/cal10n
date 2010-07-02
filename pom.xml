@@ -230,21 +230,42 @@
   <distributionManagement>
     <site>
       <id>pixie</id>
-      <url>scp://pixie/var/www/cal10n.qos.ch/htdocs/</url>
+      <url>scp://pixie.qos.ch/var/www/cal10n.qos.ch/htdocs/</url>
     </site>
     
     <repository>
       <id>pixie</id>
-      <url>scp://pixie/var/mvnrepo/</url>
+      <url>scp://pixie.qos.ch/var/mvnrepo/</url>
     </repository>
     
     <snapshotRepository>
       <id>pixie-snapshot</id>
-      <url>scp://pixie/var/mvnrepo-snapshots/</url>
+      <url>scp://pixie.qos.ch/var/mvnrepo-snapshots/</url>
     </snapshotRepository>
     
   </distributionManagement>
 
- 
+
+  <profiles> 
+    <profile>
+      <id>javadocjar</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles> 
   
 </project>
