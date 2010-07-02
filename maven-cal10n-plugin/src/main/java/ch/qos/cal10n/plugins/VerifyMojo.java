@@ -41,12 +41,10 @@ import ch.qos.cal10n.Cal10nConstants;
 import ch.qos.cal10n.verifier.IMessageKeyVerifier;
 
 
-// Adding @requiresDependencyResolution  fixes
+// Adding @requiresDependencyResolution  fixes  http://jira.qos.ch/browse/CAL-18
 
 /**
  * Verifies resources bundles in various locales against an enumType
- *
- *
  *
  * @goal verify
  * @phase verify
