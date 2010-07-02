@@ -40,12 +40,18 @@ import org.apache.maven.plugin.MojoFailureException;
 import ch.qos.cal10n.Cal10nConstants;
 import ch.qos.cal10n.verifier.IMessageKeyVerifier;
 
+
+// Adding @requiresDependencyResolution  fixes
+
 /**
  * Verifies resources bundles in various locales against an enumType
- * 
+ *
+ *
+ *
  * @goal verify
  * @phase verify
  * @requiresProject true
+ * @requiresDependencyResolution
  */
 public class VerifyMojo extends AbstractMojo {
 
@@ -76,7 +82,7 @@ public class VerifyMojo extends AbstractMojo {
   /**
    * @parameter expression="${localRepository}"
    * @required
-   * @readonly
+   * @readonly 
    * @since 1.0
    */
   private ArtifactRepository localRepository;

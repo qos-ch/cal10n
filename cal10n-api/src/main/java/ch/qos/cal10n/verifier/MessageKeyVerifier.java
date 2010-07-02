@@ -160,7 +160,6 @@ public class MessageKeyVerifier implements IMessageKeyVerifier {
     }
     for (String localeName : localeNameArray) {
       Locale locale = MiscUtil.toLocale(localeName);
-      System.out.println(locale);
       List<Cal10nError> tmpList = verify(locale);
       errorList.addAll(tmpList);
     }
