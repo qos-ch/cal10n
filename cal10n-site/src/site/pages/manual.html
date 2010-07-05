@@ -160,7 +160,9 @@ String green = mc.getMessage(Colors.GREEN, <b>"pommes"</b>);  // note the second
   uses the standard Java convention for parameter substitution as
   defined by the <a
   href="http://java.sun.com/j2se/1.5.0/docs/api/java/text/MessageFormat.html">java.text.MessageFormat</a>
-  class.</p>
+  class. In particular, for messages with parameters, the rules for
+  using quotes defined by the <code>MessageFormat</code> class apply
+  as is.</p>
 
   <p>An astute reader will comment that even if the messages keys are
   now verified by the compiler, it is still possible to have
