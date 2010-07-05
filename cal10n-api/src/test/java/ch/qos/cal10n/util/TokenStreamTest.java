@@ -27,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.junit.Test;
 
@@ -34,19 +35,17 @@ import ch.qos.cal10n.Cal10nTestConstants;
 import ch.qos.cal10n.util.Token.TokenType;
 
 /**
- * 
  * @author Ceki G&uuml;lc&uuml;
- *
  */
 public class TokenStreamTest {
 
-  
+
   @Test
   public void smoke() throws FileNotFoundException {
-    FileReader fr = new FileReader(Cal10nTestConstants.TEST_CLASSES+"/parser/smoke.properties");
+    FileReader fr = new FileReader(Cal10nTestConstants.TEST_CLASSES + "/parser/smoke.properties");
     TokenStream ts = new TokenStream(fr);
     List<Token> tokenList = ts.tokenize();
-    
+
     List<Token> witness = new ArrayList<Token>();
     witness.add(new Token(TokenType.KEY, "K0"));
     witness.add(new Token(TokenType.SEPARATOR, "="));
@@ -59,19 +58,19 @@ public class TokenStreamTest {
     witness.add(Token.EOL);
     assertEquals(witness, tokenList);
   }
-  
+
   @Test
   public void medium() throws FileNotFoundException {
-    FileReader fr = new FileReader(Cal10nTestConstants.TEST_CLASSES+"/parser/medium.properties");
+    FileReader fr = new FileReader(Cal10nTestConstants.TEST_CLASSES + "/parser/medium.properties");
     TokenStream ts = new TokenStream(fr);
     List<Token> tokenList = ts.tokenize();
-    
-   // K0=V0 \
-   //  X
-   // # comment
-   // K1=V1
-    
-    
+
+    // K0=V0 \
+    //  X
+    // # comment
+    // K1=V1
+
+
     List<Token> witness = new ArrayList<Token>();
     witness.add(new Token(TokenType.KEY, "K0"));
     witness.add(new Token(TokenType.SEPARATOR, "="));
@@ -81,7 +80,7 @@ public class TokenStreamTest {
     witness.add(new Token(TokenType.VALUE, "X"));
     witness.add(Token.EOL);
     witness.add(Token.EOL);
-    
+
     witness.add(new Token(TokenType.KEY, "K1"));
     witness.add(new Token(TokenType.SEPARATOR, "="));
     witness.add(new Token(TokenType.VALUE, "V1"));
@@ -89,4 +88,28 @@ public class TokenStreamTest {
     assertEquals(witness, tokenList);
   }
 
+  @Test
+  public void characters() throws FileNotFoundException {
+    FileReader fr = new FileReader(Cal10nTestConstants.TEST_CLASSES + "/parser/characters.properties");
+    TokenStream ts = new TokenStream(fr);
+    List<Token> tokenList = ts.tokenize();
+
+    List<Token> witness = new ArrayList<Token>();
+    witness.add(new Token(TokenType.KEY, "K0"));
+    witness.add(new Token(TokenType.SEPARATOR, "="));
+    witness.add(new Token(TokenType.VALUE, "a\nb"));
+    witness.add(Token.EOL);
+    witness.add(new Token(TokenType.KEY, "K1"));
+    witness.add(new Token(TokenType.SEPARATOR, "="));
+    witness.add(new Token(TokenType.VALUE, "a\u2297b\nc"));
+    witness.add(Token.EOL);
+    assertEquals(witness, tokenList);
+  }
+
+  @Test
+  public void resourceBundleWithSpecialCharacters() {
+    ResourceBundle rb  = ResourceBundle.getBundle("parser/characters");
+    assertEquals("a\nb", rb.getObject("K0"));
+    assertEquals("a\u2297b\nc", rb.getObject("K1"));
+  }
 }

@@ -27,6 +27,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Locale;
 
+import ch.qos.cal10n.sample.Labels;
 import org.junit.Test;
 
 import ch.qos.cal10n.sample.Colors;
@@ -111,5 +112,13 @@ public class MessageConveyorTest {
     MessageConveyor mc = new MessageConveyor(Locale.ENGLISH);
     assertEquals("A", mc.getMessage(Minimal.A));
   }
-  
+
+
+  @Test
+  public void specialCharacters() {
+    MessageConveyor mc = new MessageConveyor(Locale.ENGLISH);
+    assertEquals("A label \n with linefeed and unicode", mc.getMessage(Labels.L0));
+    assertEquals("Another \nlabel", mc.getMessage(Labels.L1));
+  }
+
 }

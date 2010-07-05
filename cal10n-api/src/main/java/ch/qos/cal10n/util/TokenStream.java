@@ -73,7 +73,7 @@ public class TokenStream {
 
   private void tokenizeLine(List<Token> tokenList, String line) {
     int len = line.length();
-    StringBuffer buf = new StringBuffer();
+    StringBuilder buf = new StringBuilder();
 
     for (int pointer = 0; pointer < len; pointer++) {
       char c = line.charAt(pointer);
@@ -95,7 +95,8 @@ public class TokenStream {
 
       case KEY:
         if (isWhiteSpace(c) || isNonWhiteSpaceSeparator(c)) {
-          tokenList.add(new Token(TokenType.KEY, buf.toString()));
+          String lexicalValue = LexicalUtil.convertSpecialCharacters(buf).toString();
+          tokenList.add(new Token(TokenType.KEY, lexicalValue));
           buf.setLength(0);
           buf.append(c);
           state = State.SEPARATOR;
@@ -119,7 +120,8 @@ public class TokenStream {
       case VAL:
         if(c == '\\') {
           if(isTrailingBackSlash(line, pointer+1)) {
-            tokenList.add(new Token(TokenType.VALUE, buf.toString()));
+            String lexicalValue = LexicalUtil.convertSpecialCharacters(buf).toString();
+            tokenList.add(new Token(TokenType.VALUE, lexicalValue));
             buf.setLength(0);
             state = State.TRAILING_BACKSLASH;
             tokenList.add(Token.TRAILING_BACKSLASH);
@@ -141,7 +143,8 @@ public class TokenStream {
     }
     
     if(state == State.VAL) {
-      tokenList.add(new Token(TokenType.VALUE, buf.toString()));
+      String lexicalValue = LexicalUtil.convertSpecialCharacters(buf).toString();
+      tokenList.add(new Token(TokenType.VALUE, lexicalValue));
       buf.setLength(0);
     }
   }

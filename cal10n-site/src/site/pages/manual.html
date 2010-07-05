@@ -78,13 +78,11 @@
 
    <h2><a name="code" href="#core">Core idea</a></h2>
 
-   <p>Instead of using values of type String as the key for each
-   message, CAL10N uses <code>enums</code>.</p>
+   <p>Instead of using String-typed keys for each message, CAL10N uses
+   <code>enums</code>.</p>
 
    <p>For example, let us assume that you wanted to internationalize
-   color names. No one in their right minds would just want to
-   internationalize three color names but probably a much larger set
-   of items. We are using a very small set of colors just as an
+   color names.  We are using a very small set of colors just as an
    example. In CAL10N you could start by writing an enum type, named
    Colors. You can choose any name for the enum type. Colors is just
    the name this particular author picked.</p>
@@ -128,6 +126,11 @@ GREEN={0} are green  </pre>
 BLUE=les violettes sont bleues
 RED=les roses sont rouges
 GREEN=les {0} sont verts</pre>
+
+
+  <p>Strictly speaking, the <em>@LocaleData</em> annotation is
+  optional. It is used by verification tools discussed below.
+  </p>
 
   
   <h2><a name="retrieving" href="#retrieving">Retrieving
@@ -194,16 +197,16 @@ String green = mc.getMessage(Colors.GREEN, <b>"pommes"</b>);  // note the second
   <a
   href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/ResourceBundle.html#getBundle%28java.lang.String,%20java.util.Locale,%20java.lang.ClassLoader%29">look-up
   procedure</a> for finding resource bundles. While formally this
-  procedure is deterministic, it is too error-prone. Moreover, it
-  clashes with CAL10N's philosophy of verifiability.  We thus took the
-  bold initiative to define a simplified bundle look up procedure,
-  described below.
+  procedure is deterministic, it is also error-prone. More
+  importantly, it clashes with CAL10N's goal of verifiability.  We
+  thus took the bold initiative to define a simplified bundle look up
+  procedure, described below.
   </p>
 
   <p>Given a locale, the simplified look up procedure only takes into
-  account that locale, ignoring the default locale and the resource
-  bundle corresponding to the naked base name, i.e. the default
-  resource bundle. However, if the locale has both a language
+  account that locale, <em>ignoring</em> the default locale and the
+  resource bundle corresponding to the naked base name, i.e. the
+  default resource bundle. However, if the locale has both a language
   <b>and</b> a country, and corresponding bundle files exist, then
   CAL10N will take into account both bundles, establishing the same
   parent child relationship as the JDK <code>ResourceBundle</code>
@@ -222,11 +225,15 @@ colors_fr_FR.properties</pre>
 
    <p>and the system's default locale is "fr_FR", when CAL10N is asked
    to find resource bundles corresponding to the "en_US" locale, it
-   will ignore the <em>colors.properties</em> (~ default bundle) and
-   <em>colors_fr_FR.properties</em> (~ default locale), while
-   combining the <em>colors_en_US.properties</em> and
-   <em>colors_en.properties</em> bundles in the usual parent-child
-   relationship.
+   will systematically ignore the <em>colors.properties</em> (i.e. the
+   default bundle), and combine the <em>colors_en_US.properties</em>
+   and <em>colors_en.properties</em> bundles in the usual parent-child
+   relationship. Since CAL10N is asked to lookup resource bundles
+   corresponding to the "en_US" locale, the bundle corresponding to
+   the default locale, i.e. <em>colors_fr_FR.properties</em> will also
+   be ignored. Thus, the CAL10N bundle lookup procedure differs from
+   the standard by ignoring the default bundle, the one with the naked
+   base name, e.g. <em>colors.properties</em>.
    </p>
 
    <p>We hope that the simplified look-up procedure, while deviating

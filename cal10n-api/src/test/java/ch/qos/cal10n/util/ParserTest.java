@@ -70,7 +70,7 @@ public class ParserTest {
     witness.put("K0", "V0 X");
     witness.put("K1", "V1");
     witness.put("K2", "V2 l1l2  l3");
-    witness.put("K3", "V3 \\t a");
+    witness.put("K3", "V3 \t a");
     assertEquals(witness, map);
   }
   
