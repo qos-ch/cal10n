@@ -60,7 +60,6 @@ public class CAL10NResourceBundle extends ResourceBundle {
 
   public void setParent(CAL10NResourceBundle parent) {
     this.parent = (parent);
-    //super.setParent(parent);
   }
 
   public boolean hasChanged() {
