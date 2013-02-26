@@ -6,8 +6,9 @@
   <groupId>ch.qos.cal10n</groupId>
   <artifactId>cal10n-parent</artifactId>
 	<packaging>pom</packaging>
-  <version>0.7.5-SNAPSHOT</version>
+  <version>0.7.5</version>
   <name>Compiler assisted localization library (CAL10N) - Parent</name>
+  <description>Compiler assisted localization library (CAL10N)/<description>
 
   <url>http://cal10n.qos.ch</url>
   
@@ -31,6 +32,20 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+
+
+  <scm>
+    <url>https://github.com/qos-ch/cal10n</url>
+    <connection>git@github.com:qos-ch/cal10n.git</connection>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>ceki</id>
+      <name>Ceki Gulcu</name>
+      <email>ceki@qos.ch</email>
+    </developer>
+  </developers>
 
 
   <dependencies>
@@ -240,6 +255,29 @@
         </plugins>
       </build>
     </profile>
+
+    <profile>
+      <id>sign-artifacts</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.1</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
   </profiles> 
   
 </project>
