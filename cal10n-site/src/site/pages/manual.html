@@ -29,7 +29,7 @@
           <p class="author">
             Author: Ceki G&#252;lc&#252;
           <br/>
-          Copyright &#169; 2009, QOS.ch</p>
+          Copyright &#169; 2009-2013, QOS.ch</p>
         </td>
         <td>
           <a rel="license"
@@ -75,8 +75,8 @@
    Muir on the slf4j-dev mailing list.
    </p>
 
-
-   <h2><a name="code" href="#core">Core idea</a></h2>
+   <h2><a name="code" href="#core"><span class="anchor"/></a>Core
+   idea</h2>
 
    <p>Instead of using String-typed keys for each message, CAL10N uses
    <code>enums</code>.</p>
@@ -133,8 +133,8 @@ GREEN=les {0} sont verts</pre>
   </p>
 
   
-  <h2><a name="retrieving" href="#retrieving">Retrieving
-  internationalized messages</a></h2>
+  <h2><a name="retrieving" href="#retrieving"><span
+  class="anchor"/></a>Retrieving internationalized messages</h2>
 
   <p>In your application, you would retrieve the localized message via
   an <a
@@ -172,7 +172,8 @@ String green = mc.getMessage(Colors.GREEN, <b>"pommes"</b>);  // note the second
   <a href="#mavenPlugin">maven plugin</a>.
   </p>
 
-  <h2><a name="requirements" href="#requirements">Requirements / Installation</a>
+  <h2><a name="requirements" href="#requirements"><span
+  class="anchor"/></a>Requirements / Installation
   </h2>
   
   <p>CAL10N requires JDK version 1.5.</p>
@@ -192,8 +193,8 @@ String green = mc.getMessage(Colors.GREEN, <b>"pommes"</b>);  // note the second
  
  
 
-  <h2><a name="simplifiedLookup" href="#simplifiedLookup">Simplified
-  bundle look-up procedure</a></h2>                             
+  <h2><a name="simplifiedLookup" href="#simplifiedLookup"><span
+  class="anchor"/></a>Simplified bundle look-up procedure</h2>
 
   <p>The <code>ResourceBundle</code> class defines a rather involved
   <a
@@ -245,8 +246,8 @@ colors_fr_FR.properties</pre>
    less surprise</a>.</p>
 
 
-  <h2><a name="charset" href="#charset">Pick your charset, per locale
-  (no <em>native2ascii</em>) </a></h2>
+  <h2><a name="charset" href="#charset"><span class="anchor"/></a>Pick
+  your charset, per locale (no <em>native2ascii</em>)</h2>
   
   <p>CAL10N allows you to encode the resource bundle for a given
   locale in the charset of your choice.  The set of supported charsets
@@ -316,8 +317,9 @@ public enum Colors {
 
 
 
-  <h2><a name="reload" href="#reload">Automatic reloading of resource
-  bundles upon change</a></h2>
+  <h2><a name="reload" href="#reload"><span
+  class="anchor"/></a>Automatic reloading of resource bundles upon
+  change</h2>
 
   <p>When a resource bundle for a given locale is changed on the file
   system, <code>MessageConveyor</code> will automatically reload the
@@ -329,8 +331,8 @@ public enum Colors {
   </p>
 
 
-  <h2><a name="deferred" href="#deferred">Deferred
-  localization</a></h2>
+  <h2><a name="deferred" href="#deferred"><span
+  class="anchor"/></a>Deferred localization</h2>
 
   <p>Under certain circumstances, the appropriate locale is
   <em>unknown</em> at the time or place where the message key and
@@ -353,8 +355,8 @@ public enum Colors {
   message.
   </p>
  
-  <h2><a name="verification" href="#verification">Verification as a
-  test case</a></h2>
+  <h2><a name="verification" href="#verification"><span
+  class="anchor"/></a>Verification as a test case</h2>
 
   <p>A convenient and low hassle method for checking for mismatches
   between a given enum type and the corresponding resource bundles is
@@ -424,8 +426,8 @@ public class MyColorVerificationTest {
 Key [BLEU] present in resource bundle named [colors] for locale [fr_FR] but absent \ 
    in enum type [ch.qos.cal10n.sample.Colors]</pre>
 
-  <h3><a name="singleTest" href="#ingleTest">One test to rule them
-  all</a></h3>
+  <h3><a name="singleTest" href="#ingleTest"><span
+  class="anchor"/></a>One test to rule them all</h3>
 
   <p>Instead of a separate unit test case for each locale, assuming
   you declared the locales in the enum type via the @LocaleData and
@@ -462,7 +464,8 @@ public class MyAllInOneColorVerificationTest {
 
 
 
-  <h2><a name="mavenPlugin" href="#mavenPlugin">Maven Plugin</a></h2>
+  <h2><a name="mavenPlugin" href="#mavenPlugin"><span
+  class="anchor"/></a>Maven Plugin</h2>
 
   <p>The CAL10N project ships with a maven plugin designed to verify
   that the keys specified in a given enum type match those found in
@@ -513,7 +516,8 @@ public class MyAllInOneColorVerificationTest {
   <code>@Locale</code> annotations.
   </p>
 
-  <h2><a name="eclipsePlugin" href="#eclipsePlugin">Eclipse plug-in</a></h2>
+  <h2><a name="eclipsePlugin" href="#eclipsePlugin"><span
+  class="anchor"/></a>Eclipse plug-in</h2>
   
   <p>We are looking for volunteers willing to implement IDE support
   for CAL10N.  Below is a list of possible features of this IDE which
@@ -549,7 +553,7 @@ public class MyAllInOneColorVerificationTest {
   
   <p>If interested please contact the cal10n-dev mailing list.</p>
 
-  <h2><a name="antTask" href="#antTask">Ant task</a></h2>
+  <h2><a name="antTask" href="#antTask"><span class="anchor"/></a>Ant task</h2>
 
   <p>We are looking for volunteers to implement an Ant task to verify
   resource bundles. The Ant task could be modeled after the
