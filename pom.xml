@@ -8,7 +8,7 @@
 	<packaging>pom</packaging>
   <version>0.7.5</version>
   <name>Compiler assisted localization library (CAL10N) - Parent</name>
-  <description>Compiler assisted localization library (CAL10N)/<description>
+  <description>Compiler assisted localization library (CAL10N)</description>
 
   <url>http://cal10n.qos.ch</url>
   
