@@ -140,14 +140,6 @@ p.menu_header {
   font-size: 80%;
 }
 
-#left img {
-	display: block;
-	margin: 20px 0 20px 17px;
-	border: none;
-	width: 90px;
-	height: 30px;
-}
-
 #headerLine {
   background-color:#FFD0A0;
   border:1px solid #CCCCCC;
