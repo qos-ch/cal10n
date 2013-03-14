@@ -65,7 +65,7 @@ public class LexicalUtil {
           outBuf.append(next);
 
       }
-      i = inBuf.indexOf("\\", last);
+      i = inBuf.indexOf("\\", last + 1);
     }
     outBuf.append(inBuf.subSequence(last + 1, inBuf.length()));
     return outBuf;
@@ -83,7 +83,7 @@ public class LexicalUtil {
         continue;
       }
       if (atJ >= 'A' && atJ <= 'F') {
-        // '7' = 'A' - 10 
+        // '7' = 'A' - 10
         r = (r << 4) + atJ - '7';
         continue;
       }
