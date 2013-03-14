@@ -69,4 +69,9 @@ public class LexicalUtilTest {
     verify("a\\u2169", "a\u2169");
 
   }
+
+    @Test
+    public void testCal29() {
+        verify("\\\\n", "\\\\n");
+    }
 }
