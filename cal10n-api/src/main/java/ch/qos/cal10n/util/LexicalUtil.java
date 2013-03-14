@@ -37,16 +37,16 @@ public class LexicalUtil {
 
     StringBuilder outBuf = new StringBuilder(inBuf.length());
 
-    int last = -1;
+    int followIndex = -1;  // index of char following the latest backslash
     while (i != -1) {
-      outBuf.append(inBuf.subSequence(last + 1, i));
-      last = i + 1;
-      char next = inBuf.charAt(last);
-      switch (next) {
+      outBuf.append(inBuf.subSequence(followIndex + 1, i));
+      followIndex = i + 1;
+      char c = inBuf.charAt(followIndex);
+      switch (c) {
         case 'u':
-          char unicodeChar = readUnicode(inBuf, last + 1);
+          char unicodeChar = readUnicode(inBuf, followIndex + 1);
           outBuf.append(unicodeChar);
-          last += 4;
+          followIndex += 4;
           break;
         case 'n':
           outBuf.append('\n');
@@ -62,12 +62,12 @@ public class LexicalUtil {
           break;
         default:
           outBuf.append('\\');
-          outBuf.append(next);
-
+          outBuf.append(c);
       }
-      i = inBuf.indexOf("\\", last + 1);
+      // search for the next \
+      i = inBuf.indexOf("\\", followIndex + 1);
     }
-    outBuf.append(inBuf.subSequence(last + 1, inBuf.length()));
+    outBuf.append(inBuf.subSequence(followIndex + 1, inBuf.length()));
     return outBuf;
   }
 

@@ -72,6 +72,7 @@ public class LexicalUtilTest {
 
     @Test
     public void testCal29() {
-        verify("\\\\n", "\\\\n");
+      verify("\\\\n", "\\\\n");
+      verify("beans\\\\n\\\\nProducer", "beans\\\\n\\\\nProducer");
     }
 }
