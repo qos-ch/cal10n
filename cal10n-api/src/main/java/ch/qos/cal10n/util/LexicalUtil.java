@@ -60,8 +60,11 @@ public class LexicalUtil {
         case 'f':
           outBuf.append('\f');
           break;
-        case ':':
-          outBuf.append(':');
+        case ':': // see http://tinyurl.com/bprdgnk , i.e. the javadocs for Properties.store()
+        case '#':
+        case '!':
+        case '=':
+          outBuf.append(c);
           break;
         default:
           outBuf.append('\\');

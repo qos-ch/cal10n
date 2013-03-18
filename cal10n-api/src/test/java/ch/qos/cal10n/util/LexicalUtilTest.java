@@ -36,6 +36,7 @@ public class LexicalUtilTest {
     StringBuilder outBuf = LexicalUtil.convertSpecialCharacters(inBuf);
     assertEquals(expected, outBuf.toString());
   }
+
   @Test
   public void identity() {
     verify("abc", "abc");
@@ -71,13 +72,28 @@ public class LexicalUtilTest {
   }
 
   @Test
-  public void withEscapedColon() throws Exception {
-      verify("foo\\:bar", "foo:bar");
+  public void withEscapedColon()  {
+    verify("foo\\:bar", "foo:bar");
   }
 
-    @Test
-    public void testCal29() {
-      verify("\\\\n", "\\\\n");
-      verify("beans\\\\n\\\\nProducer", "beans\\\\n\\\\nProducer");
-    }
+  @Test
+  public void withEscapedExclamation()  {
+     verify("foo\\!bar", "foo!bar");
+  }
+
+  @Test
+  public void withEscapedHash()  {
+     verify("foo\\#bar", "foo#bar");
+  }
+
+  @Test
+  public void withEscapedEquals()  {
+     verify("foo\\=bar", "foo=bar");
+  }
+
+  @Test
+  public void testCal29() {
+    verify("\\\\n", "\\\\n");
+    verify("beans\\\\n\\\\nProducer", "beans\\\\n\\\\nProducer");
+  }
 }
