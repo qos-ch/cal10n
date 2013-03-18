@@ -70,6 +70,11 @@ public class LexicalUtilTest {
 
   }
 
+  @Test
+  public void withEscapedColon() throws Exception {
+      verify("foo\\:bar", "foo:bar");
+  }
+
     @Test
     public void testCal29() {
       verify("\\\\n", "\\\\n");
