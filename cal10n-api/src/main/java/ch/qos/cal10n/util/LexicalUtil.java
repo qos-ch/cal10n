@@ -60,6 +60,9 @@ public class LexicalUtil {
         case 'f':
           outBuf.append('\f');
           break;
+        case ':':
+          outBuf.append(':');
+          break;
         default:
           outBuf.append('\\');
           outBuf.append(c);
