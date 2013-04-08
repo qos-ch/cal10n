@@ -86,7 +86,7 @@ public class MessageKeyVerifier implements IMessageKeyVerifier {
       return errorList;
     }
 
-    String charset = AnnotationExtractor.getCharset(enumType, Locale.FRENCH);
+    String charset = AnnotationExtractor.getCharset(enumType, locale);
     ResourceBundle rb = CAL10NResourceBundleFinder.getBundle(this.getClass()
         .getClassLoader(), baseName, locale, charset);
 
