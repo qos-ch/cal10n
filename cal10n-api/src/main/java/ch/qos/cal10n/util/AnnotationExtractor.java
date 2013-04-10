@@ -78,7 +78,7 @@ public class AnnotationExtractor {
     if(la != null) {
       localeCharset = la.charset();
     }
-    if(!isEmttyString(localeCharset)) {
+    if(!isEmptyString(localeCharset)) {
       return localeCharset;
     }
     
@@ -99,7 +99,7 @@ public class AnnotationExtractor {
     return null;
   }
   
-  static boolean isEmttyString(String s) {
+  static boolean isEmptyString(String s) {
     return s == null || s.length() == 0;
   }
 }
