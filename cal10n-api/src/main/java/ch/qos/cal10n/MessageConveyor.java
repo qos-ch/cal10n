@@ -49,15 +49,15 @@ public class MessageConveyor implements IMessageConveyor {
 	/**
 	 * The {@link Locale} associated with this instance.
 	 * 
-	 * @param locale
+	 * @param locale the Locale which this conveyor targets
 	 */
 	public MessageConveyor(Locale locale) {
 		this.locale = locale;
 	}
 
 	/**
-	 * Given an enum as key, find the corresponding resource bundle and return
-	 * the corresponding internationalized.
+	 * Given an enum as key, find the resource bundle corresponding to this locale and return
+	 * the message corresponding to the key passed as parameter (internationalized per this locale).
 	 * 
 	 * <p>
 	 * The name of the resource bundle is defined via the {@link BaseName}
@@ -71,11 +71,13 @@ public class MessageConveyor implements IMessageConveyor {
 	public <E extends Enum<?>> String getMessage(E key, Object... args)
 			throws MessageConveyorException {
 
-		String declararingClassName = key.getDeclaringClass().getName();
-		CAL10NResourceBundle rb = cache.get(declararingClassName);
+    Class<?> declaringClass = key.getDeclaringClass();
+
+		String declaringClassName = declaringClass.getName();
+		CAL10NResourceBundle rb = cache.get(declaringClassName);
 		if (rb == null || rb.hasChanged()) {
-			rb = lookup(key);
-			cache.put(declararingClassName, rb);
+			rb = lookupResourceBundleByEnumClassAndLocale(declaringClass);
+			cache.put(declaringClassName, rb);
 		}
 
 		String keyAsStr = key.toString();
@@ -91,16 +93,15 @@ public class MessageConveyor implements IMessageConveyor {
 		}
 	}
 
-	private <E extends Enum<?>> CAL10NResourceBundle lookup(E key)
+	private <E extends Enum<?>> CAL10NResourceBundle lookupResourceBundleByEnumClassAndLocale(Class<?> declaringClass)
 			throws MessageConveyorException {
-		Class<?> declaringClass = key.getDeclaringClass();
 
-		String baseName = AnnotationExtractor.getBaseName(key
-				.getDeclaringClass());
+    // basename is declared via an annotation on the declaringClass
+		String baseName = AnnotationExtractor.getBaseName(declaringClass);
 		if (baseName == null) {
 			throw new MessageConveyorException(
 					"Missing @BaseName annotation in enum type ["
-							+ key.getClass().getName() + "]. See also "
+							+ declaringClass.getName() + "]. See also "
 							+ Cal10nConstants.MISSING_BN_ANNOTATION_URL);
 		}
 
@@ -115,7 +116,7 @@ public class MessageConveyor implements IMessageConveyor {
 			throw new MessageConveyorException(
 					"Failed to locate resource bundle [" + baseName
 							+ "] for locale [" + locale + "] for enum type ["
-							+ key.getDeclaringClass().getName() + "]");
+							+ declaringClass.getName() + "]");
 		}
 		return rb;
 	}
