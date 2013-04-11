@@ -34,7 +34,7 @@ import ch.qos.cal10n.util.AnnotationExtractor;
 public class AnnotationExtractorTest {
 
   @Test
-  public void resourcceBundleName() {
+  public void resourceBundleName() {
     String result = AnnotationExtractor.getBaseName(Fruit.class);
     assertEquals("fruits", result);
   }
