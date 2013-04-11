@@ -46,9 +46,8 @@ public interface IMessageKeyVerifier {
   /**
    * Verify that the keys defined in the enumClass match those found in the
    * corresponding resource bundle for all locales declared in the enum type
-   * via the &#64;{@link LocaleData} annotation.
-   * 
-   * @param locale
+   * via the {@link ch.qos.cal10n.LocaleData @LocaleData} annotation.
+   *
    * @return
    */
   public List<Cal10nError> verifyAllLocales();
