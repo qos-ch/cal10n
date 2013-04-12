@@ -1,7 +1,9 @@
 package ch.qos.cal10n.verifier;
 
 import ch.qos.cal10n.Cal10nConstants;
-import ch.qos.cal10n.util.CAL10NResourceBundleFinder;
+import ch.qos.cal10n.util.AnnotationExtractor;
+import ch.qos.cal10n.util.Cal10nResourceBundleFinder;
+import ch.qos.cal10n.util.IAnnotationExtractor;
 import ch.qos.cal10n.util.MiscUtil;
 
 import java.text.MessageFormat;
@@ -20,19 +22,33 @@ import java.util.*;
 abstract public class MessageKeyVerifierBase implements IMessageKeyVerifier {
 
   final String enumTypeAsStr;
+  final IAnnotationExtractor annotationExtractor;
 
-  MessageKeyVerifierBase(String enumTypeAsStr) {
+  protected MessageKeyVerifierBase(String enumTypeAsStr, IAnnotationExtractor annotationExtractor) {
     this.enumTypeAsStr = enumTypeAsStr;
+    this.annotationExtractor = annotationExtractor;
   }
 
   public String getEnumTypeAsStr() {
     return enumTypeAsStr;
   }
 
-  abstract protected String extractCharsetForLocale(Locale locale);
+  protected String extractCharsetForLocale(Locale locale) {
+    return annotationExtractor.extractCharset(locale);
+  }
 
   abstract protected List<String> extractKeysInEnum();
 
+
+  public String[] getLocaleNames() {
+    String[] localeNameArray = annotationExtractor.extractLocaleNames();
+    return localeNameArray;
+  }
+
+  public String getBaseName() {
+    String rbName = annotationExtractor.getBaseName();
+    return rbName;
+  }
 
   public List<Cal10nError> verify(Locale locale) {
     List<Cal10nError> errorList = new ArrayList<Cal10nError>();
@@ -48,7 +64,7 @@ abstract public class MessageKeyVerifierBase implements IMessageKeyVerifier {
 
     String charset = extractCharsetForLocale(locale);
 
-    ResourceBundle rb = CAL10NResourceBundleFinder.getBundle(this.getClass()
+    ResourceBundle rb = Cal10nResourceBundleFinder.getBundle(this.getClass()
             .getClassLoader(), baseName, locale, charset);
 
     ErrorFactory errorFactory = new ErrorFactory(enumTypeAsStr, locale, baseName);

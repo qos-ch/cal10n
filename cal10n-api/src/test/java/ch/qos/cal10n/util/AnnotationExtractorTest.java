@@ -28,20 +28,19 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import ch.qos.cal10n.util.AnnotationExtractor;
-
 
 public class AnnotationExtractorTest {
 
+  AnnotationExtractor annotationExtractor = new AnnotationExtractor(Fruit.class);
   @Test
   public void resourceBundleName() {
-    String result = AnnotationExtractor.getBaseName(Fruit.class);
+    String result = annotationExtractor.getBaseName();
     assertEquals("fruits", result);
   }
   
   @Test
   public void localeNames() {
-    String[] result = AnnotationExtractor.getLocaleNames(Fruit.class);
+    String[] result = annotationExtractor.extractLocaleNames();
     assertTrue(Arrays.equals(new String[] {"fr", "en"}, result));
   }
   

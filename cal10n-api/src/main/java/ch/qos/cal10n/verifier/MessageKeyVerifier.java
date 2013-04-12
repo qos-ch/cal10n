@@ -36,49 +36,37 @@ import java.util.Locale;
  */
 public class MessageKeyVerifier extends MessageKeyVerifierBase {
 
-  Class<? extends Enum<?>> enumType;
-
+  final Class<? extends Enum<?>> enumClass;
 
   public MessageKeyVerifier(Class<? extends Enum<?>> enumClass) {
-    super(enumClass.getName());
-    this.enumType = enumClass;
+    super(enumClass.getName(),  new AnnotationExtractor(enumClass));
+    this.enumClass = enumClass;
   }
 
-  @SuppressWarnings("unchecked")
   public MessageKeyVerifier(String enumTypeAsStr) {
-    super(enumTypeAsStr);
-    String errMsg = "Failed to find enum class [" + enumTypeAsStr + "]";
-    try {
-      this.enumType = (Class<? extends Enum<?>>) Class.forName(enumTypeAsStr);
-    } catch (ClassNotFoundException e) {
-      throw new IllegalStateException(errMsg, e);
-    } catch (NoClassDefFoundError e) {
-      throw new IllegalStateException(errMsg, e);
-    }
+    this(buildEnumClass(enumTypeAsStr));
   }
 
-  protected String extractCharsetForLocale(Locale locale) {
-    return AnnotationExtractor.getCharset(enumType, locale);
+  static Class<? extends Enum<?>> buildEnumClass(String enumClassAsStr) {
+    String errMsg = "Failed to find enum class [" + enumClassAsStr + "]";
+       try {
+         return (Class<? extends Enum<?>>) Class.forName(enumClassAsStr);
+       } catch (ClassNotFoundException e) {
+         throw new IllegalStateException(errMsg, e);
+       } catch (NoClassDefFoundError e) {
+         throw new IllegalStateException(errMsg, e);
+       }
   }
 
   protected List<String> extractKeysInEnum() {
     List<String> enumKeyList = new ArrayList<String>();
-    Enum<?>[] enumArray = enumType.getEnumConstants();
+    Enum<?>[] enumArray = enumClass.getEnumConstants();
     for (Enum<?> e : enumArray) {
       enumKeyList.add(e.toString());
     }
     return enumKeyList;
   }
 
-  public String[] getLocaleNames() {
-    String[] localeNameArray = AnnotationExtractor.getLocaleNames(enumType);
-    return localeNameArray;
-  }
-
-  public String getBaseName() {
-    String rbName = AnnotationExtractor.getBaseName(enumType);
-    return rbName;
-  }
 
 
 }

@@ -63,7 +63,7 @@ public interface IMessageKeyVerifier {
 
   /**
    * Get the locales specified in the enumType (via annotations)
-   * 
+   *
    * @return
    */
   public String[] getLocaleNames();
@@ -71,7 +71,7 @@ public interface IMessageKeyVerifier {
   /**
    * Get the base name for the resource bundle family as specified in the enumType (via
    * annotations)
-   * 
+   *
    * @return
    */
   public String getBaseName();

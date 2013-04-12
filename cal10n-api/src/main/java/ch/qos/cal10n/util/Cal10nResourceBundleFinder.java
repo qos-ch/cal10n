@@ -30,9 +30,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;
 
-public class CAL10NResourceBundleFinder {
+public class Cal10nResourceBundleFinder {
 
-  public static CAL10NResourceBundle getBundle(ClassLoader classLoader,
+  public static Cal10nResourceBundle getBundle(ClassLoader classLoader,
       String baseName, Locale locale, String charset) {
 
     // same as the JDK convention
@@ -48,9 +48,9 @@ public class CAL10NResourceBundleFinder {
     String languageOnlyCandidate = computeLanguageOnlyCandidate(baseName,
         locale);
 
-    CAL10NResourceBundle cprbLanguageOnly = makePropertyResourceBundle(
+    Cal10nResourceBundle cprbLanguageOnly = makePropertyResourceBundle(
         classLoader, languageOnlyCandidate, charset);
-    CAL10NResourceBundle cprbLanguageAndCountry = null;
+    Cal10nResourceBundle cprbLanguageAndCountry = null;
 
     if (languageAndCountryCandidate != null) {
       cprbLanguageAndCountry = makePropertyResourceBundle(classLoader,
@@ -64,10 +64,10 @@ public class CAL10NResourceBundleFinder {
     return cprbLanguageOnly;
   }
 
-  private static CAL10NResourceBundle makePropertyResourceBundle(
+  private static Cal10nResourceBundle makePropertyResourceBundle(
       ClassLoader classLoader, String resourceCandiate, String charset) {
 
-    CAL10NResourceBundle prb = null;
+    Cal10nResourceBundle prb = null;
 
     URL url = classLoader.getResource(resourceCandiate);
     if (url != null) {
@@ -80,7 +80,7 @@ public class CAL10NResourceBundleFinder {
         else
           reader = new InputStreamReader(in, charset);
 
-        prb = new CAL10NResourceBundle(reader, MiscUtil.urlToFile(url));
+        prb = new Cal10nResourceBundle(reader, MiscUtil.urlToFile(url));
         in.close();
       } catch (IOException e) {
       }

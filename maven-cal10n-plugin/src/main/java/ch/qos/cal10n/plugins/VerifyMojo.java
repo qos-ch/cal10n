@@ -119,9 +119,9 @@ public class VerifyMojo extends AbstractMojo {
       Locale locale = new Locale(localeName);
       List<String> errorList = mcv.typeIsolatedVerify(locale);
       if (errorList.size() == 0) {
-        String resouceBundleName = mcv.getBaseName();
+        String resourceBundleName = mcv.getBaseName();
         getLog().info(
-            "SUCCESSFUL verification for resource bundle [" + resouceBundleName
+            "SUCCESSFUL verification for resource bundle [" + resourceBundleName
                 + "] for locale [" + locale + "]");
       } else {
         failure = true;

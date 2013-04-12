@@ -10,7 +10,8 @@ import ch.qos.cal10n.LocaleData;
   @Locale("fr")
   })
 public enum Countries {
-   CH, 
+   CH,
+   A, B,
    CN,
    FR,
    UK;

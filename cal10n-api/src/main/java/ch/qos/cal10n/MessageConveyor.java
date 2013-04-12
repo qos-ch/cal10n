@@ -28,8 +28,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ch.qos.cal10n.util.AnnotationExtractor;
-import ch.qos.cal10n.util.CAL10NResourceBundle;
-import ch.qos.cal10n.util.CAL10NResourceBundleFinder;
+import ch.qos.cal10n.util.Cal10nResourceBundle;
+import ch.qos.cal10n.util.Cal10nResourceBundleFinder;
 
 /**
  * The default implementation for {@link IMessageConveyor} based on resource
@@ -44,7 +44,7 @@ public class MessageConveyor implements IMessageConveyor {
 
 	final Locale locale;
 
-	final Map<String, CAL10NResourceBundle> cache = new ConcurrentHashMap<String, CAL10NResourceBundle>();
+	final Map<String, Cal10nResourceBundle> cache = new ConcurrentHashMap<String, Cal10nResourceBundle>();
 
 	/**
 	 * The {@link Locale} associated with this instance.
@@ -74,7 +74,7 @@ public class MessageConveyor implements IMessageConveyor {
     Class<? extends Enum> declaringClass = key.getDeclaringClass();
 
 		String declaringClassName = declaringClass.getName();
-		CAL10NResourceBundle rb = cache.get(declaringClassName);
+		Cal10nResourceBundle rb = cache.get(declaringClassName);
 		if (rb == null || rb.hasChanged()) {
 			rb = lookupResourceBundleByEnumClassAndLocale(declaringClass);
 			cache.put(declaringClassName, rb);
@@ -93,11 +93,12 @@ public class MessageConveyor implements IMessageConveyor {
 		}
 	}
 
-	private <E extends Enum<?>> CAL10NResourceBundle lookupResourceBundleByEnumClassAndLocale(Class<E> declaringClass)
+	private <E extends Enum<?>> Cal10nResourceBundle lookupResourceBundleByEnumClassAndLocale(Class<E> declaringClass)
 			throws MessageConveyorException {
 
+    AnnotationExtractor annotationExtractor = new AnnotationExtractor(declaringClass);
     // basename is declared via an annotation on the declaringClass
-		String baseName = AnnotationExtractor.getBaseName(declaringClass);
+		String baseName = annotationExtractor.getBaseName();
 		if (baseName == null) {
 			throw new MessageConveyorException(
 					"Missing @BaseName annotation in enum type ["
@@ -105,12 +106,12 @@ public class MessageConveyor implements IMessageConveyor {
 							+ Cal10nConstants.MISSING_BN_ANNOTATION_URL);
 		}
 
-		String charset = AnnotationExtractor.getCharset(declaringClass, locale);
+		String charset = annotationExtractor.extractCharset(locale);
 		// use the declaring class' loader instead of
 		// this.getClass().getClassLoader()
 		// see also http://jira.qos.ch/browse/CAL-8
-		CAL10NResourceBundle rb = CAL10NResourceBundleFinder.getBundle(
-				declaringClass.getClassLoader(), baseName, locale, charset);
+		Cal10nResourceBundle rb = Cal10nResourceBundleFinder.getBundle(
+            declaringClass.getClassLoader(), baseName, locale, charset);
 
 		if (rb == null) {
 			throw new MessageConveyorException(

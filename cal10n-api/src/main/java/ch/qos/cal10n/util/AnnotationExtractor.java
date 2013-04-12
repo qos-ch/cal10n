@@ -22,83 +22,33 @@
 package ch.qos.cal10n.util;
 
 import ch.qos.cal10n.BaseName;
-import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 /**
- * 
+ * Given an enum class, retrieve its cal10n-related values from its cal10-specific annotations.
+ * Note that much of the work in this class is performed by the base class.
+ *
  * @author Ceki G&uuml;lc&uuml;
- * 
  */
-public class AnnotationExtractor {
+public class AnnotationExtractor<E extends Enum<?>> extends AnnotationExtractorBase {
 
-  static public <E extends Enum<?>> String getBaseName(Class<E> enumClass) {
-    BaseName rbnAnnotation = (BaseName) enumClass.getAnnotation(BaseName.class);
+  final Class<E> enumClass;
+
+  public AnnotationExtractor(Class<E> enumClass) {
+    this.enumClass = enumClass;
+  }
+
+  public String getBaseName() {
+    BaseName rbnAnnotation = enumClass.getAnnotation(BaseName.class);
     if (rbnAnnotation == null) {
       return null;
     }
     return rbnAnnotation.value();
   }
 
-  static public <E extends Enum<?>> String[] getLocaleNames(Class<E> enumClass) {
-    Locale[] localeDataArray = getLocaleData(enumClass);
-
-    if (localeDataArray == null) {
-      return null;
-    }
-
-    String[] names = new String[localeDataArray.length];
-    for (int i = 0; i < localeDataArray.length; i++) {
-      names[i] = localeDataArray[i].value();
-    }
-    return names;
+  @Override
+  protected LocaleData extractLocaleData() {
+    return enumClass.getAnnotation(LocaleData.class);
   }
 
-  static public <E extends Enum<?>> Locale[] getLocaleData(Class<E> enumClass) {
-    LocaleData localeDataArrayAnnotation = (LocaleData) enumClass
-        .getAnnotation(LocaleData.class);
-    if (localeDataArrayAnnotation == null) {
-      return null;
-    }
-    return localeDataArrayAnnotation.value();
-  }
-
-  public static String getCharset(Class<?> enumClass,
-      java.util.Locale juLocale) {
-    LocaleData localeDataArrayAnnotation = (LocaleData) enumClass
-        .getAnnotation(LocaleData.class);
-    if (localeDataArrayAnnotation == null) {
-      return "";
-    }
-    
-    String defaultCharset = localeDataArrayAnnotation.defaultCharset();
-    
-    Locale  la = findLocaleAnnotation(juLocale, localeDataArrayAnnotation);
-    String localeCharset = null;
-    if(la != null) {
-      localeCharset = la.charset();
-    }
-    if(!isEmptyString(localeCharset)) {
-      return localeCharset;
-    }
-    
-    return defaultCharset;
-  }
-
-  static Locale findLocaleAnnotation(java.util.Locale julocale, LocaleData localeDataArrayAnnotation) {
-    Locale[] localeAnnotationArray = localeDataArrayAnnotation.value();
-    if(localeAnnotationArray == null) {
-      return null;
-    }
-    for(Locale la: localeAnnotationArray) {
-      if(la.value().equals(julocale.toString())) {
-        return la;
-      }
-    }
-    return null;
-  }
-  
-  static boolean isEmptyString(String s) {
-    return s == null || s.length() == 0;
-  }
 }
