@@ -23,6 +23,7 @@ public class CAL10NAnnotationProcessor extends AbstractProcessor {
     super.init(env);
     //note("CAL10NAnnotationProcessor initialized");
     baseNameTypeElement = getType("ch.qos.cal10n.BaseName");
+
   }
 
   @Override

@@ -474,7 +474,7 @@ public class MyAllInOneColorVerificationTest {
   verification is triggered at every compilation of an enum class
   annotated with <code>@BaseName</code>.</p>
 
-  <p>All majors IDEs, including Eclipse, IntelliJ IDEA and Netbeabs
+  <p>All majors IDEs, including Eclipse, IntelliJ IDEA and Netbeans
   support annotation processors.</p>
 
   <p>The fully qualified name of
@@ -511,7 +511,11 @@ public class MyAllInOneColorVerificationTest {
 
   <p>IntelliJ IDEA's support for annotation processors is
   superb. Searching for "annotation processor intellij idea" on Google
-  should yeild the appopriate documentation.</p>
+  should yeild the appopriate documentation. Just remember to define a
+  "Anotation Processor" profile using
+  <code>CAL10NAnnotationProcessor</code> fully qualified name and add
+  the modules in your project which depend on cal10n to that
+  profile. The integration should proceed rather smoothly.</p>
 
   <h2 class="doAnchor" name="mavenPlugin">Maven Plugin</h2>
 

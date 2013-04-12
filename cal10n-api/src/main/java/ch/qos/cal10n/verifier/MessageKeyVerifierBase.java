@@ -63,6 +63,10 @@ abstract public class MessageKeyVerifierBase implements IMessageKeyVerifier {
 
     String charset = extractCharsetForLocale(locale);
 
+    ClassLoader tlcl = Thread.currentThread().getContextClassLoader();
+    ResourceBundle rb = CAL10NResourceBundleFinder.getBundle(this.getClass()
+            .getClassLoader(), baseName, locale, charset);
+
     ResourceBundle rb = CAL10NResourceBundleFinder.getBundle(this.getClass()
             .getClassLoader(), baseName, locale, charset);
 
