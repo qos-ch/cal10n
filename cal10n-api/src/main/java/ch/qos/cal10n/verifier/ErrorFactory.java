@@ -34,18 +34,18 @@ import ch.qos.cal10n.verifier.Cal10nError.ErrorType;
 public class ErrorFactory {
 
   final Locale locale;
-  final Class<?> enumClass;
+  final String enumClassName;
   final String resourceBundleName;
 
-  public ErrorFactory(Class<?> enumClass, Locale locale,
+  public ErrorFactory(String enumClassName, Locale locale,
       String resourceBundleName) {
     this.locale = locale;
-    this.enumClass = enumClass;
+    this.enumClassName = enumClassName;
     this.resourceBundleName = resourceBundleName;
   }
 
   Cal10nError buildError(ErrorType errorType, String key) {
-    return new Cal10nError(errorType, key, enumClass, locale,
+    return new Cal10nError(errorType, key, enumClassName, locale,
         resourceBundleName);
   }
 }

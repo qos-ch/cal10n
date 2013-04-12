@@ -22,40 +22,31 @@
 
 package ch.qos.cal10n.verifier;
 
-import java.text.MessageFormat;
+import ch.qos.cal10n.util.AnnotationExtractor;
+
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Set;
-
-import ch.qos.cal10n.Cal10nConstants;
-import ch.qos.cal10n.util.AnnotationExtractor;
-import ch.qos.cal10n.util.CAL10NResourceBundleFinder;
-import ch.qos.cal10n.util.MiscUtil;
-import ch.qos.cal10n.verifier.Cal10nError.ErrorType;
 
 /**
  * Given an enum class, verify that the resource bundles corresponding to a
  * given locale contains the correct keys.
- * 
+ *
  * @author Ceki Gulcu
  */
-public class MessageKeyVerifier implements IMessageKeyVerifier {
+public class MessageKeyVerifier extends MessageKeyVerifierBase {
 
   Class<? extends Enum<?>> enumType;
-  String enumTypeAsStr;
+
 
   public MessageKeyVerifier(Class<? extends Enum<?>> enumClass) {
+    super(enumClass.getName());
     this.enumType = enumClass;
-    this.enumTypeAsStr = enumClass.getName();
   }
 
   @SuppressWarnings("unchecked")
   public MessageKeyVerifier(String enumTypeAsStr) {
-    this.enumTypeAsStr = enumTypeAsStr;
+    super(enumTypeAsStr);
     String errMsg = "Failed to find enum class [" + enumTypeAsStr + "]";
     try {
       this.enumType = (Class<? extends Enum<?>>) Class.forName(enumTypeAsStr);
@@ -66,105 +57,17 @@ public class MessageKeyVerifier implements IMessageKeyVerifier {
     }
   }
 
-  public Class<? extends Enum<?>> getEnumType() {
-    return enumType;
+  protected String extractCharsetForLocale(Locale locale) {
+    return AnnotationExtractor.getCharset(enumType, locale);
   }
 
-  public String getEnumTypeAsStr() {
-    return enumTypeAsStr;
-  }
-
-  public List<Cal10nError> verify(Locale locale) {
-    List<Cal10nError> errorList = new ArrayList<Cal10nError>();
-
-    String baseName = AnnotationExtractor.getBaseName(enumType);
-
-    if (baseName == null) {
-      errorList.add(new Cal10nError(ErrorType.MISSING_BN_ANNOTATION, "",
-          enumType, locale, ""));
-      // no point in continuing
-      return errorList;
-    }
-
-    String charset = AnnotationExtractor.getCharset(enumType, locale);
-    ResourceBundle rb = CAL10NResourceBundleFinder.getBundle(this.getClass()
-        .getClassLoader(), baseName, locale, charset);
-
-    ErrorFactory errorFactory = new ErrorFactory(enumType, locale, baseName);
-
-    if (rb == null) {
-      errorList.add(errorFactory.buildError(ErrorType.FAILED_TO_FIND_RB, ""));
-   // no point in continuing
-      return errorList;
-    }
-    
-    Set<String> rbKeySet = buildKeySetFromEnumeration(rb.getKeys());
-
-    if (rbKeySet.size() == 0) {
-      errorList.add(errorFactory.buildError(ErrorType.EMPTY_RB, ""));
-    }
-
+  protected List<String> extractKeysInEnum() {
+    List<String> enumKeyList = new ArrayList<String>();
     Enum<?>[] enumArray = enumType.getEnumConstants();
-    if (enumArray == null || enumArray.length == 0) {
-      errorList.add(errorFactory.buildError(ErrorType.EMPTY_ENUM, ""));
-    }
-
-    if (errorList.size() != 0) {
-      return errorList;
-    }
-
     for (Enum<?> e : enumArray) {
-      String enumKey = e.toString();
-      if (rbKeySet.contains(enumKey)) {
-        rbKeySet.remove(enumKey);
-      } else {
-        errorList.add(errorFactory.buildError(ErrorType.ABSENT_IN_RB, enumKey));
-      }
+      enumKeyList.add(e.toString());
     }
-
-    for (String rbKey : rbKeySet) {
-      errorList.add(errorFactory.buildError(ErrorType.ABSENT_IN_ENUM, rbKey));
-    }
-    return errorList;
-  }
-
-  private Set<String> buildKeySetFromEnumeration(Enumeration<String> e) {
-    Set<String> set = new HashSet<String>();
-    while (e.hasMoreElements()) {
-      String s = e.nextElement();
-      set.add(s);
-    }
-    return set;
-  }
-
-  public List<String> typeIsolatedVerify(Locale locale) {
-    List<Cal10nError> errorList = verify(locale);
-    List<String> strList = new ArrayList<String>();
-    for (Cal10nError error : errorList) {
-      strList.add(error.toString());
-    }
-    return strList;
-  }
-
-  /***
-   * Verify all declared locales in one step.
-   */
-  public List<Cal10nError> verifyAllLocales() {
-    List<Cal10nError> errorList = new ArrayList<Cal10nError>();
-
-    String[] localeNameArray = getLocaleNames();
-
-    if (localeNameArray == null || localeNameArray.length == 0) {
-      String errMsg = MessageFormat.format(Cal10nConstants.MISSING_LD_ANNOTATION_MESSAGE, enumTypeAsStr);
-      throw new IllegalStateException(errMsg);
-    }
-    for (String localeName : localeNameArray) {
-      Locale locale = MiscUtil.toLocale(localeName);
-      List<Cal10nError> tmpList = verify(locale);
-      errorList.addAll(tmpList);
-    }
-
-    return errorList;
+    return enumKeyList;
   }
 
   public String[] getLocaleNames() {
@@ -176,5 +79,6 @@ public class MessageKeyVerifier implements IMessageKeyVerifier {
     String rbName = AnnotationExtractor.getBaseName(enumType);
     return rbName;
   }
+
 
 }

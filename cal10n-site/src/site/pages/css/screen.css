@@ -126,6 +126,14 @@ p.menu_header {
   border-width: 0px;	
 }
 
+/* ------- align the logback manual image and give the link:hover a transparent bg --- */
+#left p.pub {
+  text-align: center;
+}
+#left p.pub a:hover {
+  background-color: transparent;
+}
+
 /* ------------------------------------------- */
 
 #right {

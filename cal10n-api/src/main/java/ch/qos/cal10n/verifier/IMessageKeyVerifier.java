@@ -20,12 +20,12 @@ public interface IMessageKeyVerifier {
   // to do class loader tricks. Do not change the name of this class
   // without looking at the maven-cal10n-plugin.
 
-  /**
-   * Get the of enum type that this verifier is related to to.
-   * 
-   * @return
-   */
-  public Class<? extends Enum<?>> getEnumType();
+//  /**
+//   * Get the of enum type that this verifier is related to to.
+//   *
+//   * @return
+//   */
+//  public Class<? extends Enum<?>> getEnumType();
 
   /**
    * Get the name of enum type to this verifier is related to to.

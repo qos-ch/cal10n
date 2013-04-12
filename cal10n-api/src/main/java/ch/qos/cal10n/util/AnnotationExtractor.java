@@ -95,7 +95,6 @@ public class AnnotationExtractor {
         return la;
       }
     }
-    
     return null;
   }
   

@@ -41,16 +41,14 @@ public class Cal10nError {
   final ErrorType errorType;
   final String key;
   final Locale locale;
-  final Class<?> enumClass;
   final String enumClassName;
   final String baseName;
 
-  Cal10nError(ErrorType errorType, String key, Class<?> enumClass,
+  Cal10nError(ErrorType errorType, String key, String enumClassName,
       Locale locale, String baseName) {
     this.errorType = errorType;
     this.key = key;
-    this.enumClass = enumClass;
-    this.enumClassName = enumClass.getName();
+    this.enumClassName = enumClassName;
     this.locale = locale;
     this.baseName = baseName;
   }
@@ -65,10 +63,6 @@ public class Cal10nError {
 
   public Locale getLocale() {
     return locale;
-  }
-
-  public Class<?> getEnumClass() {
-    return enumClass;
   }
 
   @Override

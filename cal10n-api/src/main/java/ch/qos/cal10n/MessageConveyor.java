@@ -71,7 +71,7 @@ public class MessageConveyor implements IMessageConveyor {
 	public <E extends Enum<?>> String getMessage(E key, Object... args)
 			throws MessageConveyorException {
 
-    Class<?> declaringClass = key.getDeclaringClass();
+    Class<? extends Enum> declaringClass = key.getDeclaringClass();
 
 		String declaringClassName = declaringClass.getName();
 		CAL10NResourceBundle rb = cache.get(declaringClassName);
@@ -93,7 +93,7 @@ public class MessageConveyor implements IMessageConveyor {
 		}
 	}
 
-	private <E extends Enum<?>> CAL10NResourceBundle lookupResourceBundleByEnumClassAndLocale(Class<?> declaringClass)
+	private <E extends Enum<?>> CAL10NResourceBundle lookupResourceBundleByEnumClassAndLocale(Class<E> declaringClass)
 			throws MessageConveyorException {
 
     // basename is declared via an annotation on the declaringClass
