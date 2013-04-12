@@ -26,7 +26,6 @@ import ch.qos.cal10n.util.AnnotationExtractor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Given an enum class, verify that the resource bundles corresponding to a

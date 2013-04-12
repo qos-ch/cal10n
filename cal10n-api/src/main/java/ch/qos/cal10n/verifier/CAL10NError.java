@@ -22,6 +22,7 @@
 package ch.qos.cal10n.verifier;
 
 import java.util.Locale;
+import static ch.qos.cal10n.CAL10NConstants.MISSING_LOCALE_DATA_ANNOTATION_URL;
 
 /**
  * 
@@ -30,12 +31,11 @@ import java.util.Locale;
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public class Cal10nError {
+public class CAL10NError {
 
   enum ErrorType {
-    // MISSING_LOCALE_NAMES_ANNOTATION
-
-    MISSING_BN_ANNOTATION, FAILED_TO_FIND_RB, EMPTY_RB, EMPTY_ENUM, ABSENT_IN_RB, ABSENT_IN_ENUM;
+    MISSING_BN_ANNOTATION, MISSING_LOCALE_DATA_ANNOTATION,
+    FAILED_TO_FIND_RB, EMPTY_RB, EMPTY_ENUM, ABSENT_IN_RB, ABSENT_IN_ENUM;
   }
 
   final ErrorType errorType;
@@ -44,8 +44,8 @@ public class Cal10nError {
   final String enumClassName;
   final String baseName;
 
-  Cal10nError(ErrorType errorType, String key, String enumClassName,
-      Locale locale, String baseName) {
+  CAL10NError(ErrorType errorType, String key, String enumClassName,
+              Locale locale, String baseName) {
     this.errorType = errorType;
     this.key = key;
     this.enumClassName = enumClassName;
@@ -68,9 +68,13 @@ public class Cal10nError {
   @Override
   public String toString() {
     switch (errorType) {
+
     case MISSING_BN_ANNOTATION:
       return "Missing @BaseName annotation in enum type ["
           + enumClassName + "]";
+    case MISSING_LOCALE_DATA_ANNOTATION:
+        return "Missing or empty @LocaleData annotation in enum type ["
+            + enumClassName + "]. See "+MISSING_LOCALE_DATA_ANNOTATION_URL;
     case FAILED_TO_FIND_RB:
       return "Failed to locate resource bundle [" + baseName
           + "] for locale [" + locale + "] for enum type [" + enumClassName
@@ -88,6 +92,7 @@ public class Cal10nError {
       return "Key [" + key + "] present in enum type [" + enumClassName
           + "] but absent in resource bundle named [" + baseName
           + "] for locale [" + locale + "]";
+
     default:
       throw new IllegalStateException("Impossible to reach here");
     }

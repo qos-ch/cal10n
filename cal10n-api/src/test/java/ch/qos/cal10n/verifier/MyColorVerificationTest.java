@@ -36,8 +36,8 @@ public class MyColorVerificationTest {
   @Test
   public void en_UK() {
     IMessageKeyVerifier mcv = new MessageKeyVerifier(Colors.class);
-    List<Cal10nError> errorList = mcv.verify(Locale.UK);
-    for(Cal10nError error: errorList) {
+    List<CAL10NError> errorList = mcv.verify(Locale.UK);
+    for(CAL10NError error: errorList) {
       System.out.println(error);
     }
     assertEquals(0, errorList.size());
@@ -46,8 +46,8 @@ public class MyColorVerificationTest {
   @Test
   public void fr() {
     IMessageKeyVerifier mcv = new MessageKeyVerifier(Colors.class);
-    List<Cal10nError> errorList = mcv.verify(Locale.FRANCE);
-    for(Cal10nError error: errorList) {
+    List<CAL10NError> errorList = mcv.verify(Locale.FRANCE);
+    for(CAL10NError error: errorList) {
       System.out.println(error);
     }
     assertEquals(0, errorList.size());

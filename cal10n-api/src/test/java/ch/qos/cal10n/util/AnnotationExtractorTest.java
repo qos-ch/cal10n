@@ -32,6 +32,7 @@ import org.junit.Test;
 public class AnnotationExtractorTest {
 
   AnnotationExtractor annotationExtractor = new AnnotationExtractor(Fruit.class);
+  
   @Test
   public void resourceBundleName() {
     String result = annotationExtractor.getBaseName();

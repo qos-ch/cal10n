@@ -109,7 +109,7 @@ public class VerifyMojo extends AbstractMojo {
 
     if (localeNameArray == null || localeNameArray.length == 0) {
       String errMsg = MessageFormat.format(
-          CAL10NConstants.MISSING_LD_ANNOTATION_MESSAGE, enumClassAsStr);
+          CAL10NConstants.MISSING_LOCALE_DATA_ANNOTATION_MESSAGE, enumClassAsStr);
       getLog().error(errMsg);
       throw new MojoFailureException(errMsg);
     }

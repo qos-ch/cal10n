@@ -71,7 +71,7 @@ public class MessageConveyor implements IMessageConveyor {
 	public <E extends Enum<?>> String getMessage(E key, Object... args)
 			throws MessageConveyorException {
 
-    Class<? extends Enum> declaringClass = key.getDeclaringClass();
+    Class<? extends Enum<?>> declaringClass = key.getDeclaringClass();
 
 		String declaringClassName = declaringClass.getName();
 		CAL10NResourceBundle rb = cache.get(declaringClassName);

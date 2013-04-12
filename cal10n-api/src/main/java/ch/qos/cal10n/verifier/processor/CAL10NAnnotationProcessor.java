@@ -1,14 +1,13 @@
 package ch.qos.cal10n.verifier.processor;
 
 import ch.qos.cal10n.BaseName;
-import ch.qos.cal10n.verifier.Cal10nError;
+import ch.qos.cal10n.verifier.CAL10NError;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.ElementFilter;
-import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +21,7 @@ public class CAL10NAnnotationProcessor extends AbstractProcessor {
   @Override
   public void init(ProcessingEnvironment env) {
     super.init(env);
-    note("CAL10NAnnotationProcessor initialized");
+    //note("CAL10NAnnotationProcessor initialized");
     baseNameTypeElement = getType("ch.qos.cal10n.BaseName");
   }
 
@@ -40,10 +39,10 @@ public class CAL10NAnnotationProcessor extends AbstractProcessor {
     TypeElementMessageKeyVerifier modelMessageKeyVerifier = new TypeElementMessageKeyVerifier(typeElementForEnum);
 
     BaseName baseNameAnnotation = typeElementForEnum.getAnnotation(BaseName.class);
-    note("performing verification for basename [" + baseNameAnnotation.value() +"]");
-    List<Cal10nError> errorList = modelMessageKeyVerifier.verifyAllLocales();
-    for(Cal10nError error: errorList) {
-      error(error.toString());
+    //note("performing verification for basename [" + baseNameAnnotation.value() +"]");
+    List<CAL10NError> errorList = modelMessageKeyVerifier.verifyAllLocales();
+    for(CAL10NError error: errorList) {
+      error(error.toString(), typeElementForEnum);
     }
 
 
@@ -51,10 +50,6 @@ public class CAL10NAnnotationProcessor extends AbstractProcessor {
 
   private TypeElement getType(String className) {
     return processingEnv.getElementUtils().getTypeElement(className);
-  }
-
-  private Types typeUtils() {
-    return processingEnv.getTypeUtils();
   }
 
   void note(String s) {
@@ -65,8 +60,8 @@ public class CAL10NAnnotationProcessor extends AbstractProcessor {
     processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, s);
   }
 
-  void error(String s) {
-    processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, s);
+  void error(String s, Element element) {
+    processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, s, element);
   }
 
 }

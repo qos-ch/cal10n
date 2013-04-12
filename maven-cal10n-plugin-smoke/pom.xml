@@ -23,25 +23,25 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>ch.qos.cal10n.plugins</groupId>
-				<artifactId>maven-cal10n-plugin</artifactId>
-				<version>${project.version}</version>
-				<executions>
-					<execution>
-						<id>countries</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>verify</goal>
-						</goals>
-            <configuration>
-              <enumTypes>
-                <enumType>ch.qos.cal10n.smoke.Countries</enumType>
-              </enumTypes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			<!--<plugin>-->
+				<!--<groupId>ch.qos.cal10n.plugins</groupId>-->
+				<!--<artifactId>maven-cal10n-plugin</artifactId>-->
+				<!--<version>${project.version}</version>-->
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<id>countries</id>-->
+						<!--<phase>verify</phase>-->
+						<!--<goals>-->
+							<!--<goal>verify</goal>-->
+						<!--</goals>-->
+            <!--<configuration>-->
+              <!--<enumTypes>-->
+                <!--<enumType>ch.qos.cal10n.smoke.Countries</enumType>-->
+              <!--</enumTypes>-->
+						<!--</configuration>-->
+					<!--</execution>-->
+				<!--</executions>-->
+			<!--</plugin>-->
 		</plugins>
 	</build>
 

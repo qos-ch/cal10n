@@ -30,11 +30,11 @@ import ch.qos.cal10n.LocaleData;
  *
  * @author Ceki G&uuml;lc&uuml;
  */
-public class AnnotationExtractor<E extends Enum<?>> extends AnnotationExtractorBase {
+public class AnnotationExtractor extends AnnotationExtractorBase {
 
-  final Class<E> enumClass;
+  final Class<?> enumClass;
 
-  public AnnotationExtractor(Class<E> enumClass) {
+  public AnnotationExtractor(Class<?> enumClass) {
     this.enumClass = enumClass;
   }
 

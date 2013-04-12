@@ -1,29 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ch.qos.cal10n</groupId>
   <artifactId>cal10n-parent</artifactId>
-	<packaging>pom</packaging>
+  <packaging>pom</packaging>
   <version>0.8</version>
   <name>Compiler assisted localization library (CAL10N) - Parent</name>
   <description>Compiler assisted localization library (CAL10N)</description>
 
   <url>http://cal10n.qos.ch</url>
-  
+
   <organization>
     <name>QOS.ch</name>
     <url>http://www.qos.ch</url>
   </organization>
   <inceptionYear>2009</inceptionYear>
- 
+
   <modules>
     <module>cal10n-api</module>
     <module>cal10n-site</module>
     <module>maven-cal10n-plugin</module>
     <module>maven-cal10n-plugin-smoke</module>
   </modules>
+
+  <properties>
+    <maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+  </properties>
 
   <licenses>
     <license>
@@ -68,7 +73,7 @@
   </dependencyManagement>
 
 
-	<build>
+  <build>
     <extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
@@ -127,42 +132,43 @@
 
     </pluginManagement>
 
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
- 
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <forkMode>once</forkMode>
-					<reportFormat>plain</reportFormat>
-					<trimStackTrace>false</trimStackTrace>
-					<excludes>
-						<exclude>**/AllTest.java</exclude>
-						<exclude>**/PackageTest.java</exclude>
-					</excludes>
-				</configuration>
-			</plugin>		
+          <reportFormat>plain</reportFormat>
+          <trimStackTrace>false</trimStackTrace>
+          <excludes>
+            <exclude>**/AllTest.java</exclude>
+            <exclude>**/PackageTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>        
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <executions>
           <execution>
             <phase>package</phase>
-            <goals>              
+            <goals>
               <goal>jar</goal>
             </goals>
           </execution>
         </executions>
-      </plugin>    
+      </plugin>
 
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -215,20 +221,20 @@
                     <title>CAL10N API packages</title>
                     <packages>ch.qos.cal10n:ch.qos.cal10n.verifier:ch.qos.cal10n.util</packages>
                   </group>
-                  
+
                   <group>
                     <title>CAL10N Maven plugin</title>
                     <packages>ch.qos.cal10n.plugins</packages>
                   </group>
                 </groups>
               </configuration>
-            </plugin>            
+            </plugin>
           </reportPlugins>
-        </configuration>        
-      </plugin>      
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-  
+
   <distributionManagement>
     <site>
       <id>pixie</id>
@@ -243,7 +249,7 @@
   </distributionManagement>
 
 
-  <profiles> 
+  <profiles>
     <profile>
       <id>javadocjar</id>
       <build>
@@ -286,6 +292,6 @@
       </build>
     </profile>
 
-  </profiles> 
-  
+  </profiles>
+
 </project>

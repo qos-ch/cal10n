@@ -11,13 +11,15 @@
     <link rel="stylesheet" type="text/css" href="css/prettify.css" />
 
   </head>
-  <body onload="prettyPrint()">
+  <body onload="prettyPrint();  decorate();">
     <script type="text/javascript">prefix='';</script>
     <script type="text/javascript" src="js/prettify.js"></script>
-    <script src="templates/header.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery-min.js"></script>
+    <script type="text/javascript" src="js/decorator.js"></script>
+    <script type="text/javascript" src="templates/header.js" ></script>
     <div id="left">
       <noscript>Please turn on Javascript to view this menu</noscript>
-      <script src="templates/left.js" type="text/javascript"></script>
+      <script type="text/javascript" src="templates/left.js"></script>
     </div>
     <div id="content">
   
@@ -75,8 +77,7 @@
    Muir on the slf4j-dev mailing list.
    </p>
 
-   <h2><a name="code" href="#core"><span class="anchor"/></a>Core
-   idea</h2>
+   <h2 class="doAnchor" name="code">Core idea</h2>
 
    <p>Instead of using String-typed keys for each message, CAL10N uses
    <code>enums</code>.</p>
@@ -133,8 +134,8 @@ GREEN=les {0} sont verts</pre>
   </p>
 
   
-  <h2><a name="retrieving" href="#retrieving"><span
-  class="anchor"/></a>Retrieving internationalized messages</h2>
+  <h2 class="doAnchor" name="retrieving">Retrieving internationalized
+  messages</h2>
 
   <p>In your application, you would retrieve the localized message via
   an <a
@@ -172,9 +173,7 @@ String green = mc.getMessage(Colors.GREEN, <b>"pommes"</b>);  // note the second
   <a href="#mavenPlugin">maven plugin</a>.
   </p>
 
-  <h2><a name="requirements" href="#requirements"><span
-  class="anchor"/></a>Requirements / Installation
-  </h2>
+  <h2 class="doAnchor" name="requirements">Requirements / Installation</h2>
   
   <p>CAL10N requires JDK version 1.5.</p>
 
@@ -193,8 +192,8 @@ String green = mc.getMessage(Colors.GREEN, <b>"pommes"</b>);  // note the second
  
  
 
-  <h2><a name="simplifiedLookup" href="#simplifiedLookup"><span
-  class="anchor"/></a>Simplified bundle look-up procedure</h2>
+  <h2 class="doAnchor" name="simplifiedLookup">Simplified bundle
+  look-up procedure</h2>
 
   <p>The <code>ResourceBundle</code> class defines a rather involved
   <a
@@ -246,8 +245,8 @@ colors_fr_FR.properties</pre>
    less surprise</a>.</p>
 
 
-  <h2><a name="charset" href="#charset"><span class="anchor"/></a>Pick
-  your charset, per locale (no <em>native2ascii</em>)</h2>
+  <h2 class="doAnchor" name="charset">Pick your charset, per locale
+  (no <em>native2ascii</em>)</h2>
   
   <p>CAL10N allows you to encode the resource bundle for a given
   locale in the charset of your choice.  The set of supported charsets
@@ -317,9 +316,8 @@ public enum Colors {
 
 
 
-  <h2><a name="reload" href="#reload"><span
-  class="anchor"/></a>Automatic reloading of resource bundles upon
-  change</h2>
+  <h2 class="doAnchor" name="reload">Automatic reloading of resource
+  bundles upon change</h2>
 
   <p>When a resource bundle for a given locale is changed on the file
   system, <code>MessageConveyor</code> will automatically reload the
@@ -331,8 +329,7 @@ public enum Colors {
   </p>
 
 
-  <h2><a name="deferred" href="#deferred"><span
-  class="anchor"/></a>Deferred localization</h2>
+  <h2 class="doAnchor" name="deferred">Deferred localization</h2>
 
   <p>Under certain circumstances, the appropriate locale is
   <em>unknown</em> at the time or place where the message key and
@@ -355,8 +352,8 @@ public enum Colors {
   message.
   </p>
  
-  <h2><a name="verification" href="#verification"><span
-  class="anchor"/></a>Verification as a test case</h2>
+  <h2 class="doAnchor" name="verification">Verification as a test
+  case</h2>
 
   <p>A convenient and low hassle method for checking for mismatches
   between a given enum type and the corresponding resource bundles is
@@ -375,7 +372,7 @@ import java.util.Locale;
 
 import org.junit.Test;
 
-import ch.qos.cal10n.verifier.Cal10nError;
+import ch.qos.cal10n.verifier.CAL10NError;
 import ch.qos.cal10n.verifier.IMessageKeyVerifier;
 import ch.qos.cal10n.verifier.MessageKeyVerifier;
 
@@ -426,8 +423,8 @@ public class MyColorVerificationTest {
 Key [BLEU] present in resource bundle named [colors] for locale [fr_FR] but absent \ 
    in enum type [ch.qos.cal10n.sample.Colors]</pre>
 
-  <h3><a name="singleTest" href="#ingleTest"><span
-  class="anchor"/></a>One test to rule them all</h3>
+  <h3 class="doAnchor" name="singleTest">One test to rule them
+  all</h3>
 
   <p>Instead of a separate unit test case for each locale, assuming
   you declared the locales in the enum type via the @LocaleData and
@@ -444,7 +441,7 @@ import java.util.Locale;
 
 import org.junit.Test;
 
-import ch.qos.cal10n.verifier.Cal10nError;
+import ch.qos.cal10n.verifier.CAL10NError;
 import ch.qos.cal10n.verifier.IMessageKeyVerifier;
 import ch.qos.cal10n.verifier.MessageKeyVerifier;
 
@@ -463,9 +460,66 @@ public class MyAllInOneColorVerificationTest {
 } </pre>
 
 
+  <h2 class="doAnchor" name="jsr269">JSR-269 support,
+  i.e. verification at compile time</h2>
 
-  <h2><a name="mavenPlugin" href="#mavenPlugin"><span
-  class="anchor"/></a>Maven Plugin</h2>
+  <p class="highlight">Verify your bundles for every compilation of an
+  enum class annotated with @BaseName.</p>
+  
+  <p>As of version 0.8, CAL10N ships with an JSR-269 compliant
+  annotation processor named
+  <code>CAL10NAnnotationProcessor</code>. By enabling this processor
+  you can have javac, i.e. the java compiler, report discrepancies in
+  your bundles at compile-time without leaving your favorite IDE. The
+  verification is triggered at every compilation of an enum class
+  annotated with <code>@BaseName</code>.</p>
+
+  <p>All majors IDEs, including Eclipse, IntelliJ IDEA and Netbeabs
+  support annotation processors.</p>
+
+  <p>The fully qualified name of
+  <code>CAL10NAnnotationProcessor</code> is
+  <code>ch.qos.cal10n.verifier.processor.CAL10NAnnotationProcessor</code>. 
+  </p>
+
+  <p>As all annotation processors
+  <code>CAL10NAnnotationProcessor</code> can be integrated with <a
+  href="http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/javac.html">javac</a>
+  by creating a file named
+  <code>META-INF/services/javax.annotation.processing.Processor</code>
+  containing the fully qualified name of the processor,
+  i.e. <code>ch.qos.cal10n.verifier.processor.CAL10NAnnotationProcessor</code>. The
+  artifact <code>cal10-api-${project.version}.jar</code> ships
+  precisely with such a file.
+  </p>
+
+  <h4>Activating <code>CAL10NAnnotationProcessor</code> in
+  Eclipse</h4>
+
+  <p>The internet abounds with documentaton on installing an
+  annotation processor for Eclipse. The author found the blog entry
+  entitled <a
+  href="http://kerebus.com/2011/02/using-java-6-processors-in-eclipse/">Using
+  Java 6 processors in Eclipse</a> quite helpful. In the author's
+  experience, the project's Compiler comliance level in Eclipse should
+  be 1.6 or higher. Otherwise, the annotation processor is not
+  activated.</p>
+
+  <h4>Activating <code>CAL10NAnnotationProcessor</code> in IntelliJ
+  IDEA
+  </h4>
+
+  <p>IntelliJ IDEA's support for annotation processors is
+  superb. Searching for "annotation processor intellij idea" on Google
+  should yeild the appopriate documentation.</p>
+
+  <h2 class="doAnchor" name="mavenPlugin">Maven Plugin</h2>
+
+  <p><span class="label">JSR-269 obsoletes maven plugin</span> The
+  maven-compiler-plugin automatically integrates
+  CAL10NAnnotationProcessor for every dependecy of cal10-api rendering
+  the Maven Plugin obsolete.
+  </p>
 
   <p>The CAL10N project ships with a maven plugin designed to verify
   that the keys specified in a given enum type match those found in
@@ -516,8 +570,7 @@ public class MyAllInOneColorVerificationTest {
   <code>@Locale</code> annotations.
   </p>
 
-  <h2><a name="eclipsePlugin" href="#eclipsePlugin"><span
-  class="anchor"/></a>Eclipse plug-in</h2>
+  <h2 class="doAnchor" name="eclipsePlugin">Eclipse plug-in</h2>
   
   <p>We are looking for volunteers willing to implement IDE support
   for CAL10N.  Below is a list of possible features of this IDE which
@@ -553,7 +606,7 @@ public class MyAllInOneColorVerificationTest {
   
   <p>If interested please contact the cal10n-dev mailing list.</p>
 
-  <h2><a name="antTask" href="#antTask"><span class="anchor"/></a>Ant task</h2>
+  <h2 class="doAnchor" name="antTask">Ant task</h2>
 
   <p>We are looking for volunteers to implement an Ant task to verify
   resource bundles. The Ant task could be modeled after the

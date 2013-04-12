@@ -1,11 +1,12 @@
 package ch.qos.cal10n.verifier;
 
-import ch.qos.cal10n.CAL10NConstants;
 import ch.qos.cal10n.util.CAL10NResourceBundleFinder;
 import ch.qos.cal10n.util.IAnnotationExtractor;
 import ch.qos.cal10n.util.MiscUtil;
+import static ch.qos.cal10n.verifier.CAL10NError.ErrorType.MISSING_LOCALE_DATA_ANNOTATION;
+import static ch.qos.cal10n.verifier.CAL10NError.ErrorType.MISSING_BN_ANNOTATION;
 
-import java.text.MessageFormat;
+
 import java.util.*;
 
 /**
@@ -49,15 +50,14 @@ abstract public class MessageKeyVerifierBase implements IMessageKeyVerifier {
     return rbName;
   }
 
-  public List<Cal10nError> verify(Locale locale) {
-    List<Cal10nError> errorList = new ArrayList<Cal10nError>();
+  public List<CAL10NError> verify(Locale locale) {
+    List<CAL10NError> errorList = new ArrayList<CAL10NError>();
 
     String baseName = getBaseName();
 
     if (baseName == null) {
-      errorList.add(new Cal10nError(Cal10nError.ErrorType.MISSING_BN_ANNOTATION, "",
+      errorList.add(new CAL10NError(MISSING_BN_ANNOTATION, "",
               enumTypeAsStr, locale, ""));
-      // no point in continuing
       return errorList;
     }
 
@@ -69,15 +69,14 @@ abstract public class MessageKeyVerifierBase implements IMessageKeyVerifier {
     ErrorFactory errorFactory = new ErrorFactory(enumTypeAsStr, locale, baseName);
 
     if (rb == null) {
-      errorList.add(errorFactory.buildError(Cal10nError.ErrorType.FAILED_TO_FIND_RB, ""));
-      // no point in continuing
+      errorList.add(errorFactory.buildError(CAL10NError.ErrorType.FAILED_TO_FIND_RB, ""));
       return errorList;
     }
 
     Set<String> rbKeySet = buildKeySetFromEnumeration(rb.getKeys());
 
     if (rbKeySet.size() == 0) {
-      errorList.add(errorFactory.buildError(Cal10nError.ErrorType.EMPTY_RB, ""));
+      errorList.add(errorFactory.buildError(CAL10NError.ErrorType.EMPTY_RB, ""));
     }
 
     if (errorList.size() != 0) {
@@ -86,27 +85,27 @@ abstract public class MessageKeyVerifierBase implements IMessageKeyVerifier {
 
     List<String> enumKeys = extractKeysInEnum();
     if (enumKeys.size() == 0) {
-      errorList.add(errorFactory.buildError(Cal10nError.ErrorType.EMPTY_ENUM, ""));
+      errorList.add(errorFactory.buildError(CAL10NError.ErrorType.EMPTY_ENUM, ""));
     }
 
     for (String enumKey : enumKeys) {
       if (rbKeySet.contains(enumKey)) {
         rbKeySet.remove(enumKey);
       } else {
-        errorList.add(errorFactory.buildError(Cal10nError.ErrorType.ABSENT_IN_RB, enumKey));
+        errorList.add(errorFactory.buildError(CAL10NError.ErrorType.ABSENT_IN_RB, enumKey));
       }
     }
 
     for (String rbKey : rbKeySet) {
-      errorList.add(errorFactory.buildError(Cal10nError.ErrorType.ABSENT_IN_ENUM, rbKey));
+      errorList.add(errorFactory.buildError(CAL10NError.ErrorType.ABSENT_IN_ENUM, rbKey));
     }
     return errorList;
   }
 
   public List<String> typeIsolatedVerify(Locale locale) {
-    List<Cal10nError> errorList = verify(locale);
+    List<CAL10NError> errorList = verify(locale);
     List<String> strList = new ArrayList<String>();
-    for (Cal10nError error : errorList) {
+    for (CAL10NError error : errorList) {
       strList.add(error.toString());
     }
     return strList;
@@ -123,18 +122,21 @@ abstract public class MessageKeyVerifierBase implements IMessageKeyVerifier {
   /**
    * Verify all declared locales in one step.
    */
-  public List<Cal10nError> verifyAllLocales() {
-    List<Cal10nError> errorList = new ArrayList<Cal10nError>();
+  public List<CAL10NError> verifyAllLocales() {
+    List<CAL10NError> errorList = new ArrayList<CAL10NError>();
 
     String[] localeNameArray = getLocaleNames();
 
+    ErrorFactory errorFactory = new ErrorFactory(enumTypeAsStr, null,  getBaseName());
+
+
     if (localeNameArray == null || localeNameArray.length == 0) {
-      String errMsg = MessageFormat.format(CAL10NConstants.MISSING_LD_ANNOTATION_MESSAGE, enumTypeAsStr);
-      throw new IllegalStateException(errMsg);
+      errorList.add(errorFactory.buildError(MISSING_LOCALE_DATA_ANNOTATION, "*"));
+      return errorList;
     }
     for (String localeName : localeNameArray) {
       Locale locale = MiscUtil.toLocale(localeName);
-      List<Cal10nError> tmpList = verify(locale);
+      List<CAL10NError> tmpList = verify(locale);
       errorList.addAll(tmpList);
     }
 

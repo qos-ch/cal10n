@@ -1,6 +1,5 @@
 package ch.qos.cal10n.verifier.processor;
 
-import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.verifier.MessageKeyVerifierBase;
 
 import javax.lang.model.element.TypeElement;
@@ -8,7 +7,6 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Given an TypeElement representing an enum class implements IMessageKeyVerifier.

@@ -43,14 +43,14 @@ public class MessageKeyVerifierTest {
   @Test
   public void smoke() {
     IMessageKeyVerifier miv = new MessageKeyVerifier(Colors.class);
-    List<Cal10nError> errorList = miv.verify(Locale.UK);
+    List<CAL10NError> errorList = miv.verify(Locale.UK);
     assertEquals(0, errorList.size());
   }
 
   @Test
   public void withErrors_UK() {
     IMessageKeyVerifier miv = new MessageKeyVerifier(Countries.class);
-    List<Cal10nError> errorList = miv.verify(Locale.UK);
+    List<CAL10NError> errorList = miv.verify(Locale.UK);
     assertEquals(2, errorList.size());
     assertEquals("CH", errorList.get(0).getKey());
     assertEquals("BR", errorList.get(1).getKey());
@@ -59,7 +59,7 @@ public class MessageKeyVerifierTest {
   @Test
   public void withErrors_FR() {
     IMessageKeyVerifier miv = new MessageKeyVerifier(Countries.class);
-    List<Cal10nError> errorList = miv.verify(Locale.FRANCE);
+    List<CAL10NError> errorList = miv.verify(Locale.FRANCE);
     assertEquals(3, errorList.size());
     assertEquals("CH", errorList.get(0).getKey());
     assertEquals("CN", errorList.get(1).getKey());
@@ -69,10 +69,9 @@ public class MessageKeyVerifierTest {
   @Test
   public void all() {
     IMessageKeyVerifier mcv = new MessageKeyVerifier(Minimal.class);
-    try {
-      mcv.verifyAllLocales();
-      fail("an emum without LocaleData cannot be verifiied in one step");
-    } catch (IllegalStateException e) {
-    }
+    List<CAL10NError> errorList = mcv.verifyAllLocales();
+    assertEquals(1, errorList.size());
+    assertEquals(CAL10NError.ErrorType.MISSING_LOCALE_DATA_ANNOTATION, errorList.get(0).getErrorType());
+    System.out.println(errorList.get(0));
   }
 }

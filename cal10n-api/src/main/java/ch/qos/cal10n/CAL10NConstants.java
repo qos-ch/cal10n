@@ -15,10 +15,10 @@ public class CAL10NConstants {
   final public static String MISSING_BN_ANNOTATION_URL = CAL10NConstants.CODE_URL_PREFIX
       + "#missingBaseNameAnnotation";
 
-  final public static String MISSING_LD_ANNOTATION_URL = CAL10NConstants.CODE_URL_PREFIX
+  final public static String MISSING_LOCALE_DATA_ANNOTATION_URL = CAL10NConstants.CODE_URL_PREFIX
       + "#missingLDAnnotation";
-  final public static String MISSING_LD_ANNOTATION_MESSAGE = "Missing @LocaleData annotation in enum type [{0}]. Please see "
-      + MISSING_LD_ANNOTATION_URL;
+  final public static String MISSING_LOCALE_DATA_ANNOTATION_MESSAGE = "Missing @LocaleData annotation in enum type [{0}]. Please see "
+      + MISSING_LOCALE_DATA_ANNOTATION_URL;
 
   final public static String MISSING_ENUM_TYPES_URL = CAL10NConstants.CODE_URL_PREFIX
       + "#missingEnumType";
