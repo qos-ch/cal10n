@@ -31,7 +31,7 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import ch.qos.cal10n.util.Cal10nResourceBundle;
+import ch.qos.cal10n.util.CAL10NResourceBundle;
 import org.junit.Test;
 
 import ch.qos.cal10n.sample.Colors;
@@ -50,7 +50,7 @@ public class MessageConveyorReloadTest {
     MessageConveyor mc = new MessageConveyor(new Locale("en"));
     mc.getMessage(Colors.BLUE);
     
-    Cal10nResourceBundle initalRB = mc.cache.get(Colors.BLUE.getDeclaringClass().getName());
+    CAL10NResourceBundle initalRB = mc.cache.get(Colors.BLUE.getDeclaringClass().getName());
     initalRB.resetCheckTimes();
     File file =  MiscUtil.urlToFile(url);
     file.setLastModified(System.currentTimeMillis()+60*60*1000);

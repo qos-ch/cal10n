@@ -15,14 +15,14 @@ import java.util.Set;
 
 @SupportedAnnotationTypes("ch.qos.cal10n.BaseName")
 @SupportedSourceVersion(SourceVersion.RELEASE_5)
-public class Cal10nAnnotationProcessor extends AbstractProcessor {
+public class CAL10NAnnotationProcessor extends AbstractProcessor {
 
   TypeElement baseNameTypeElement;
 
   @Override
   public void init(ProcessingEnvironment env) {
     super.init(env);
-    note("Cal10nAnnotationProcessor initialized");
+    note("CAL10NAnnotationProcessor initialized");
     baseNameTypeElement = getType("ch.qos.cal10n.BaseName");
   }
 
@@ -31,7 +31,6 @@ public class Cal10nAnnotationProcessor extends AbstractProcessor {
     Set<? extends Element> entityAnnotated =
             roundEnv.getElementsAnnotatedWith(baseNameTypeElement);
     for (TypeElement typeElement : ElementFilter.typesIn(entityAnnotated)) {
-      note("[" + typeElement.getQualifiedName() + "]" + " is annotated with @BaseName");
       verify(typeElement);
     }
     return false;
@@ -41,7 +40,7 @@ public class Cal10nAnnotationProcessor extends AbstractProcessor {
     TypeElementMessageKeyVerifier modelMessageKeyVerifier = new TypeElementMessageKeyVerifier(typeElementForEnum);
 
     BaseName baseNameAnnotation = typeElementForEnum.getAnnotation(BaseName.class);
-    note("performing verification for basename: " + baseNameAnnotation.value());
+    note("performing verification for basename [" + baseNameAnnotation.value() +"]");
     List<Cal10nError> errorList = modelMessageKeyVerifier.verifyAllLocales();
     for(Cal10nError error: errorList) {
       error(error.toString());

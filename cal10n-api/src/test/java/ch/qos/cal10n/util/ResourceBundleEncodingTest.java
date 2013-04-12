@@ -30,9 +30,8 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.qos.cal10n.CAL10NTestConstants;
 import org.junit.Test;
-
-import ch.qos.cal10n.Cal10nTestConstants;
 
 /**
  * 
@@ -51,7 +50,7 @@ public class ResourceBundleEncodingTest {
   // encoding for Greek "ISO8859_7"
   @Test
   public void greek_ISO8859_7() throws IOException {
-    FileInputStream fis = new FileInputStream(Cal10nTestConstants.TEST_CLASSES
+    FileInputStream fis = new FileInputStream(CAL10NTestConstants.TEST_CLASSES
         + "/encodingsISO8859/a_el_GR.properties");
     Reader reader = new InputStreamReader(fis, "ISO8859_7");
     Parser parser = new Parser(reader, map);
@@ -72,7 +71,7 @@ public class ResourceBundleEncodingTest {
   // encoding for Turkish "ISO8859_3"
   @Test
   public void turkishISO8859_3() throws IOException {
-    FileInputStream fis = new FileInputStream(Cal10nTestConstants.TEST_CLASSES
+    FileInputStream fis = new FileInputStream(CAL10NTestConstants.TEST_CLASSES
         + "/encodingsISO8859/a_tr_TR.properties");
     Reader reader = new InputStreamReader(fis, "ISO8859_3");
     Parser parser = new Parser(reader, map);
@@ -92,7 +91,7 @@ public class ResourceBundleEncodingTest {
   
   @Test
   public void greek_UTF8() throws IOException {
-    FileInputStream fis = new FileInputStream(Cal10nTestConstants.TEST_CLASSES
+    FileInputStream fis = new FileInputStream(CAL10NTestConstants.TEST_CLASSES
         + "/encodingsUTF8/a_el_GR.properties");
     Reader reader = new InputStreamReader(fis, "UTF8");
     Parser parser = new Parser(reader, map);
@@ -106,7 +105,7 @@ public class ResourceBundleEncodingTest {
   
   @Test
   public void turkishUTF8() throws IOException {
-    FileInputStream fis = new FileInputStream(Cal10nTestConstants.TEST_CLASSES
+    FileInputStream fis = new FileInputStream(CAL10NTestConstants.TEST_CLASSES
         + "/encodingsUTF8/a_tr_TR.properties");
     Reader reader = new InputStreamReader(fis, "UTF8");
     Parser parser = new Parser(reader, map);

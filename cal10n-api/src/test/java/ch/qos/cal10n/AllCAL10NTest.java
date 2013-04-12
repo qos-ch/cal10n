@@ -30,6 +30,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses( { ch.qos.cal10n.PackageTest.class,
     ch.qos.cal10n.util.PackageTest.class,
     ch.qos.cal10n.verifier.PackageTest.class })
-public class AllCal10nTest {
+public class AllCAL10NTest {
 
 }

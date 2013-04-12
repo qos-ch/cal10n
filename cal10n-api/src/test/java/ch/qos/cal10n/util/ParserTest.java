@@ -28,9 +28,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.qos.cal10n.CAL10NTestConstants;
 import org.junit.Test;
-
-import ch.qos.cal10n.Cal10nTestConstants;
 
 public class ParserTest {
 
@@ -40,7 +39,7 @@ public class ParserTest {
   
   @Test
   public void smoke() throws IOException {
-    FileReader fr = new FileReader(Cal10nTestConstants.TEST_CLASSES+"/parser/smoke.properties");
+    FileReader fr = new FileReader(CAL10NTestConstants.TEST_CLASSES+"/parser/smoke.properties");
     Parser parser  = new Parser(fr, map);
     parser.parseAndPopulate();
     
@@ -52,7 +51,7 @@ public class ParserTest {
   
   @Test
   public void medium() throws IOException {
-    FileReader fr = new FileReader(Cal10nTestConstants.TEST_CLASSES+"/parser/medium.properties");
+    FileReader fr = new FileReader(CAL10NTestConstants.TEST_CLASSES+"/parser/medium.properties");
     Parser parser  = new Parser(fr, map);
     parser.parseAndPopulate();
     
@@ -63,7 +62,7 @@ public class ParserTest {
   
   @Test
   public void full() throws IOException {
-    FileReader fr = new FileReader(Cal10nTestConstants.TEST_CLASSES+"/parser/full.properties");
+    FileReader fr = new FileReader(CAL10NTestConstants.TEST_CLASSES+"/parser/full.properties");
     Parser parser  = new Parser(fr, map);
     parser.parseAndPopulate();
     

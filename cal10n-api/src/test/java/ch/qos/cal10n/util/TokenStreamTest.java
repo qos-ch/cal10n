@@ -29,9 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import ch.qos.cal10n.CAL10NTestConstants;
 import org.junit.Test;
 
-import ch.qos.cal10n.Cal10nTestConstants;
 import ch.qos.cal10n.util.Token.TokenType;
 
 /**
@@ -42,7 +42,7 @@ public class TokenStreamTest {
 
   @Test
   public void smoke() throws FileNotFoundException {
-    FileReader fr = new FileReader(Cal10nTestConstants.TEST_CLASSES + "/parser/smoke.properties");
+    FileReader fr = new FileReader(CAL10NTestConstants.TEST_CLASSES + "/parser/smoke.properties");
     TokenStream ts = new TokenStream(fr);
     List<Token> tokenList = ts.tokenize();
 
@@ -61,7 +61,7 @@ public class TokenStreamTest {
 
   @Test
   public void medium() throws FileNotFoundException {
-    FileReader fr = new FileReader(Cal10nTestConstants.TEST_CLASSES + "/parser/medium.properties");
+    FileReader fr = new FileReader(CAL10NTestConstants.TEST_CLASSES + "/parser/medium.properties");
     TokenStream ts = new TokenStream(fr);
     List<Token> tokenList = ts.tokenize();
 
@@ -90,7 +90,7 @@ public class TokenStreamTest {
 
   @Test
   public void characters() throws FileNotFoundException {
-    FileReader fr = new FileReader(Cal10nTestConstants.TEST_CLASSES + "/parser/characters.properties");
+    FileReader fr = new FileReader(CAL10NTestConstants.TEST_CLASSES + "/parser/characters.properties");
     TokenStream ts = new TokenStream(fr);
     List<Token> tokenList = ts.tokenize();
 

@@ -31,13 +31,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import ch.qos.cal10n.CAL10NConstants;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
-import ch.qos.cal10n.Cal10nConstants;
 import ch.qos.cal10n.verifier.IMessageKeyVerifier;
 
 
@@ -88,7 +88,7 @@ public class VerifyMojo extends AbstractMojo {
   public void execute() throws MojoExecutionException, MojoFailureException {
 
     if (enumTypes == null) {
-      throw new MojoFailureException(Cal10nConstants.MISSING_ENUM_TYPES_MSG);
+      throw new MojoFailureException(CAL10NConstants.MISSING_ENUM_TYPES_MSG);
     }
     for (String enumTypeAsStr : enumTypes) {
       IMessageKeyVerifier imcv = getMessageKeyVerifierInstance(enumTypeAsStr);
@@ -109,7 +109,7 @@ public class VerifyMojo extends AbstractMojo {
 
     if (localeNameArray == null || localeNameArray.length == 0) {
       String errMsg = MessageFormat.format(
-          Cal10nConstants.MISSING_LD_ANNOTATION_MESSAGE, enumClassAsStr);
+          CAL10NConstants.MISSING_LD_ANNOTATION_MESSAGE, enumClassAsStr);
       getLog().error(errMsg);
       throw new MojoFailureException(errMsg);
     }
@@ -145,7 +145,7 @@ public class VerifyMojo extends AbstractMojo {
     try {
       ThisFirstClassLoader thisFirstClassLoader = (ThisFirstClassLoader) buildClassLoader();
       Class<?> mkvClass = Class.forName(
-          Cal10nConstants.MessageKeyVerifier_FQCN, true, thisFirstClassLoader);
+          CAL10NConstants.MessageKeyVerifier_FQCN, true, thisFirstClassLoader);
       Constructor<?> mkvCons = mkvClass.getConstructor(String.class);
       IMessageKeyVerifier imcv = (IMessageKeyVerifier) mkvCons
           .newInstance(enumClassAsStr);

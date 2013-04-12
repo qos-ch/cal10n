@@ -11,7 +11,6 @@ import ch.qos.cal10n.LocaleData;
   })
 public enum Countries {
    CH,
-   A, B,
    CN,
    FR,
    UK;

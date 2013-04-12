@@ -1,8 +1,7 @@
 package ch.qos.cal10n.verifier;
 
-import ch.qos.cal10n.Cal10nConstants;
-import ch.qos.cal10n.util.AnnotationExtractor;
-import ch.qos.cal10n.util.Cal10nResourceBundleFinder;
+import ch.qos.cal10n.CAL10NConstants;
+import ch.qos.cal10n.util.CAL10NResourceBundleFinder;
 import ch.qos.cal10n.util.IAnnotationExtractor;
 import ch.qos.cal10n.util.MiscUtil;
 
@@ -64,7 +63,7 @@ abstract public class MessageKeyVerifierBase implements IMessageKeyVerifier {
 
     String charset = extractCharsetForLocale(locale);
 
-    ResourceBundle rb = Cal10nResourceBundleFinder.getBundle(this.getClass()
+    ResourceBundle rb = CAL10NResourceBundleFinder.getBundle(this.getClass()
             .getClassLoader(), baseName, locale, charset);
 
     ErrorFactory errorFactory = new ErrorFactory(enumTypeAsStr, locale, baseName);
@@ -130,7 +129,7 @@ abstract public class MessageKeyVerifierBase implements IMessageKeyVerifier {
     String[] localeNameArray = getLocaleNames();
 
     if (localeNameArray == null || localeNameArray.length == 0) {
-      String errMsg = MessageFormat.format(Cal10nConstants.MISSING_LD_ANNOTATION_MESSAGE, enumTypeAsStr);
+      String errMsg = MessageFormat.format(CAL10NConstants.MISSING_LD_ANNOTATION_MESSAGE, enumTypeAsStr);
       throw new IllegalStateException(errMsg);
     }
     for (String localeName : localeNameArray) {
