@@ -23,10 +23,10 @@ package ch.qos.cal10n.verifier;
 
 import java.util.Locale;
 
-import ch.qos.cal10n.verifier.CAL10NError.ErrorType;
+import ch.qos.cal10n.verifier.Cal10nError.ErrorType;
 
 /**
- * Simplifies the creation of {@link CAL10NError} instances.
+ * Simplifies the creation of {@link Cal10nError} instances.
  * 
  * @author Ceki G&uuml;lc&uuml;
  * 
@@ -44,8 +44,8 @@ public class ErrorFactory {
     this.resourceBundleName = resourceBundleName;
   }
 
-  CAL10NError buildError(ErrorType errorType, String key) {
-    return new CAL10NError(errorType, key, enumClassName, locale,
+  Cal10nError buildError(ErrorType errorType, String key) {
+    return new Cal10nError(errorType, key, enumClassName, locale,
         resourceBundleName);
   }
 }

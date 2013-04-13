@@ -41,7 +41,7 @@ public interface IMessageKeyVerifier {
    * @param locale
    * @return
    */
-  public List<CAL10NError> verify(Locale locale);
+  public List<Cal10nError> verify(Locale locale);
 
   /**
    * Verify that the keys defined in the enumClass match those found in the
@@ -50,7 +50,7 @@ public interface IMessageKeyVerifier {
    *
    * @return
    */
-  public List<CAL10NError> verifyAllLocales();
+  public List<Cal10nError> verifyAllLocales();
 
   /**
    * Same as {@link #verify(Locale)} except that the return type is

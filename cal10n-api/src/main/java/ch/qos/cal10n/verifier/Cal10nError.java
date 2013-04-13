@@ -31,7 +31,7 @@ import static ch.qos.cal10n.CAL10NConstants.MISSING_LOCALE_DATA_ANNOTATION_URL;
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public class CAL10NError {
+public class Cal10nError {
 
   enum ErrorType {
     MISSING_BN_ANNOTATION, MISSING_LOCALE_DATA_ANNOTATION,
@@ -44,7 +44,7 @@ public class CAL10NError {
   final String enumClassName;
   final String baseName;
 
-  CAL10NError(ErrorType errorType, String key, String enumClassName,
+  Cal10nError(ErrorType errorType, String key, String enumClassName,
               Locale locale, String baseName) {
     this.errorType = errorType;
     this.key = key;

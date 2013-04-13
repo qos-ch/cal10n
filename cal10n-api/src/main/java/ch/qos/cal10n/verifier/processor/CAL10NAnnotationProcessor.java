@@ -1,7 +1,7 @@
 package ch.qos.cal10n.verifier.processor;
 
 import ch.qos.cal10n.BaseName;
-import ch.qos.cal10n.verifier.CAL10NError;
+import ch.qos.cal10n.verifier.Cal10nError;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
@@ -42,8 +42,8 @@ public class CAL10NAnnotationProcessor extends AbstractProcessor {
 
     BaseName baseNameAnnotation = typeElementForEnum.getAnnotation(BaseName.class);
     //note("performing verification for basename [" + baseNameAnnotation.value() +"]");
-    List<CAL10NError> errorList = modelMessageKeyVerifier.verifyAllLocales();
-    for(CAL10NError error: errorList) {
+    List<Cal10nError> errorList = modelMessageKeyVerifier.verifyAllLocales();
+    for(Cal10nError error: errorList) {
       error(error.toString(), typeElementForEnum);
     }
 

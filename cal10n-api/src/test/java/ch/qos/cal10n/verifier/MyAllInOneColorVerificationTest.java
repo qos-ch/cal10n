@@ -41,7 +41,7 @@ public class MyAllInOneColorVerificationTest {
   @Test
   public void all() {
     IMessageKeyVerifier mcv = new MessageKeyVerifier(Colors.class);
-    List<CAL10NError> errorList = mcv.verifyAllLocales();
+    List<Cal10nError> errorList = mcv.verifyAllLocales();
     System.out.println(errorList);
     assertEquals(0, errorList.size());
   }
