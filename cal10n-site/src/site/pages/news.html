@@ -28,14 +28,6 @@
 
     <h3>13th of April 2013 - Release of CAL10N version 0.8.1</h3>
 
-    <p>Fix issue with Eclipse not finding existing resources. With
-    release 0.8.1, Eclipse will find bundles located under
-    "src/main/resources" but still fail to find bundles located under
-    "src/test/resources/".
-    </p>
-   
-    <h3>12th of April 2013 - Release of CAL10N version 0.8</h3>
-
     <p class="highlight">With JSR-269 support, verification of bundles
     can be performed at compilation time.</p>
 
@@ -44,11 +36,34 @@
     href="manual.html#jsr269">related documentation</a> for more
     details.</p>
 
+    <p>Fix issue with Eclipse not finding existing resources. With
+    release 0.8.1, Eclipse will find bundles located under
+    "src/main/resources" but still fail to find bundles located under
+    "src/test/resources/".
+    </p>
+   
+    <p><span class="label">Compatibility restored</span> To preserve
+    backward compatibility, reverting renaming of Cal10nError as
+    CAL10NError introduced in version 0.8. Given that version 0.8 is
+    only a day old, the incompatible change introduced in 0.8 should
+    impact but a few users.
+    </p>
+
+
     <p>When reading in bundles, the <code>verify</code> method in
     <code>MessageKeyVerifier</code> now uses the locale passed as
     parameter instead of always Locale.FR. This bug was reported by
     Dale Wijnand who also provided the releavant patch.
     </p>
+
+
+    <h3>12th of April 2013 - Release of CAL10N version 0.8.</h3>
+
+    <p class="highlight">Avoid using version 0.8</p>
+    
+    <p>Given that this version introduced a backward incompatible
+    change (reverted in 0.8.1). It is therefore recommended to avoid
+    using version 0.8.</p>
 
 
     <hr width="80%" align="center" />
