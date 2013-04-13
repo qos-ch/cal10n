@@ -65,11 +65,11 @@ public class CAL10NResourceBundleFinder {
   }
 
   private static CAL10NResourceBundle makePropertyResourceBundle(
-      ClassLoader classLoader, String resourceCandiate, String charset) {
+      ClassLoader classLoader, String resourceCandidate, String charset) {
 
     CAL10NResourceBundle prb = null;
 
-    URL url = classLoader.getResource(resourceCandiate);
+    URL url = classLoader.getResource(resourceCandidate);
     if (url != null) {
       try {
         InputStream in = openConnectionForUrl(url);

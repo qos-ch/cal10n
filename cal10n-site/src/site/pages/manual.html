@@ -168,14 +168,16 @@ String green = mc.getMessage(Colors.GREEN, <b>"pommes"</b>);  // note the second
   <p>An astute reader will comment that even if the messages keys are
   now verified by the compiler, it is still possible to have
   mismatching message keys in the resources bundles. For this reason,
-  CAL10N comes with additional tools, including <a
-  href="#verification" class="big greenBold" >support for writing Junit test cases</a> and a
-  <a href="#mavenPlugin">maven plugin</a>.
+  CAL10N comes with additional tools, including support for <a
+  href="#jsr269">JSR-269</a>, <a href="#verification"
+  class="greenBold">writing Junit tests</a> as well as a <a
+  href="#mavenPlugin">maven plugin</a>.
   </p>
 
   <h2 class="doAnchor" name="requirements">Requirements / Installation</h2>
   
-  <p>CAL10N requires JDK version 1.5.</p>
+  <p>CAL10N requires JDK version 1.5. JSR-269 requries JDK 1.6 or
+  later.</p>
 
   <p>In order to use CAL10N in a project, all you need is to add
   <em>cal10n-api-${project.version}.jar</em> onto your project's class
