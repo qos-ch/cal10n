@@ -1,7 +1,9 @@
 package ch.qos.cal10n.verifier.processor;
 
-import ch.qos.cal10n.verifier.MessageKeyVerifierBase;
+import ch.qos.cal10n.util.CAL10NBundleFinder;
+import ch.qos.cal10n.verifier.AbstractMessageKeyVerifier;
 
+import javax.annotation.processing.Filer;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
@@ -14,13 +16,15 @@ import java.util.List;
  * @author Ceki Gulcu
  * @since 0.8
  */
-public class TypeElementMessageKeyVerifier extends MessageKeyVerifierBase {
+public class MessageKeyVerifierByTypeElement extends AbstractMessageKeyVerifier {
 
   final TypeElement typeElementForEnum;
+  final CAL10NBundleFinderByProcessingFiler compileTimeResourceBundleFinder;
 
-  public TypeElementMessageKeyVerifier(TypeElement typeElement) {
-    super(typeElement.getQualifiedName().toString(), new TypeElementAnnotationExtractor(typeElement));
+  public MessageKeyVerifierByTypeElement(TypeElement typeElement, Filer filer) {
+    super(typeElement.getQualifiedName().toString(), new AnnotationExtractorViaTypeElement(typeElement));
     typeElementForEnum = typeElement;
+    this.compileTimeResourceBundleFinder = new CAL10NBundleFinderByProcessingFiler(filer);
   }
 
   @Override
@@ -30,5 +34,10 @@ public class TypeElementMessageKeyVerifier extends MessageKeyVerifierBase {
       keyList.add(ve.getSimpleName().toString());
     }
     return keyList;
+  }
+
+  @Override
+  protected CAL10NBundleFinder getResourceBundleFinder() {
+    return compileTimeResourceBundleFinder;
   }
 }

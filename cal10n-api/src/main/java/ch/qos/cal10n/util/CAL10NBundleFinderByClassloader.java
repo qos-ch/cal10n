@@ -21,29 +21,18 @@
  */
 package ch.qos.cal10n.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import java.net.URL;
 
-import java.util.Arrays;
+public class CAL10NBundleFinderByClassloader extends AbstractCAL10NBundleFinder {
 
-import org.junit.Test;
+  final ClassLoader classLoader;
 
-
-public class AnnotationExtractorTest {
-
-  AnnotationExtractor annotationExtractor = new AnnotationExtractor(Fruit.class);
-  
-  @Test
-  public void resourceBundleName() {
-    String result = annotationExtractor.getBaseName();
-    assertEquals("fruits", result);
+  public CAL10NBundleFinderByClassloader(ClassLoader classLoader) {
+    this.classLoader = classLoader;
   }
-  
-  @Test
-  public void localeNames() {
-    String[] result = annotationExtractor.extractLocaleNames();
-    assertTrue(Arrays.equals(new String[] {"fr", "en"}, result));
+
+
+  protected URL getResource(String resourceCandidate) {
+    return classLoader.getResource(resourceCandidate);
   }
-  
-  
 }

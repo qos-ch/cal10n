@@ -495,8 +495,8 @@ public class MyAllInOneColorVerificationTest {
   precisely with such a file.
   </p>
 
-  <h4>Activating <code>CAL10NAnnotationProcessor</code> in
-  Eclipse</h4>
+  <h4 class="doAnchor" name="jsr269Eclipse">Activating
+  <code>CAL10NAnnotationProcessor</code> in Eclipse</h4>
 
   <p>The internet abounds with documentaton on installing an
   annotation processor for Eclipse. The author found the blog entry
@@ -505,10 +505,20 @@ public class MyAllInOneColorVerificationTest {
   Java 6 processors in Eclipse</a> quite helpful. In the author's
   experience, the project's Compiler comliance level in Eclipse should
   be 1.6 or higher. Otherwise, the annotation processor is not
-  activated.</p>
+  activated.  </p>
 
-  <h4>Activating <code>CAL10NAnnotationProcessor</code> in IntelliJ
-  IDEA
+  <p>As an additional caveat, it appears that Eclipse (Indigo and
+  Juno) hides resources located udner "src/test/resources" while
+  resources under "src/main/resources" are visible to the annotation
+  processor. Thus, if resource bundles are placed under
+  "src/test/resources" the compiler will complain about missing
+  resource bundles. As soon as the bundles are moved under
+  "src/main/resources" the errors will disappear (assuming the bundles
+  are complete).
+  </p>
+
+  <h4 class="doAnchor" name="jsr269idea">Activating
+  <code>CAL10NAnnotationProcessor</code> in IntelliJ IDEA
   </h4>
 
   <p>IntelliJ IDEA's support for annotation processors is

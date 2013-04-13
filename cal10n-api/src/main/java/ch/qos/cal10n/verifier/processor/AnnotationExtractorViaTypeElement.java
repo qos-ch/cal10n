@@ -3,15 +3,15 @@ package ch.qos.cal10n.verifier.processor;
 
 import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.LocaleData;
-import ch.qos.cal10n.util.AnnotationExtractorBase;
+import ch.qos.cal10n.util.AbstractAnnotationExtractor;
 
 import javax.lang.model.element.TypeElement;
 
-public class TypeElementAnnotationExtractor extends AnnotationExtractorBase {
+public class AnnotationExtractorViaTypeElement extends AbstractAnnotationExtractor {
 
   TypeElement typeElementForEnum;
 
-  public TypeElementAnnotationExtractor(TypeElement typeElement) {
+  public AnnotationExtractorViaTypeElement(TypeElement typeElement) {
     typeElementForEnum = typeElement;
   }
 

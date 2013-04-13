@@ -19,42 +19,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package ch.qos.cal10n.util;
 
-package ch.qos.cal10n;
-
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Locale;
+import java.util.Arrays;
 
-import ch.qos.cal10n.util.CAL10NBundle;
 import org.junit.Test;
 
-import ch.qos.cal10n.sample.Colors;
-import ch.qos.cal10n.util.MiscUtil;
 
-public class MessageConveyorReloadTest {
+public class AnnotationExtractorViaEnumClassTest {
 
+  AnnotationExtractorViaEnumClass annotationExtractor = new AnnotationExtractorViaEnumClass(Fruit.class);
   
   @Test
-  public void bundleReload() throws IOException, InterruptedException {
-    ClassLoader classLoader = this.getClass().getClassLoader();
-    String resourceCandidate =  "colors" + "_" + "en" + ".properties";
-    URL url = classLoader.getResource(resourceCandidate);
-    assertNotNull("the problem is in this test, not the code tested", url);
-
-    MessageConveyor mc = new MessageConveyor(new Locale("en"));
-    mc.getMessage(Colors.BLUE);
-    
-    CAL10NBundle initalRB = mc.cache.get(Colors.BLUE.getDeclaringClass().getName());
-    initalRB.resetCheckTimes();
-    File file =  MiscUtil.urlToFile(url);
-    file.setLastModified(System.currentTimeMillis()+60*60*1000);
-    mc.getMessage(Colors.BLUE);
-    java.util.ResourceBundle other = mc.cache.get(Colors.BLUE.getDeclaringClass().getName());
-    assertTrue(initalRB != other);
+  public void resourceBundleName() {
+    String result = annotationExtractor.getBaseName();
+    assertEquals("fruits", result);
   }
+  
+  @Test
+  public void localeNames() {
+    String[] result = annotationExtractor.extractLocaleNames();
+    assertTrue(Arrays.equals(new String[] {"fr", "en"}, result));
+  }
+  
+  
 }

@@ -22,7 +22,9 @@
 
 package ch.qos.cal10n.verifier;
 
-import ch.qos.cal10n.util.AnnotationExtractor;
+import ch.qos.cal10n.util.AnnotationExtractorViaEnumClass;
+import ch.qos.cal10n.util.CAL10NBundleFinder;
+import ch.qos.cal10n.util.CAL10NBundleFinderByClassloader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +35,12 @@ import java.util.List;
  *
  * @author Ceki Gulcu
  */
-public class MessageKeyVerifier extends MessageKeyVerifierBase {
+public class MessageKeyVerifier extends AbstractMessageKeyVerifier {
 
   final Class<? extends Enum<?>> enumClass;
 
   public MessageKeyVerifier(Class<? extends Enum<?>> enumClass) {
-    super(enumClass.getName(),  new AnnotationExtractor(enumClass));
+    super(enumClass.getName(),  new AnnotationExtractorViaEnumClass(enumClass));
     this.enumClass = enumClass;
   }
 
@@ -66,6 +68,10 @@ public class MessageKeyVerifier extends MessageKeyVerifierBase {
     return enumKeyList;
   }
 
+  @Override
+  protected CAL10NBundleFinder getResourceBundleFinder() {
+    return new CAL10NBundleFinderByClassloader(enumClass.getClassLoader());
+  }
 
 
 }

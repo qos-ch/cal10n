@@ -27,107 +27,106 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import ch.qos.cal10n.util.AnnotationExtractor;
-import ch.qos.cal10n.util.CAL10NResourceBundle;
-import ch.qos.cal10n.util.CAL10NResourceBundleFinder;
+import ch.qos.cal10n.util.AnnotationExtractorViaEnumClass;
+import ch.qos.cal10n.util.CAL10NBundle;
+import ch.qos.cal10n.util.CAL10NBundleFinderByClassloader;
 
 /**
  * The default implementation for {@link IMessageConveyor} based on resource
  * bundles.
- * 
- * <p>
+ * <p/>
+ * <p/>
  * See also {@link #getMessage(Enum, Object...)} for details.
- * 
+ *
  * @author Ceki G&uuml;lc&uuml;
  */
 public class MessageConveyor implements IMessageConveyor {
 
-	final Locale locale;
+  final Locale locale;
 
-	final Map<String, CAL10NResourceBundle> cache = new ConcurrentHashMap<String, CAL10NResourceBundle>();
+  final Map<String, CAL10NBundle> cache = new ConcurrentHashMap<String, CAL10NBundle>();
 
-	/**
-	 * The {@link Locale} associated with this instance.
-	 * 
-	 * @param locale the Locale which this conveyor targets
-	 */
-	public MessageConveyor(Locale locale) {
-		this.locale = locale;
-	}
+  /**
+   * The {@link Locale} associated with this instance.
+   *
+   * @param locale the Locale which this conveyor targets
+   */
+  public MessageConveyor(Locale locale) {
+    this.locale = locale;
+  }
 
-	/**
-	 * Given an enum as key, find the resource bundle corresponding to this locale and return
-	 * the message corresponding to the key passed as parameter (internationalized per this locale).
-	 * 
-	 * <p>
-	 * The name of the resource bundle is defined via the {@link BaseName}
-	 * annotation whereas the locale is specified in this MessageConveyor
-	 * instance's constructor.
-	 * 
-	 * @param key
-	 *            an enum instance used as message key
-	 * 
-	 */
-	public <E extends Enum<?>> String getMessage(E key, Object... args)
-			throws MessageConveyorException {
+  /**
+   * Given an enum as key, find the resource bundle corresponding to this locale and return
+   * the message corresponding to the key passed as parameter (internationalized per this locale).
+   * <p/>
+   * <p/>
+   * The name of the resource bundle is defined via the {@link BaseName}
+   * annotation whereas the locale is specified in this MessageConveyor
+   * instance's constructor.
+   *
+   * @param key an enum instance used as message key
+   */
+  public <E extends Enum<?>> String getMessage(E key, Object... args)
+          throws MessageConveyorException {
 
     Class<? extends Enum<?>> declaringClass = key.getDeclaringClass();
 
-		String declaringClassName = declaringClass.getName();
-		CAL10NResourceBundle rb = cache.get(declaringClassName);
-		if (rb == null || rb.hasChanged()) {
-			rb = lookupResourceBundleByEnumClassAndLocale(declaringClass);
-			cache.put(declaringClassName, rb);
-		}
+    String declaringClassName = declaringClass.getName();
+    CAL10NBundle rb = cache.get(declaringClassName);
+    if (rb == null || rb.hasChanged()) {
+      rb = lookupResourceBundleByEnumClassAndLocale(declaringClass);
+      cache.put(declaringClassName, rb);
+    }
 
-		String keyAsStr = key.toString();
-		String value = rb.getString(keyAsStr);
-		if (value == null) {
-			return "No key found for " + keyAsStr;
-		} else {
-			if (args == null || args.length == 0) {
-				return value;
-			} else {
-				return MessageFormat.format(value, args);
-			}
-		}
-	}
+    String keyAsStr = key.toString();
+    String value = rb.getString(keyAsStr);
+    if (value == null) {
+      return "No key found for " + keyAsStr;
+    } else {
+      if (args == null || args.length == 0) {
+        return value;
+      } else {
+        return MessageFormat.format(value, args);
+      }
+    }
+  }
 
-	private <E extends Enum<?>> CAL10NResourceBundle lookupResourceBundleByEnumClassAndLocale(Class<E> declaringClass)
-			throws MessageConveyorException {
+  private <E extends Enum<?>> CAL10NBundle lookupResourceBundleByEnumClassAndLocale(Class<E> declaringClass)
+          throws MessageConveyorException {
 
-    AnnotationExtractor annotationExtractor = new AnnotationExtractor(declaringClass);
+    AnnotationExtractorViaEnumClass annotationExtractor = new AnnotationExtractorViaEnumClass(declaringClass);
     // basename is declared via an annotation on the declaringClass
-		String baseName = annotationExtractor.getBaseName();
-		if (baseName == null) {
-			throw new MessageConveyorException(
-					"Missing @BaseName annotation in enum type ["
-							+ declaringClass.getName() + "]. See also "
-							+ CAL10NConstants.MISSING_BN_ANNOTATION_URL);
-		}
+    String baseName = annotationExtractor.getBaseName();
+    if (baseName == null) {
+      throw new MessageConveyorException(
+              "Missing @BaseName annotation in enum type ["
+                      + declaringClass.getName() + "]. See also "
+                      + CAL10NConstants.MISSING_BN_ANNOTATION_URL);
+    }
 
-		String charset = annotationExtractor.extractCharset(locale);
-		// use the declaring class' loader instead of
-		// this.getClass().getClassLoader()
-		// see also http://jira.qos.ch/browse/CAL-8
-		CAL10NResourceBundle rb = CAL10NResourceBundleFinder.getBundle(
-            declaringClass.getClassLoader(), baseName, locale, charset);
+    String charset = annotationExtractor.extractCharset(locale);
+    // use the declaring class' loader instead of
+    // this.getClass().getClassLoader()
+    // see also http://jira.qos.ch/browse/CAL-8
+    CAL10NBundleFinderByClassloader cal10NBundleFinderByClassloader = new CAL10NBundleFinderByClassloader(declaringClass.getClassLoader());
+    CAL10NBundle rb = cal10NBundleFinderByClassloader.getBundle(
+            baseName, locale, charset);
 
-		if (rb == null) {
-			throw new MessageConveyorException(
-					"Failed to locate resource bundle [" + baseName
-							+ "] for locale [" + locale + "] for enum type ["
-							+ declaringClass.getName() + "]");
-		}
-		return rb;
-	}
+    if (rb == null) {
+      throw new MessageConveyorException(
+              "Failed to locate resource bundle [" + baseName
+                      + "] for locale [" + locale + "] for enum type ["
+                      + declaringClass.getName() + "]");
+    }
+    return rb;
+  }
 
-	public String getMessage(MessageParameterObj mpo)
-			throws MessageConveyorException {
-		if (mpo == null) {
-			throw new IllegalArgumentException(
-					"MessageParameterObj argumument cannot be null");
-		}
-		return getMessage(mpo.getKey(), mpo.getArgs());
-	}
+  public String getMessage(MessageParameterObj mpo)
+          throws MessageConveyorException {
+    if (mpo == null) {
+      throw new IllegalArgumentException(
+              "MessageParameterObj argumument cannot be null");
+    }
+    return getMessage(mpo.getKey(), mpo.getArgs());
+  }
 }

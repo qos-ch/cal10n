@@ -10,7 +10,7 @@ import ch.qos.cal10n.LocaleData;
  * @author  Ceki Gulcu
  * @since 0.8
  */
-abstract public class AnnotationExtractorBase implements IAnnotationExtractor {
+abstract public class AbstractAnnotationExtractor implements AnnotationExtractor {
 
   abstract protected LocaleData extractLocaleData();
 

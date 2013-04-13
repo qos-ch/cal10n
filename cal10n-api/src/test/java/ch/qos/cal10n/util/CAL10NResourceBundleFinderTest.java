@@ -34,40 +34,36 @@ import ch.qos.cal10n.sample.Colors;
 public class CAL10NResourceBundleFinderTest {
   ResourceBundle rb;
   String encoding;
-  
-  AnnotationExtractor annotationExtractor = new AnnotationExtractor(Colors.class);
+
+  AnnotationExtractorViaEnumClass annotationExtractor = new AnnotationExtractorViaEnumClass(Colors.class);
+  CAL10NBundleFinderByClassloader cal10NBundleFinderByClassloader = new CAL10NBundleFinderByClassloader(this.getClass().getClassLoader());
 
   @Test
   public void smoke() throws IOException {
     encoding = annotationExtractor.extractCharset(Locale.FRENCH);
-    rb = CAL10NResourceBundleFinder.getBundle(this.getClass().getClassLoader(),
-            "colors", Locale.FRENCH, encoding);
+    rb = cal10NBundleFinderByClassloader.getBundle("colors", Locale.FRENCH, encoding);
     assertEquals("les roses sont rouges", rb.getString("RED"));
   }
 
   @Test
   public void withCountry() throws IOException {
     encoding = annotationExtractor.extractCharset(Locale.FRENCH);
-    rb = CAL10NResourceBundleFinder.getBundle(this.getClass().getClassLoader(),
-            "colors", Locale.FRENCH, encoding);
+    rb = cal10NBundleFinderByClassloader.getBundle("colors", Locale.FRENCH, encoding);
     assertEquals("les roses sont rouges", rb.getString("RED"));
 
-    rb = CAL10NResourceBundleFinder.getBundle(this.getClass().getClassLoader(),
-            "colors", Locale.FRANCE, encoding);
+    rb = cal10NBundleFinderByClassloader.getBundle("colors", Locale.FRANCE, encoding);
     assertEquals("les roses sont rouges, et alors?", rb.getString("RED"));
   }
 
   @Test
   public void inDirectory() throws IOException {
     encoding = annotationExtractor.extractCharset(Locale.ENGLISH);
-    rb = CAL10NResourceBundleFinder.getBundle(this.getClass().getClassLoader(),
-            "foobar/sample", Locale.ENGLISH, encoding);
+    rb = cal10NBundleFinderByClassloader.getBundle("foobar/sample", Locale.ENGLISH, encoding);
     assertEquals("A is the first letter of the alphabet", rb.getString("A"));
 
-    rb = CAL10NResourceBundleFinder.getBundle(this.getClass().getClassLoader(),
-            "foobar.sample", Locale.ENGLISH, encoding);
+    rb = cal10NBundleFinderByClassloader.getBundle("foobar.sample", Locale.ENGLISH, encoding);
     assertEquals("A is the first letter of the alphabet", rb.getString("A"));
   }
-  
+
 
 }

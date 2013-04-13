@@ -19,16 +19,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package ch.qos.cal10n.util;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.LocaleData;
 
-@RunWith(Suite.class)
-@SuiteClasses( { AnnotationExtractorViaEnumClassTest.class, MiscUtilTest.class,
-    TokenStreamTest.class, ParserTest.class,
-    CAL10NResourceBundleFinderTest.class, ResourceBundleEncodingTest.class })
-public class PackageTest {
+/**
+ * Given an enum class, retrieve its cal10n-related values from its cal10-specific annotations.
+ * Note that much of the work in this class is performed by the base class.
+ *
+ * @author Ceki G&uuml;lc&uuml;
+ */
+public class AnnotationExtractorViaEnumClass extends AbstractAnnotationExtractor {
+
+  final Class<?> enumClass;
+
+  public AnnotationExtractorViaEnumClass(Class<?> enumClass) {
+    this.enumClass = enumClass;
+  }
+
+  public String getBaseName() {
+    BaseName rbnAnnotation = enumClass.getAnnotation(BaseName.class);
+    if (rbnAnnotation == null) {
+      return null;
+    }
+    return rbnAnnotation.value();
+  }
+
+  @Override
+  protected LocaleData extractLocaleData() {
+    return enumClass.getAnnotation(LocaleData.class);
+  }
+
 }

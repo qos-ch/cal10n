@@ -17,13 +17,14 @@ import java.util.Set;
 public class CAL10NAnnotationProcessor extends AbstractProcessor {
 
   TypeElement baseNameTypeElement;
+  Filer filer;
 
   @Override
   public void init(ProcessingEnvironment env) {
     super.init(env);
-    //note("CAL10NAnnotationProcessor initialized");
+    note("CAL10NAnnotationProcessor 0.8.1 initialized");
     baseNameTypeElement = getType("ch.qos.cal10n.BaseName");
-
+    filer = env.getFiler();
   }
 
   @Override
@@ -37,7 +38,7 @@ public class CAL10NAnnotationProcessor extends AbstractProcessor {
   }
 
   private void verify(TypeElement typeElementForEnum) {
-    TypeElementMessageKeyVerifier modelMessageKeyVerifier = new TypeElementMessageKeyVerifier(typeElementForEnum);
+    MessageKeyVerifierByTypeElement modelMessageKeyVerifier = new MessageKeyVerifierByTypeElement(typeElementForEnum, filer);
 
     BaseName baseNameAnnotation = typeElementForEnum.getAnnotation(BaseName.class);
     //note("performing verification for basename [" + baseNameAnnotation.value() +"]");

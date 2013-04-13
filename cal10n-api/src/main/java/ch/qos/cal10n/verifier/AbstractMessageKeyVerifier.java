@@ -1,8 +1,9 @@
 package ch.qos.cal10n.verifier;
 
-import ch.qos.cal10n.util.CAL10NResourceBundleFinder;
-import ch.qos.cal10n.util.IAnnotationExtractor;
+import ch.qos.cal10n.util.AnnotationExtractor;
+import ch.qos.cal10n.util.CAL10NBundleFinder;
 import ch.qos.cal10n.util.MiscUtil;
+
 import static ch.qos.cal10n.verifier.CAL10NError.ErrorType.MISSING_LOCALE_DATA_ANNOTATION;
 import static ch.qos.cal10n.verifier.CAL10NError.ErrorType.MISSING_BN_ANNOTATION;
 
@@ -12,19 +13,19 @@ import java.util.*;
 /**
  * Abstract class for verifying that for a given an enum type, the keys match those
  * found in the corresponding resource bundles.
- *
+ * <p/>
  * <p>This class contains the bundle verification logic. Logic for extracting locate and key information
  * should be provided by derived classes.</p>
  *
  * @author: Ceki Gulcu
  * @since 0.8
  */
-abstract public class MessageKeyVerifierBase implements IMessageKeyVerifier {
+abstract public class AbstractMessageKeyVerifier implements IMessageKeyVerifier {
 
   final String enumTypeAsStr;
-  final IAnnotationExtractor annotationExtractor;
+  final AnnotationExtractor annotationExtractor;
 
-  protected MessageKeyVerifierBase(String enumTypeAsStr, IAnnotationExtractor annotationExtractor) {
+  protected AbstractMessageKeyVerifier(String enumTypeAsStr, AnnotationExtractor annotationExtractor) {
     this.enumTypeAsStr = enumTypeAsStr;
     this.annotationExtractor = annotationExtractor;
   }
@@ -63,8 +64,9 @@ abstract public class MessageKeyVerifierBase implements IMessageKeyVerifier {
 
     String charset = extractCharsetForLocale(locale);
 
-    ResourceBundle rb = CAL10NResourceBundleFinder.getBundle(this.getClass()
-            .getClassLoader(), baseName, locale, charset);
+    CAL10NBundleFinder cal10NResourceCAL10NBundleFinder = getResourceBundleFinder();
+
+    ResourceBundle rb = cal10NResourceCAL10NBundleFinder.getBundle(baseName, locale, charset);
 
     ErrorFactory errorFactory = new ErrorFactory(enumTypeAsStr, locale, baseName);
 
@@ -102,6 +104,8 @@ abstract public class MessageKeyVerifierBase implements IMessageKeyVerifier {
     return errorList;
   }
 
+  protected abstract CAL10NBundleFinder getResourceBundleFinder();
+
   public List<String> typeIsolatedVerify(Locale locale) {
     List<CAL10NError> errorList = verify(locale);
     List<String> strList = new ArrayList<String>();
@@ -119,6 +123,7 @@ abstract public class MessageKeyVerifierBase implements IMessageKeyVerifier {
     }
     return set;
   }
+
   /**
    * Verify all declared locales in one step.
    */
@@ -127,7 +132,7 @@ abstract public class MessageKeyVerifierBase implements IMessageKeyVerifier {
 
     String[] localeNameArray = getLocaleNames();
 
-    ErrorFactory errorFactory = new ErrorFactory(enumTypeAsStr, null,  getBaseName());
+    ErrorFactory errorFactory = new ErrorFactory(enumTypeAsStr, null, getBaseName());
 
 
     if (localeNameArray == null || localeNameArray.length == 0) {
@@ -142,7 +147,6 @@ abstract public class MessageKeyVerifierBase implements IMessageKeyVerifier {
 
     return errorList;
   }
-
 
 
 }

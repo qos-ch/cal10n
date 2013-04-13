@@ -26,8 +26,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import ch.qos.cal10n.verifier.MessageKeyVerifier;
-
 /**
  * This annotation serves to designate the name of the resource bundle
  * corresponding to an enum type.
@@ -51,7 +49,7 @@ import ch.qos.cal10n.verifier.MessageKeyVerifier;
  * <em>colors_jp.properties</em> exist.
  * 
  * <p>
- * Verification tools such as {@link MessageKeyVerifier} can then proceed to
+ * Verification tools such as {@link ch.qos.cal10n.verifier.MessageKeyVerifier} can then proceed to
  * check that the keys defined in the enum type match those in the corresponding
  * resource bundles.
  * 

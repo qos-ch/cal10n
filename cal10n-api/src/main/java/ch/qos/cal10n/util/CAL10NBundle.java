@@ -35,7 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Ceki G&uuml;lc&uuml;
  *
  */
-public class CAL10NResourceBundle extends ResourceBundle {
+public class CAL10NBundle extends ResourceBundle {
 
   static long CHECK_DELAY = 10 * 60 * 1000; // 10 minutes delay
 
@@ -43,9 +43,9 @@ public class CAL10NResourceBundle extends ResourceBundle {
   File hostFile;
   volatile long nextCheck;
   long lastModified;
-  CAL10NResourceBundle parent;
+  CAL10NBundle parent;
   
-  public CAL10NResourceBundle(Reader r, File file)
+  public CAL10NBundle(Reader r, File file)
       throws IOException {
     read(r);
     this.hostFile = file;
@@ -58,7 +58,7 @@ public class CAL10NResourceBundle extends ResourceBundle {
   }
 
 
-  public void setParent(CAL10NResourceBundle parent) {
+  public void setParent(CAL10NBundle parent) {
     this.parent = (parent);
   }
 
