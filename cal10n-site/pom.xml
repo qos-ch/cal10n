@@ -1,6 +1,3 @@
-    <module>maven-cal10n-plugin</module>
-    <module>maven-cal10n-plugin-smoke</module>
-    <module>cal10n-ant-task</module>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
