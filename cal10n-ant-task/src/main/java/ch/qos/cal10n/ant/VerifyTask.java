@@ -21,7 +21,7 @@
  */
 package ch.qos.cal10n.ant;
 
-import ch.qos.cal10n.Cal10nConstants;
+import ch.qos.cal10n.CAL10NConstants;
 import ch.qos.cal10n.verifier.IMessageKeyVerifier;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -48,7 +48,7 @@ public class VerifyTask extends Task {
     @Override
     public void execute() throws BuildException {
       if (this.enumTypes.isEmpty()) {
-        throw new BuildException(Cal10nConstants.MISSING_ENUM_TYPES_MSG);
+        throw new BuildException(CAL10NConstants.MISSING_ENUM_TYPES_MSG);
       }
       for (StringElement enumType : this.enumTypes) {
         IMessageKeyVerifier imcv = getMessageKeyVerifierInstance(enumType.getText());
@@ -62,7 +62,7 @@ public class VerifyTask extends Task {
         String[] localeNameArray = mcv.getLocaleNames();
 
         if (localeNameArray == null || localeNameArray.length == 0) {
-            String errMsg = MessageFormat.format(Cal10nConstants.MISSING_LD_ANNOTATION_MESSAGE, enumClassAsStr);
+            String errMsg = MessageFormat.format(CAL10NConstants.MISSING_LOCALE_DATA_ANNOTATION_MESSAGE, enumClassAsStr);
             log(errMsg, LogLevel.ERR.getLevel());
             throw new BuildException(errMsg);
         }
@@ -93,7 +93,7 @@ public class VerifyTask extends Task {
         try {
             ClassLoader classLoader = ClasspathUtils.getClassLoaderForPath(this.getProject(), this.classpath, "cal10n.VerifyTask");
             Class<?> mkvClass = Class.forName(
-                    Cal10nConstants.MessageKeyVerifier_FQCN, true, classLoader);
+                    CAL10NConstants.MessageKeyVerifier_FQCN, true, classLoader);
             Constructor<?> mkvCons = mkvClass.getConstructor(String.class);
             return (IMessageKeyVerifier) mkvCons.newInstance(enumClassAsStr);
         } catch (ClassNotFoundException e) {
