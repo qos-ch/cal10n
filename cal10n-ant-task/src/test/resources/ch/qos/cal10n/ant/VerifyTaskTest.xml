@@ -23,7 +23,7 @@
 <project name="VerifyTaskTest" xmlns:au="antlib:org.apache.ant.antunit" xmlns:cal10n="antlib:ch.qos.cal10n.ant">
     <target name="setUp">
         <path id="test-classpath">
-            <fileset dir="${basedir}/../../../../"/>
+            <fileset dir="${ch.qos.cal10n.ant.VerifyTaskTest.classes.dir}"/>
         </path>
     </target>
 
@@ -57,7 +57,7 @@
     <target name="testWithClasspathElement">
         <cal10n:verify enumtype="ch.qos.cal10n.ant.testdata.Colors">
             <classpath>
-                <fileset dir="${basedir}/../../../../"/>
+                <fileset dir="${ch.qos.cal10n.ant.VerifyTaskTest.classes.dir}"/>
             </classpath>
         </cal10n:verify>
         <au:assertLogContains level="info" text="Checking all resource bundles for enum type [ch.qos.cal10n.ant.testdata.Colors]"/>
@@ -68,7 +68,7 @@
     <target name="testMultipleWithClasspathElement">
         <cal10n:verify enumtype="ch.qos.cal10n.ant.testdata.Colors">
             <classpath>
-                <fileset dir="${basedir}/../../../../"/>
+                <fileset dir="${ch.qos.cal10n.ant.VerifyTaskTest.classes.dir}"/>
             </classpath>
             <enumtypes>
                 <enumtype>ch.qos.cal10n.ant.testdata.Colors</enumtype>
@@ -108,18 +108,6 @@
     <target name="testUnknownClass">
         <au:expectfailure>
             <cal10n:verify classpathref="test-classpath" enumtype="not.a.known.Class"/>
-        </au:expectfailure>
-    </target>
-
-    <target name="testMissingResourceFile">
-        <au:expectfailure>
-            <cal10n:verify classpathref="test-classpath" enumtype="ch.qos.cal10n.ant.testdata.Missing"/>
-        </au:expectfailure>
-    </target>
-
-    <target name="testMissingLocaleDataAnnotation">
-        <au:expectfailure>
-            <cal10n:verify classpathref="test-classpath" enumtype="ch.qos.cal10n.ant.testdata.NoLocaleData"/>
         </au:expectfailure>
     </target>
 </project>
