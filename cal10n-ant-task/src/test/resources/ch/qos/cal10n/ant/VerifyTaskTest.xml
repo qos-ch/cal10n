@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2009 QOS.ch All rights reserved.
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS  IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+-->
+<project name="VerifyTaskTest" xmlns:au="antlib:org.apache.ant.antunit" xmlns:cal10n="antlib:ch.qos.cal10n.ant">
+    <target name="setUp">
+        <path id="test-classpath">
+            <fileset dir="${ch.qos.cal10n.ant.VerifyTaskTest.classes.dir}"/>
+        </path>
+    </target>
+
+    <target name="tearDown">
+        <!-- Do nothing -->
+
+    </target>
+
+    <target name="testEnumTypeAttributeSuccess">
+        <cal10n:verify classpathref="test-classpath" enumtype="ch.qos.cal10n.ant.testdata.Colors"/>
+        <au:assertLogContains level="info" text="Checking all resource bundles for enum type [ch.qos.cal10n.ant.testdata.Colors]"/>
+        <au:assertLogContains level="info" text="SUCCESSFUL verification for resource bundle [colors] for locale [en]"/>
+        <au:assertLogContains level="info" text="SUCCESSFUL verification for resource bundle [colors] for locale [fr]"/>
+    </target>
+
+    <target name="testMultipleSuccess">
+        <cal10n:verify classpathref="test-classpath">
+            <enumtypes>
+                <enumtype>ch.qos.cal10n.ant.testdata.Colors</enumtype>
+                <enumtype>ch.qos.cal10n.ant.testdata.DaysOfTheWeek</enumtype>
+            </enumtypes>
+        </cal10n:verify>
+        <au:assertLogContains level="info" text="Checking all resource bundles for enum type [ch.qos.cal10n.ant.testdata.Colors]"/>
+        <au:assertLogContains level="info" text="SUCCESSFUL verification for resource bundle [colors] for locale [en]"/>
+        <au:assertLogContains level="info" text="SUCCESSFUL verification for resource bundle [colors] for locale [fr]"/>
+        <au:assertLogContains level="info" text="Checking all resource bundles for enum type [ch.qos.cal10n.ant.testdata.DaysOfTheWeek]"/>
+        <au:assertLogContains level="info" text="SUCCESSFUL verification for resource bundle [daysoftheweek] for locale [en]"/>
+        <au:assertLogContains level="info" text="SUCCESSFUL verification for resource bundle [daysoftheweek] for locale [fr]"/>
+    </target>
+
+    <target name="testWithClasspathElement">
+        <cal10n:verify enumtype="ch.qos.cal10n.ant.testdata.Colors">
+            <classpath>
+                <fileset dir="${ch.qos.cal10n.ant.VerifyTaskTest.classes.dir}"/>
+            </classpath>
+        </cal10n:verify>
+        <au:assertLogContains level="info" text="Checking all resource bundles for enum type [ch.qos.cal10n.ant.testdata.Colors]"/>
+        <au:assertLogContains level="info" text="SUCCESSFUL verification for resource bundle [colors] for locale [en]"/>
+        <au:assertLogContains level="info" text="SUCCESSFUL verification for resource bundle [colors] for locale [fr]"/>
+    </target>
+
+    <target name="testMultipleWithClasspathElement">
+        <cal10n:verify enumtype="ch.qos.cal10n.ant.testdata.Colors">
+            <classpath>
+                <fileset dir="${ch.qos.cal10n.ant.VerifyTaskTest.classes.dir}"/>
+            </classpath>
+            <enumtypes>
+                <enumtype>ch.qos.cal10n.ant.testdata.Colors</enumtype>
+                <enumtype>ch.qos.cal10n.ant.testdata.DaysOfTheWeek</enumtype>
+            </enumtypes>
+        </cal10n:verify>
+        <au:assertLogContains level="info" text="Checking all resource bundles for enum type [ch.qos.cal10n.ant.testdata.Colors]"/>
+        <au:assertLogContains level="info" text="SUCCESSFUL verification for resource bundle [colors] for locale [en]"/>
+        <au:assertLogContains level="info" text="SUCCESSFUL verification for resource bundle [colors] for locale [fr]"/>
+        <au:assertLogContains level="info" text="Checking all resource bundles for enum type [ch.qos.cal10n.ant.testdata.DaysOfTheWeek]"/>
+        <au:assertLogContains level="info" text="SUCCESSFUL verification for resource bundle [daysoftheweek] for locale [en]"/>
+        <au:assertLogContains level="info" text="SUCCESSFUL verification for resource bundle [daysoftheweek] for locale [fr]"/>
+    </target>
+
+    <target name="testMissingEnumtype">
+        <au:expectfailure>
+            <cal10n:verify classpathref="test-classpath"/>
+        </au:expectfailure>
+    </target>
+
+    <target name="testEmptyEnumTypeAttribute">
+        <au:expectfailure>
+            <cal10n:verify classpathref="test-classpath" enumtype=""/>
+        </au:expectfailure>
+    </target>
+
+    <target name="testEmptyEnumTypeElement">
+        <au:expectfailure>
+            <cal10n:verify classpathref="test-classpath">
+                <enumtypes>
+                    <enumtype></enumtype>
+                </enumtypes>
+            </cal10n:verify>
+        </au:expectfailure>
+    </target>
+
+    <target name="testUnknownClass">
+        <au:expectfailure>
+            <cal10n:verify classpathref="test-classpath" enumtype="not.a.known.Class"/>
+        </au:expectfailure>
+    </target>
+</project>
