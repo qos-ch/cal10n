@@ -24,6 +24,7 @@
     <module>cal10n-site</module>
     <module>maven-cal10n-plugin</module>
     <module>maven-cal10n-plugin-smoke</module>
+    <module>cal10n-ant-task</module>
   </modules>
 
   <properties>
