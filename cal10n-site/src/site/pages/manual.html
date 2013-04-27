@@ -624,11 +624,88 @@ public class MyAllInOneColorVerificationTest {
 
   <h2 class="doAnchor" name="antTask">Ant task</h2>
 
-  <p>We are looking for volunteers to implement an Ant task to verify
-  resource bundles. The Ant task could be modeled after the
-  <em>maven-cal10n-plugin</em> although the Ant plugin is likely to be
-  simpler. If interested please contact the cal10n-dev mailing
-  list.</p>
+  <p>CAL10N also ships with a verify ant task that works similarly to the <em>maven-cal10n-plugin</em>.</p>
+
+  <h3>Prerequisites</h3>
+
+  <p>The verify ant task requires Ant 1.7.1 or higher and Java 1.5 or higher.
+    The task is located in the <em>cal10n-ant-task</em> module. To include the
+    task in your ant build, make sure the module and its dependencies are on
+    your ant classpath and load it via the <code>&lt;taskdef&gt;</code>
+    task:</p>
+
+  <pre class="prettyprint source">
+  &lt;taskdef resource="ch/qos/cal10n/ant/antlib.xml" uri="antlib:ch.qos.cal10n.ant"&gt;
+    &lt;classpath path="<em>path_to_cal10n</em>/lib/cal10n-ant-task.jar"/&gt;
+  &lt;/taskdef&gt;
+  </pre>
+
+  <p>You can also place cal10n-ant-task.jar can cal10n-api.jar in your
+    ANT_HOME/lib folder.</p>
+
+  <h3>Usage</h3>
+
+  <p>To use just add the <code>&lt;verify&gt;</code> task a target. Make sure
+    to specify a classpath where the enum types and resource bundles can be
+    located. Then add a set of <code>&lt;enumtype&gt;</code> elements for each
+    type that should be verified. The results of the verification will be
+    printed to the ant output log. If the enum type does not verify the task
+    will error.</p>
+
+  <pre class="prettyprint source">
+  &lt;cal10n:verify classpathref="project-classpath">
+    &lt;classpath&gt;
+      &lt;fileset dir="${src.dir}"/&gt;
+      &lt;fileset dir="${resources.dir}"/&gt;
+    &lt;/classpath&gt;
+    &lt;enumtypes&gt;
+      &lt;!-- list every enum type you would like to see checked --&gt;
+      &lt;enumtype&gt;some.enumtype.Colors&lt;/enumtype&gt;
+      &lt;enumtype>another.enumtype.Countries&lt;/enumtype&gt;
+    &lt;/enumtypes&gt;
+  &lt;/cal10n:verify&gt;
+  </pre>
+
+  <p><strong>Sample output:</strong></p>
+
+  <pre class="source">
+[verify] Checking all resource bundles for enum type [some.enumtype.Colors]
+[verify] SUCCESSFUL verification for resource bundle [colors] for locale [en]
+[verify] SUCCESSFUL verification for resource bundle [colors] for locale [fr]
+[verify] Checking all resource bundles for enum type [another.enumtype.Countries]
+[verify] SUCCESSFUL verification for resource bundle [countries] for locale [en]
+[verify] SUCCESSFUL verification for resource bundle [countries] for locale [fr]
+  </pre>
+
+  <h3>Options</h3>
+
+  <table class="bodyTable">
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+      <th>Required</th>
+    </tr>
+    <tr>
+      <td>classpath</td>
+      <td>The classpath that contains the enums and resource bundles you wish
+        to verify.</td>
+      <td>At least one classpath attribute, classpathref attribute or nested
+        <code>&lt;classpath&gt;</code> element is required.</td>
+    </tr>
+    <tr>
+      <td>classpathref</td>
+      <td>A reference to the classpath that contains the enums and resource
+        bundles you wish to verify.</td>
+      <td>At least one classpath attribute, classpathref attribute or nested
+        <code>&lt;classpath&gt;</code> element is required.</td>
+    </tr>
+    <tr>
+      <td>enumtype</td>
+      <td>A quick attribute to verify one enum type without the need of a
+        nested <code>&lt;enumtypes&gt;</code> element.</td>
+      <td>Yes, unless <code>&lt;enumtype&gt;</code> elements are provided.</td>
+    </tr>
+  </table>
 
   <script src="templates/footer.js" type="text/javascript"></script>
 </div>
