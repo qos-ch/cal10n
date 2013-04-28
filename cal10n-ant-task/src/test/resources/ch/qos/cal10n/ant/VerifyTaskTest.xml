@@ -29,7 +29,6 @@
 
     <target name="tearDown">
         <!-- Do nothing -->
-
     </target>
 
     <target name="testEnumTypeAttributeSuccess">
@@ -108,6 +107,18 @@
     <target name="testUnknownClass">
         <au:expectfailure>
             <cal10n:verify classpathref="test-classpath" enumtype="not.a.known.Class"/>
+        </au:expectfailure>
+    </target>
+
+    <target name="testMissingResourceFile">
+        <au:expectfailure>
+            <cal10n:verify classpathref="test-classpath" enumtype="ch.qos.cal10n.ant.testdata.Missing"/>
+        </au:expectfailure>
+    </target>
+
+    <target name="testMissingLocaleDataAnnotation">
+        <au:expectfailure>
+            <cal10n:verify classpathref="test-classpath" enumtype="ch.qos.cal10n.ant.testdata.NoLocaleData"/>
         </au:expectfailure>
     </target>
 </project>
