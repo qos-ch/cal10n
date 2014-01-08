@@ -31,13 +31,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import ch.qos.cal10n.CAL10NConstants;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
+import ch.qos.cal10n.CAL10NConstants;
+import ch.qos.cal10n.util.MiscUtil;
 import ch.qos.cal10n.verifier.IMessageKeyVerifier;
 
 
@@ -116,7 +117,7 @@ public class VerifyMojo extends AbstractMojo {
 
     boolean failure = false;
     for (String localeName : localeNameArray) {
-      Locale locale = new Locale(localeName);
+      Locale locale = MiscUtil.toLocale(localeName);
       List<String> errorList = mcv.typeIsolatedVerify(locale);
       if (errorList.size() == 0) {
         String resourceBundleName = mcv.getBaseName();
