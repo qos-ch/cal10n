@@ -28,6 +28,7 @@ public abstract class AbstractCAL10NBundleFinder implements CAL10NBundleFinder {
 
     CAL10NBundle cprbLanguageOnly = makePropertyResourceBundle(languageOnlyCandidate, charset);
     CAL10NBundle cprbLanguageAndCountry = null;
+    CAL10NBundle cprbDefault = null;
 
     if (languageAndCountryCandidate != null) {
       cprbLanguageAndCountry = makePropertyResourceBundle(languageAndCountryCandidate, charset);
@@ -37,8 +38,22 @@ public abstract class AbstractCAL10NBundleFinder implements CAL10NBundleFinder {
       cprbLanguageAndCountry.setParent(cprbLanguageOnly);
       return cprbLanguageAndCountry;
     }
+    
+    //Vamos a comprobar que no exista ninguno por defecto.
+    String defaultCandidate = computeDefaultCandidate(baseName);
+    if(cprbLanguageOnly==null && defaultCandidate!=null) {
+    	 cprbDefault= makePropertyResourceBundle(defaultCandidate, charset);
+    	    if(cprbDefault!=null) {
+    	        return cprbDefault;	
+    	    }
+    }
+    
     return cprbLanguageOnly;
   }
+  
+  private String computeDefaultCandidate(String baseName) {
+	return baseName+ ".properties";
+}
 
   private String computeLanguageAndCountryCandidate(String baseName,
                                                     Locale locale) {
