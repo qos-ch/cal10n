@@ -97,14 +97,18 @@ public class MessageConveyorTest {
   public void failedRBLookup() {
 
     MessageConveyor mc = new MessageConveyor(Locale.CHINA);
-    try {
-      mc.getMessage(Colors.BLUE);
-      fail("missing exception");
-    } catch (MessageConveyorException e) {
-      assertEquals(
-          "Failed to locate resource bundle [colors] for locale [zh_CN] for enum type [ch.qos.cal10n.sample.Colors]",
-          e.getMessage());
-    }
+    String val;
+
+    val = mc.getMessage(Colors.BLUE);
+    assertEquals("BBBBBBB", val);
+//    try {
+//      mc.getMessage(Colors.BLUE);
+//      fail("missing exception");
+//    } catch (MessageConveyorException e) {
+//      assertEquals(
+//          "Failed to locate resource bundle [colors] for locale [zh_CN] for enum type [ch.qos.cal10n.sample.Colors]",
+//          e.getMessage());
+//    }
   }
   
   @Test
