@@ -7,7 +7,7 @@
   <groupId>ch.qos.cal10n</groupId>
   <artifactId>cal10n-parent</artifactId>
   <packaging>pom</packaging>
-  <version>0.8.1</version>
+  <version>0.8.3</version>
   <name>Compiler assisted localization library (CAL10N) - Parent</name>
   <description>Compiler assisted localization library (CAL10N)</description>
 
@@ -75,15 +75,7 @@
 
 
   <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh</artifactId>
-        <version>2.0</version>
-      </extension>
-    </extensions>
-
-    <resources>
+     <resources>
       <resource>
         <directory>src/main/resources</directory>
         <filtering>true</filtering>
@@ -234,6 +226,13 @@
         </configuration>
       </plugin>
     </plugins>
+	<extensions> 
+      <extension> 
+        <groupId>org.apache.maven.wagon</groupId> 
+        <artifactId>wagon-webdav</artifactId> 
+        <version>1.0-beta-2</version> 
+      </extension> 
+    </extensions>
   </build>
 
   <distributionManagement>
@@ -242,10 +241,16 @@
       <url>scp://pixie.qos.ch/var/www/cal10n.qos.ch/htdocs/</url>
     </site>
 
-    <repository>
+ <!--   <repository>
       <id>sonatype-nexus-staging</id>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
+    </repository>-->
+	<repository>
+		<id>jvoice</id>
+		<name>jVoice Maven Repository</name>
+		<url>dav:https://repository-felixvelasco.forge.cloudbees.com/release/</url>
+		<layout>default</layout>
+	</repository>
 
   </distributionManagement>
 
