@@ -70,8 +70,6 @@ public class MessageKeyVerifierTest {
   public void all() {
     IMessageKeyVerifier mcv = new MessageKeyVerifier(Minimal.class);
     List<Cal10nError> errorList = mcv.verifyAllLocales();
-    assertEquals(1, errorList.size());
-    assertEquals(Cal10nError.ErrorType.MISSING_LOCALE_DATA_ANNOTATION, errorList.get(0).getErrorType());
-    System.out.println(errorList.get(0));
+    assertEquals(0, errorList.size());
   }
 }

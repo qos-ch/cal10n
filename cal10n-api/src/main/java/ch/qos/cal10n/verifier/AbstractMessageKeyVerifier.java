@@ -136,7 +136,6 @@ abstract public class AbstractMessageKeyVerifier implements IMessageKeyVerifier 
 
 
     if (localeNameArray == null || localeNameArray.length == 0) {
-      errorList.add(errorFactory.buildError(MISSING_LOCALE_DATA_ANNOTATION, "*"));
       return errorList;
     }
     for (String localeName : localeNameArray) {
