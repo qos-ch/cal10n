@@ -6,11 +6,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;
 
+import ch.qos.cal10n.Settings;
+
 /**
  *  @since 0.8.1
  */
 public abstract class AbstractCAL10NBundleFinder implements CAL10NBundleFinder {
-
+   
   public CAL10NBundle getBundle(String baseName, Locale locale, String charset) {
 
     // same as the JDK convention
@@ -25,6 +27,13 @@ public abstract class AbstractCAL10NBundleFinder implements CAL10NBundleFinder {
             baseName, locale);
     String languageOnlyCandidate = computeLanguageOnlyCandidate(baseName,
             locale);
+    String noLanguageCandidate = computeNoLanguageCandidate(baseName);
+    
+    final boolean rootLanguageFallbackEnabled = Settings.isRootLanguageFallbackEnabled();
+    CAL10NBundle cprbNoLanguage = null;
+    if (rootLanguageFallbackEnabled) {
+        cprbNoLanguage = makePropertyResourceBundle(noLanguageCandidate, charset);
+    }
 
     CAL10NBundle cprbLanguageOnly = makePropertyResourceBundle(languageOnlyCandidate, charset);
     CAL10NBundle cprbLanguageAndCountry = null;
@@ -32,12 +41,22 @@ public abstract class AbstractCAL10NBundleFinder implements CAL10NBundleFinder {
     if (languageAndCountryCandidate != null) {
       cprbLanguageAndCountry = makePropertyResourceBundle(languageAndCountryCandidate, charset);
     }
+    
+    if (rootLanguageFallbackEnabled && cprbNoLanguage != null && cprbLanguageOnly != null) {
+        cprbLanguageOnly.setParent(cprbNoLanguage);
+    }
 
     if (cprbLanguageAndCountry != null) {
-      cprbLanguageAndCountry.setParent(cprbLanguageOnly);
+      if (cprbLanguageOnly != null) {
+        cprbLanguageAndCountry.setParent(cprbLanguageOnly);
+      } else if (rootLanguageFallbackEnabled && cprbNoLanguage != null) {
+        cprbLanguageAndCountry.setParent(cprbNoLanguage);
+      }
       return cprbLanguageAndCountry;
+    } else if (cprbLanguageOnly != null) {
+      return cprbLanguageOnly;
     }
-    return cprbLanguageOnly;
+    return cprbNoLanguage;
   }
 
   private String computeLanguageAndCountryCandidate(String baseName,
@@ -79,6 +98,10 @@ public abstract class AbstractCAL10NBundleFinder implements CAL10NBundleFinder {
                                               Locale locale) {
     String language = locale.getLanguage();
     return baseName + "_" + language + ".properties";
+  }
+
+  private String computeNoLanguageCandidate(String baseName) {
+    return baseName +  ".properties";
   }
 
   Reader toReader(InputStream in, String charset) {

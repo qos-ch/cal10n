@@ -1,11 +1,13 @@
 package ch.qos.cal10n.verifier;
 
+import ch.qos.cal10n.Settings;
+import ch.qos.cal10n.util.AbstractCAL10NBundleFinder;
 import ch.qos.cal10n.util.AnnotationExtractor;
 import ch.qos.cal10n.util.CAL10NBundleFinder;
 import ch.qos.cal10n.util.MiscUtil;
-
 import static ch.qos.cal10n.verifier.Cal10nError.ErrorType.MISSING_LOCALE_DATA_ANNOTATION;
 import static ch.qos.cal10n.verifier.Cal10nError.ErrorType.MISSING_BN_ANNOTATION;
+
 
 
 import java.util.*;
@@ -140,6 +142,12 @@ abstract public class AbstractMessageKeyVerifier implements IMessageKeyVerifier 
       return errorList;
     }
     for (String localeName : localeNameArray) {
+      if ("".equals(localeName)) {
+        Settings.setRootLanguageFallbackEnabled(true);
+      } else {
+        //false is the default, but we might want to 'unset' it if the previous iteration of this loop set it to true.
+        Settings.setRootLanguageFallbackEnabled(false);
+      }
       Locale locale = MiscUtil.toLocale(localeName);
       List<Cal10nError> tmpList = verify(locale);
       errorList.addAll(tmpList);

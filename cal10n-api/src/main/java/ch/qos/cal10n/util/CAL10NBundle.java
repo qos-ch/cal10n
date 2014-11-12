@@ -89,12 +89,22 @@ public class CAL10NBundle extends ResourceBundle {
     nextCheck = 0;
     lastModified = 0;
   } 
+  
+  protected Map<String, String> getMap() {
+    if(parent == null) {
+      return this.map;
+    } else {
+      Hashtable<String, String> ht = new Hashtable<String, String>(map);
+      ht.putAll(parent.getMap());
+      return ht;
+    }
+  }
 
   @Override
   public Enumeration<String> getKeys() {
     Hashtable<String, String> ht = new Hashtable<String, String>(map);
     if(parent != null) {
-      ht.putAll(parent.map);
+      ht.putAll(parent.getMap());
     }
     return ht.keys();
   }
