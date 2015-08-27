@@ -13,11 +13,30 @@ import java.util.List;
 import java.util.Set;
 
 @SupportedAnnotationTypes("ch.qos.cal10n.BaseName")
-@SupportedSourceVersion(SourceVersion.RELEASE_5)
 public class CAL10NAnnotationProcessor extends AbstractProcessor {
 
   TypeElement baseNameTypeElement;
   Filer filer;
+
+  @Override
+  public SourceVersion getSupportedSourceVersion() {
+
+    //Replacement of @SupportedSourceVersion(SourceVersion.RELEASE_5) because it generate compilation warning like:
+    //[WARNING] Supported source version 'RELEASE_5' from annotation processor 'ch.qos.cal10n.verifier.processor.CAL10NAnnotationProcessor' less than -source '1.7'
+    try {
+      return SourceVersion.valueOf("RELEASE_8");
+    } catch (IllegalArgumentException e) {}
+
+    try {
+      return SourceVersion.valueOf("RELEASE_7");
+    } catch (IllegalArgumentException e) {}
+
+    try {
+      return SourceVersion.valueOf("RELEASE_6");
+    } catch (IllegalArgumentException x) {}
+
+    return SourceVersion.RELEASE_5;
+  }
 
   @Override
   public void init(ProcessingEnvironment env) {
