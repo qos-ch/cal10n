@@ -4,6 +4,7 @@ import ch.qos.cal10n.util.CAL10NBundleFinder;
 import ch.qos.cal10n.verifier.AbstractMessageKeyVerifier;
 
 import javax.annotation.processing.Filer;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
@@ -31,7 +32,9 @@ public class MessageKeyVerifierByTypeElement extends AbstractMessageKeyVerifier 
   public List<String> extractKeysInEnum() {
     List<String> keyList = new ArrayList<String>();
     for (VariableElement ve : ElementFilter.fieldsIn(typeElementForEnum.getEnclosedElements())) {
-      keyList.add(ve.getSimpleName().toString());
+      if ( ve.getKind() == ElementKind.ENUM_CONSTANT) {
+        keyList.add(ve.getSimpleName().toString());
+      }
     }
     return keyList;
   }
